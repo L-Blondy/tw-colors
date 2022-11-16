@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ThemedCard from 'src/components/ThemedCard.astro';
+---
+
+<Layout title="Welcome to Astro.">
+   <!-- <Toggle checked themeOFF="dark" themeON="light" /> -->
+   <main
+      class="theme-light bg-base-100 text-base-content flex flex-col items-center h-full py-12"
+   >
+      <div class="px-6 container max-w-sm sm:max-w-[700px]">
+         <h1
+            class="text-base-content-emphasis m-0 font-black text-[43px] leading-[1] pb-16"
+         >
+            Welcome to <span class="text-primary">tw-colors</span>
+         </h1>
+
+         <ul class="grid sm:grid-cols-2 gap-6">
+            <ThemedCard themeClass="theme-light" />
+            <ThemedCard themeClass="theme-dark" />
+            <ThemedCard themeClass="theme-dark" />
+            <ThemedCard themeClass="theme-light" />
+         </ul>
+      </div>
+   </main>
+</Layout>
+
+<style></style>

@@ -1,0 +1,38 @@
+{
+  "name": "tw-colors",
+  "version": "0.0.1",
+  "author": {
+    "name": "Laurent Blondy",
+    "email": "laurent.blondy1@gmail.com",
+    "url": "https://blondy.dev/"
+  },
+  "description": "A Tailwind CSS plugin for managing color themes",
+  "keywords": [
+    "tailwind",
+    "tailwindcss",
+    "color",
+    "colors",
+    "theme",
+    "themes",
+    "dark"
+  ],
+  "main": "src/index.ts",
+  "files": [
+    "src/**.*",
+    "dist/"
+  ],
+  "scripts": {
+    "test": "jest",
+    "start": "npm i && cd demo-astro && npm i && npm run dev"
+  },
+  "peerDependencies": {
+    "tailwindcss": ">=3.0.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1"
+  },
+  "dependencies": {
+    "color": "^4.2.3"
+  },
+  "license": "MIT"
+}
