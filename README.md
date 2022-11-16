@@ -2,7 +2,7 @@
 
 **tw-colors** is the most powerful and easy-to-use theming plugin for [tailwindcss](...)
 
-*Inspired by [daisyui]([...](https://daisyui.com/)) 🔥*
+*Inspired by [daisyui](https://daisyui.com/) 🔥*
 
 ## Highlights
 
@@ -26,20 +26,20 @@ module.exports = {
       createThemes({
          light: {
             primary: 'teal',
-            secondary: 'hsl(50 13% 54%)',
-            accent: '#7c3aed',
+            secondary: '#7c3aed',
+            accent: 'hsl(50 13% 54%)',
             'base-100': '#f0f0f0'
             ...
          },
          dark: {
             primary: 'gold',
-            secondary: 'rgb(255,165,0)',
-            accent: '#7c3aed',
+            secondary: '#7c3aed',
+            accent: 'rgb(255,165,0)',
             'base-100': '#404040'
             ...
          },
          forest: {
-            primary: 'forestgreen',
+            primary: 'green',
             secondary: '#adff2',
             accent: 'hsl(156 24% 84%)',
             'base-100': '#d05612'
@@ -56,21 +56,19 @@ module.exports = {
 
 ```html
 <section class="theme-light">
-
-   <div class="bg-base-100"> 
+   <div class="bg-base-100">
       <h2 class="text-primary">
-         Lorem ipsum... 
+         ...
       </h2>
 
-      <p class="text-secondary"> 
-         Lorem ipsum... 
+      <p class="text-secondary">
+         ...
       </p>
 
       <button class="bg-primary text-white hover:bg-opacity-75">
-         Lorem ipsum... 
+         ...
       </button>
    </div>
-
 </section>
 ```
 
