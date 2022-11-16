@@ -30,28 +30,28 @@ module.exports = function colorTheme(config = {}) {
    const themeConfig = Object.entries(config).reduce(
       (themeConfig, [themeName, values]) => {
          const selector = `.theme-${themeName}`;
-         // initialize the "@layer base" selector
-         if (!themeConfig.base[selector]) {
-            themeConfig.base[selector] = {};
+         // initialize the "@layer utilities" selector
+         if (!themeConfig.utilities[selector]) {
+            themeConfig.utilities[selector] = {};
          }
          Object.entries(values).forEach(([name, rawColor]) => {
             const variableName = `--ct-${name}`;
             const [h, s, l] = Color(rawColor).hsl().array();
-            // set the css variable in "@layer base"
-            themeConfig.base[selector][variableName] = `${h} ${s}% ${l}%`;
+            // set the css variable in "@layer utilities"
+            themeConfig.utilities[selector][variableName] = `${h} ${s}% ${l}%`;
             // map it the the theme colors
             themeConfig.colors[name] = computeColorValue(variableName);
          });
 
          return themeConfig;
       },
-      { base: {}, colors: {} },
+      { utilities: {}, colors: {} },
    );
 
    return plugin(
-      // add the css variables to "@layer base"
-      ({ addBase }) => {
-         addBase(themeConfig.base);
+      // add the css variables to "@layer utilities"
+      ({ addUtilities }) => {
+         addUtilities(themeConfig.utilities);
       },
       // extend the colors config
       { theme: { extend: { colors: themeConfig.colors } } },
