@@ -1,6 +1,6 @@
 # Welcome to [tw-colors](https://github.com/L-Blondy/tw-colors)
 
-**tw-colors** is the most powerful and easy-to-use theming plugin for [tailwindcss](...)
+**tw-colors** is the most powerful and easy-to-use theming plugin for [tailwindcss](https://tailwindcss.com/)
 
 *Inspired by [daisyui](https://daisyui.com/) 🔥*
 
@@ -15,7 +15,7 @@
 
 ## The gist
 
-1. Define your themes in `tailwind.config.js`
+1. Define your themes in `tailwind.config.js`, your can choose any color name
 
 ```js
 const createThemes = require('tw-colors')
@@ -26,36 +26,30 @@ module.exports = {
       createThemes({
          light: {
             primary: 'teal',
-            secondary: '#7c3aed',
-            accent: 'hsl(50 13% 54%)',
+            secondary: 'hsl(50 13% 54%)',
             'base-100': '#f0f0f0'
-            ...
          },
          dark: {
             primary: 'gold',
-            secondary: '#7c3aed',
-            accent: 'rgb(255,165,0)',
+            secondary: 'rgb(255, 165, 0)',
             'base-100': '#404040'
-            ...
          },
-         forest: {
+         'forest': {
             primary: 'green',
-            secondary: '#adff2',
-            accent: 'hsl(156 24% 84%)',
-            'base-100': '#d05612'
-            ...
+            secondary: 'hsl(156 24% 84%)',
+            'base-100': '#d3d3d3'
          },
-      ...
       }),
    ],
 };
 
 ```
 
-2. Add the class `theme-[name]` to an element, and use the colors <ins><b>as usual</b></ins> 🚀
+2. Add the class `theme-[name]` to an element, and use the colors <ins><b>as usual</b></ins> 🚀 \
+   With the above config, the utility classes `theme-light`, `theme-dark`, `theme-forest` will be available
 
 ```html
-<section class="theme-light">
+<section class="theme-light"> 
    <div class="bg-base-100">
       <h2 class="text-primary">
          ...
@@ -65,14 +59,14 @@ module.exports = {
          ...
       </p>
 
-      <button class="bg-primary text-white hover:bg-opacity-75">
+      <button class="bg-primary text-base-100 hover:bg-opacity-75">
          ...
       </button>
    </div>
 </section>
 ```
 
-3. switch the themes as you like... or even apply **nested themes** 🔥
+1. switch the themes as you like... or even apply **nested themes** 🔥
 
 ## 📀 Install now!
 
