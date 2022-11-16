@@ -1,4 +1,4 @@
-# Welcome to [tw-colors](https://astro.build)
+# Welcome to [tw-colors](https://github.com/L-Blondy/tw-colors)
 
 **tw-colors** is the most powerful and easy-to-use theming plugin for [tailwindcss](...)
 
