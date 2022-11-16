@@ -3,16 +3,19 @@ import Layout from '../layouts/Layout.astro';
 import ThemedCard from 'src/components/ThemedCard.astro';
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="tw-colors">
    <!-- <Toggle checked themeOFF="dark" themeON="light" /> -->
    <main
-      class="theme-dark bg-base-100 text-base-content flex flex-col items-center h-full py-12"
+      class="bg-base-100 text-base-content flex flex-col items-center h-full py-12 min-h-screen transition-colors duration-500"
    >
       <div class="px-6 container max-w-sm sm:max-w-[700px]">
          <h1
             class="text-base-content-emphasis m-0 font-black text-[43px] leading-[1] pb-16"
          >
-            Welcome to <span class="text-primary">tw-colors</span>
+            Welcome to
+            <span class="text-primary transition-colors duration-300">
+               tw-colors
+            </span>
          </h1>
 
          <ul class="grid sm:grid-cols-2 gap-6">

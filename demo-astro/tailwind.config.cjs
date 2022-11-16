@@ -36,7 +36,7 @@ module.exports = {
             primary: 'gold',
             'primary-content': '#505050',
             'base-100': '#404040',
-            'base-200': '#505050',
+            'base-200': '#525252',
             'base-content': '#e4e4e4',
             'base-content-emphasis': '#f3f3f3',
          },

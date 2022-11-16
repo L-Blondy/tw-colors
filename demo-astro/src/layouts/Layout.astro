@@ -7,7 +7,7 @@ const { title } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="theme-dark">
    <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width" />
@@ -27,6 +27,10 @@ const { title } = Astro.props;
    </body>
 </html>
 <style is:global>
+   html,
+   body {
+      @apply min-h-screen;
+   }
    code,
    button {
       @apply font-mono;

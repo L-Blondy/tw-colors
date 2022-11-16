@@ -3,40 +3,43 @@ export interface Props {
    themeClass: string;
 }
 
-const themeName = Astro.props.themeClass.replace('theme-', '');
+const { themeClass } = Astro.props;
+
+const themeName = themeClass.replace('theme-', '');
 ---
 
-<li class={`${Astro.props.themeClass} bg-base-200 text-base-content`}>
+<li class={`${themeClass} bg-base-200 text-base-content`}>
    <h2 class="text-base-content-emphasis">{themeName} theme</h2>
 
    <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores optio,
-      amet adipisci modi fugit hic atque, perferendis error voluptas, molestiae
-      rem tempore fuga asperiores voluptate ab dolor vel! Lorem ipsum dolor sit
-      amet consectetur adipisicing elit. Eum eos neque similique magnam in
-      deserunt totam id. Quia officiis soluta placeat fugit. Assumenda, commodi
-      nobis. Deserunt voluptatum quibusdam nemo nobis!
+      amet adipisci modi perferendis voluptas molestiae rem tempore fuga
+      asperiores voluptate ab dolor vel! Lorem ipsum dolor sit amet consectetur
+      adipisicing elit.
    </p>
 
-   <button class="bg-primary text-primary-content border-primary">
-      Apply theme
+   <button
+      class="bg-primary text-primary-content border-primary"
+      onclick={`document.documentElement.className='${themeClass}'`}
+   >
+      Select
    </button>
 </li>
 
 <style>
    li {
-      @apply rounded-3xl p-8 flex flex-col items-center gap-4 shadow-lg;
+      @apply rounded-3xl p-8 flex flex-col gap-2 items-start shadow-lg;
    }
 
    h2 {
-      @apply font-extrabold capitalize text-[26px] sm:text-3xl;
+      @apply font-extrabold capitalize text-xl;
    }
 
    p {
-      @apply text-base text-center line-clamp-5;
+      @apply text-sm line-clamp-3;
    }
 
    button {
-      @apply w-full mt-3 py-3 rounded-full border-2 text-sm sm:text-base;
+      @apply mt-2 px-4 py-1.5 rounded-full border-2 text-sm;
    }
 </style>
