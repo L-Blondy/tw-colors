@@ -1,17 +1,16 @@
 # Welcome to [tw-colors](https://github.com/L-Blondy/tw-colors)
 
-**tw-colors** is the most powerful and easy-to-use theming plugin for [tailwindcss](https://tailwindcss.com/)
+Powerful and easy-to-use theming plugin for [tailwindcss](https://tailwindcss.com/)
 
 *Inspired by [daisyui](https://daisyui.com/) 🔥*
 
 ## Highlights
 
--  🚀 Support for nested themes
--  📦 Zero import on the bundle size
--  🤩 Intuitive and easy to use API
--  ✨ Can handle any color format (HEX, rgb, hsl, color names...)
--  🎯 Supports opacity modifiers
--  💫 Full [Tailwind CSS Intellisense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) support
+-  🚀 **Nested themes** support
+-  🤩 **Intuitive and easy** to use API
+-  📦 **Zero impact** on the bundle size, it's just some tailwind stuff!
+-  ✨ **All color formats** are supported (HEX, rgb, hsl, color names...)
+-  💫 **Full [Tailwind CSS Intellisense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) support** 🔥🔥🔥
 
 ## The gist
 
@@ -96,6 +95,7 @@ yarn add tw-colors
 See the demo [here](...)
 
 <div align="center">
+
 Please share
 
 [![][tweet]][tweet-url]
