@@ -2,18 +2,19 @@ const Color = require('color');
 const plugin = require('tailwindcss/plugin');
 const forEach = require('lodash.foreach');
 
-const prefix = 'twc';
+const SCHEME = Symbol('color-scheme');
+const PREFIX = 'twc';
 
 function dark(colors) {
    return {
-      SCHEME: 'dark',
+      [SCHEME]: 'dark',
       ...colors,
    };
 }
 
 function light(colors) {
    return {
-      SCHEME: 'light',
+      [SCHEME]: 'light',
       ...colors,
    };
 }
@@ -31,16 +32,16 @@ module.exports = function colorTheme(config = {}) {
       const cssSelector = `.theme-${themeName},[data-theme="${themeName}"]`;
 
       resolved.utilities[cssSelector] = {
-         'color-scheme': colors.SCHEME || 'initial',
+         'color-scheme': colors[SCHEME] || 'initial',
       };
 
       forEach(colors, (colorValue, colorName) => {
          // this case was handled above
-         if (colorName === 'SCHEME') return;
+         if (colorName === SCHEME) return;
          // set the css variable in "@layer utilities"
-         resolved.utilities[cssSelector][`--${prefix}-${colorName}`] = toHslContent(colorValue);
+         resolved.utilities[cssSelector][`--${PREFIX}-${colorName}`] = toHslContent(colorValue);
          // set the dynamic color in tailwind config theme.colors
-         resolved.colors[colorName] = `hsl(var(--${prefix}-${colorName}) / <alpha-value>)`;
+         resolved.colors[colorName] = `hsl(var(--${PREFIX}-${colorName}) / <alpha-value>)`;
       });
    });
 
