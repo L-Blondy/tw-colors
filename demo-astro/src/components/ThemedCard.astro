@@ -1,15 +1,13 @@
 ---
 export interface Props {
-   themeClass: string;
+   theme: string;
 }
 
-const { themeClass } = Astro.props;
-
-const themeName = themeClass.replace('theme-', '');
+const { theme } = Astro.props;
 ---
 
-<li class={`${themeClass} bg-base-200 text-base-content`}>
-   <h2 class="text-base-content-emphasis">{themeName} theme</h2>
+<li data-theme={theme} class="bg-base-200 text-base-content">
+   <h2 class="text-base-content-emphasis">{theme} theme</h2>
 
    <p>
       Lorem ipsum dolor sit amet elit asperiores dolores optio, amet adipisci
@@ -19,7 +17,7 @@ const themeName = themeClass.replace('theme-', '');
 
    <button
       class="bg-primary text-primary-content"
-      onclick={`document.documentElement.className='${themeClass}'`}
+      onclick={`this.closest('[data-theme]:not(li)').dataset.theme='${theme}'`}
    >
       Select
    </button>

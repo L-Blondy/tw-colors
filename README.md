@@ -52,17 +52,19 @@ The element and all of its children will be themed accordingly, just use the col
 <!-- Replace "theme-light" with "theme-dark" to change the theme -->
 <section class="theme-light"> 
    <div class="bg-base-100">
-      <h2 class="text-primary">
-         ...
-      </h2>
+      <h2 class="text-primary">...</h2>
+      <p class="text-secondary text-opacity-75">...</p>
+   </div>
+</section>
+```
 
-      <p class="text-secondary">
-         ...
-      </p>
-
-      <button class="bg-primary text-base-100 hover:bg-opacity-75">
-         ...
-      </button>
+Alternatively you can also use the `data-theme={name}` syntax
+```html
+<!-- Replace data-theme="light" with data-theme="dark" to change the theme -->
+<section data-theme="light"> 
+   <div class="bg-base-100">
+      <h2 class="text-primary">...</h2>
+      <p class="text-secondary">...</p>
    </div>
 </section>
 ```

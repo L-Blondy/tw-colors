@@ -5,6 +5,7 @@ import ThemedCard from 'src/components/ThemedCard.astro';
 
 <Layout title="tw-colors">
    <main
+      data-theme="light"
       class="bg-base-100 text-base-content flex flex-col items-center h-full py-12 min-h-screen transition-colors duration-500"
    >
       <div class="px-6 container max-w-sm sm:max-w-xl">
@@ -18,10 +19,10 @@ import ThemedCard from 'src/components/ThemedCard.astro';
          </h1>
 
          <ul class="grid sm:grid-cols-2 gap-6">
-            <ThemedCard themeClass="theme-light" />
-            <ThemedCard themeClass="theme-dark" />
-            <ThemedCard themeClass="theme-forest" />
-            <ThemedCard themeClass="theme-salmon" />
+            <ThemedCard theme="light" />
+            <ThemedCard theme="dark" />
+            <ThemedCard theme="forest" />
+            <ThemedCard theme="salmon" />
          </ul>
       </div>
    </main>

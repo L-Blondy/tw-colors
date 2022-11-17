@@ -29,7 +29,7 @@ const plugin = require('tailwindcss/plugin');
 module.exports = function colorTheme(config = {}) {
    const themeConfig = Object.entries(config).reduce(
       (themeConfig, [themeName, values]) => {
-         const selector = `.theme-${themeName}`;
+         const selector = `.theme-${themeName},[data-theme="${themeName}"]`;
          // initialize the "@layer utilities" selector
          if (!themeConfig.utilities[selector]) {
             themeConfig.utilities[selector] = {};
