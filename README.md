@@ -15,7 +15,7 @@
 
 ## The gist
 
-1. Define your themes in `tailwind.config.js`, your can choose any color name
+Define your themes in `tailwind.config.js`, your can choose any color name
 
 ```js
 const createThemes = require('tw-colors')
@@ -34,7 +34,7 @@ module.exports = {
             secondary: 'rgb(255, 165, 0)',
             'base-100': '#404040'
          },
-         'forest': {
+         forest: {
             primary: 'green',
             secondary: 'hsl(156 24% 84%)',
             'base-100': '#d3d3d3'
@@ -45,8 +45,8 @@ module.exports = {
 
 ```
 
-2. Add the class `theme-[name]` to an element, and use the colors <ins><b>as usual</b></ins> 🚀 \
-   With the above config, the utility classes `theme-light`, `theme-dark`, `theme-forest` will be available
+Add the class `theme-${name}` to an element (e.g. `theme-light`, `theme-dark`, `theme-forest` for the above config). \
+The element and all of its children will be themed accordingly, just use the colors <b>as usual</b> 🤗 
 
 ```html
 <section class="theme-light"> 
@@ -66,7 +66,7 @@ module.exports = {
 </section>
 ```
 
-1. switch the themes as you like... or even apply **nested themes** 🔥
+Switch the themes as you like... or even apply **nested themes** 🔥
 
 ## 📀 Install now!
 
