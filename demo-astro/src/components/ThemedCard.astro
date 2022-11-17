@@ -12,14 +12,13 @@ const themeName = themeClass.replace('theme-', '');
    <h2 class="text-base-content-emphasis">{themeName} theme</h2>
 
    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores optio,
-      amet adipisci modi perferendis voluptas molestiae rem tempore fuga
-      asperiores voluptate ab dolor vel! Lorem ipsum dolor sit amet consectetur
-      adipisicing elit.
+      Lorem ipsum dolor sit amet elit asperiores dolores optio, amet adipisci
+      modi perferendis voluptas molestiae rem tempore fuga asperiores voluptate
+      ab dolor vel! Lorem ipsum dolor sit amet consectetur adipisicing elit.
    </p>
 
    <button
-      class="bg-primary text-primary-content border-primary"
+      class="bg-primary text-primary-content"
       onclick={`document.documentElement.className='${themeClass}'`}
    >
       Select
@@ -28,7 +27,7 @@ const themeName = themeClass.replace('theme-', '');
 
 <style>
    li {
-      @apply rounded-3xl p-8 flex flex-col gap-2 items-start shadow-lg;
+      @apply rounded-3xl p-7 flex flex-col gap-1 items-start shadow-lg;
    }
 
    h2 {
@@ -36,10 +35,10 @@ const themeName = themeClass.replace('theme-', '');
    }
 
    p {
-      @apply text-sm line-clamp-3;
+      @apply line-clamp-2;
    }
 
    button {
-      @apply mt-2 px-4 py-1.5 rounded-full border-2 text-sm;
+      @apply mt-2 px-5 py-2 rounded-full text-sm;
    }
 </style>

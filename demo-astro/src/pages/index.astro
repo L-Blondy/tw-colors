@@ -4,11 +4,10 @@ import ThemedCard from 'src/components/ThemedCard.astro';
 ---
 
 <Layout title="tw-colors">
-   <!-- <Toggle checked themeOFF="dark" themeON="light" /> -->
    <main
       class="bg-base-100 text-base-content flex flex-col items-center h-full py-12 min-h-screen transition-colors duration-500"
    >
-      <div class="px-6 container max-w-sm sm:max-w-[700px]">
+      <div class="px-6 container max-w-sm sm:max-w-xl">
          <h1
             class="text-base-content-emphasis m-0 font-black text-[43px] leading-[1] pb-16"
          >
@@ -21,11 +20,9 @@ import ThemedCard from 'src/components/ThemedCard.astro';
          <ul class="grid sm:grid-cols-2 gap-6">
             <ThemedCard themeClass="theme-light" />
             <ThemedCard themeClass="theme-dark" />
-            <ThemedCard themeClass="theme-dark" />
-            <ThemedCard themeClass="theme-light" />
+            <ThemedCard themeClass="theme-forest" />
+            <ThemedCard themeClass="theme-salmon" />
          </ul>
       </div>
    </main>
 </Layout>
-
-<style></style>
