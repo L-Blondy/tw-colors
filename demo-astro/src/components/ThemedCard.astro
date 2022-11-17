@@ -17,7 +17,7 @@ const { theme } = Astro.props;
 
    <button
       class="bg-primary text-primary-content"
-      onclick={`this.closest('[data-theme]:not(li)').dataset.theme='${theme}'`}
+      onclick={`document.documentElement.dataset.theme='${theme}'`}
    >
       Select
    </button>

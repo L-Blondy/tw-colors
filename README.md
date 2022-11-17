@@ -16,7 +16,7 @@ Powerful and easy-to-use theming plugin for [tailwindcss](https://tailwindcss.co
 
 Define your themes in `tailwind.config.js`, your can choose any color name
 
-```js
+```diff
 const createThemes = require('tw-colors')
 
 module.exports = {
@@ -58,6 +58,7 @@ The element and all of its children will be themed accordingly, just use the col
 ```
 
 Alternatively you can also use the `data-theme={name}` syntax
+
 ```html
 <!-- Replace data-theme="light" with data-theme="dark" to change the theme -->
 <section data-theme="light"> 

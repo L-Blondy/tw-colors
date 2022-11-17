@@ -1,13 +1,14 @@
 ---
 export interface Props {
    title: string;
+   theme: string
 }
 
-const { title } = Astro.props;
+const { title, theme } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme={theme}>
    <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width" />

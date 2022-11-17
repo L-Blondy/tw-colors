@@ -21,31 +21,31 @@ module.exports = {
       },
    },
    plugins: [
-      createThemes({
-         light: {
+      createThemes(({ dark, light }) => ({
+         light: light({
             primary: 'teal',
             'primary-content': 'white',
             'base-100': '#eeeeee',
             'base-200': '#f3f3f3',
             'base-content': '#555',
             'base-content-emphasis': '#444',
-         },
-         dark: {
+         }),
+         dark: dark({
             primary: 'gold',
             'primary-content': '#505050',
             'base-100': '#404040',
             'base-200': '#525252',
             'base-content': '#e4e4e4',
             'base-content-emphasis': '#f3f3f3',
-         },
-         forest: {
+         }),
+         forest: dark({
             primary: 'hsl(162 29% 70%)',
             'primary-content': '#505050',
             'base-100': 'hsl(162 22% 45%)',
             'base-200': 'hsl(162 22% 59%)',
             'base-content': '#444',
             'base-content-emphasis': '#333',
-         },
+         }),
          salmon: {
             primary: '#bb2e2e',
             'primary-content': 'white',
@@ -54,7 +54,7 @@ module.exports = {
             'base-content': '#444',
             'base-content-emphasis': '#333',
          },
-      }),
+      })),
       require('@tailwindcss/line-clamp'),
    ],
 };

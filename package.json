@@ -32,7 +32,8 @@
     "prettier": "^2.7.1"
   },
   "dependencies": {
-    "color": "^4.2.3"
+    "color": "^4.2.3",
+    "lodash.foreach": "^4.5.0"
   },
   "license": "MIT"
 }
