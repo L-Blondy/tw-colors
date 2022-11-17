@@ -45,10 +45,11 @@ module.exports = {
 
 ```
 
-Add the class `theme-${name}` to an element (e.g. `theme-light`, `theme-dark`, `theme-forest` for the above config). \
-The element and all of its children will be themed accordingly, just use the colors <b>as usual</b> 🤗 
+Add the class `theme-${name}` to an element (e.g. `theme-light`, `theme-dark`, `theme-forest` for the above config). 
+The element and all of its children will be themed accordingly, just use the colors <b>as usual</b>!
 
 ```html
+<!-- Replace "theme-light" with "theme-dark" to change the theme -->
 <section class="theme-light"> 
    <div class="bg-base-100">
       <h2 class="text-primary">
@@ -66,7 +67,19 @@ The element and all of its children will be themed accordingly, just use the col
 </section>
 ```
 
-Switch the themes as you like... or even apply **nested themes** 🔥
+You can also nest the themes 🔥
+
+```html
+<div class="theme-darkula"> 
+   ...
+   <div class="theme-atom">
+      ...
+      <div class="theme-monokai">
+         ...
+      </div>
+   </div>
+</section>
+```
 
 ## 📀 Install now!
 
