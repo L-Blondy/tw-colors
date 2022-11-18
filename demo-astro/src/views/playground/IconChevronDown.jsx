@@ -1,4 +1,4 @@
-export const IconChevronDown = (props) => (
+export const IconChevronDown = ({ strokeWidth }) => (
    <svg
       width="20"
       height="20"
@@ -9,7 +9,7 @@ export const IconChevronDown = (props) => (
       <path
          d="M4 9L9.29289 14.2929C9.68342 14.6834 10.3166 14.6834 10.7071 14.2929L16 9"
          stroke="#DADEE0"
-         strokeWidth={props.strokeWidth || 2}
+         strokeWidth={strokeWidth || 2}
          strokeLinecap="round"
       />
    </svg>

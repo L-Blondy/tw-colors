@@ -27,7 +27,10 @@
             "plugin:astro/recommended",
             "plugin:astro/jsx-a11y-recommended"
          ],
-         "parser": "astro-eslint-parser"
+         "parser": "astro-eslint-parser",
+         "rules": {
+            "@typescript-eslint/no-empty-interface": 0
+         }
       },
       {
          "files": ["*.ts", "*.tsx", "*.js", ".jsx"],
@@ -35,7 +38,10 @@
             "plugin:@typescript-eslint/recommended",
             "plugin:import/typescript",
             "plugin:react-hooks/recommended"
-         ]
+         ],
+         "rules": {
+            "@typescript-eslint/no-empty-interface": 0
+         }
       },
       {
          "files": ["*.tsx", "*.jsx"],
@@ -43,7 +49,10 @@
             "plugin:react/recommended",
             "plugin:react/jsx-runtime",
             "plugin:jsx-a11y/recommended"
-         ]
+         ],
+         "rules": {
+            "react/prop-types": 0
+         }
       }
    ],
    "rules": {

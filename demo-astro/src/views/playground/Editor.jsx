@@ -1,3 +1,3 @@
-export const Editor = (props) => {
+export const Editor = () => {
    return <div>Editor</div>;
 };
