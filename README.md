@@ -1,15 +1,14 @@
 # Welcome to [tw-colors](https://github.com/L-Blondy/tw-colors)
 
-Powerful and easy-to-use theming plugin for [tailwindcss](https://tailwindcss.com/)
+The fastest way to theme [tailwindcss](https://tailwindcss.com/) apps.
 
 *Inspired by [daisyui](https://daisyui.com/) 🔥*
 
 ## Highlights
 
--  🚀 **Nested themes** support
 -  🤩 **Intuitive and easy** to use API
--  📦 **Zero impact** on the bundle size, it's just some tailwind stuff!
--  ✨ **All color formats** are supported (HEX, rgb, hsl, color names...)
+-  🚀 **Faster development**, no need to refactor
+-  📦 **Zero javascript shipped**, it's just a tailwind plugin!
 -  💫 **Full [Tailwind CSS Intellisense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) support** 🔥🔥🔥
 
 ## The gist

@@ -1,7 +1,7 @@
 ---
 export interface Props {
    title: string;
-   theme: string
+   theme: string;
 }
 
 const { title, theme } = Astro.props;
@@ -30,10 +30,19 @@ const { title, theme } = Astro.props;
 <style is:global>
    html,
    body {
-      @apply min-h-screen;
+      @apply min-h-screen text-base-content tracking-wide;
+      line-height: 1.2;
    }
-   code,
+
+   code {
+      @apply font-mono whitespace-pre tracking-normal;
+   }
+
    button {
-      @apply font-mono;
+      @apply tracking-wide;
+   }
+
+   .thin-container {
+      @apply w-[26ch] sm:w-[28.5ch] max-w-full mx-auto;
    }
 </style>

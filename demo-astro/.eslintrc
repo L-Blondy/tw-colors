@@ -1,0 +1,52 @@
+{
+   "$schema": "https://json.schemastore.org/eslintrc",
+   "env": {
+      "browser": true,
+      "node": true,
+      "es2022": true
+   },
+   "extends": ["eslint:recommended", "plugin:import/recommended"],
+   "parserOptions": {
+      "ecmaVersion": "latest"
+   },
+   "settings": {
+      "react": {
+         "version": "detect"
+      },
+      "import/resolver": {
+         "typescript": {
+            "alwaysTryTypes": true
+         }
+      }
+   },
+   "overrides": [
+      {
+         "files": ["*.astro"],
+         "extends": [
+            "plugin:@typescript-eslint/recommended",
+            "plugin:astro/recommended",
+            "plugin:astro/jsx-a11y-recommended"
+         ],
+         "parser": "astro-eslint-parser"
+      },
+      {
+         "files": ["*.ts", "*.tsx", "*.js", ".jsx"],
+         "extends": [
+            "plugin:@typescript-eslint/recommended",
+            "plugin:import/typescript",
+            "plugin:react-hooks/recommended"
+         ]
+      },
+      {
+         "files": ["*.tsx", "*.jsx"],
+         "extends": [
+            "plugin:react/recommended",
+            "plugin:react/jsx-runtime",
+            "plugin:jsx-a11y/recommended"
+         ]
+      }
+   ],
+   "rules": {
+      "no-unused-vars": 1
+   }
+}

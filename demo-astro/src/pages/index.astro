@@ -1,28 +1,26 @@
 ---
+import Hero from 'src/views/hero/Hero.astro';
+import Nav from 'src/views/nav/Nav.astro';
+import { Playground } from 'src/views/playground/Playground';
 import Layout from '../layouts/Layout.astro';
-import ThemedCard from 'src/components/ThemedCard.astro';
 ---
 
 <Layout title="tw-colors" theme="light">
-   <main
-      class="bg-base-100 text-base-content flex flex-col items-center h-full py-12 min-h-screen transition-colors duration-500"
-   >
-      <div class="px-6 container max-w-sm sm:max-w-xl">
-         <h1
-            class="text-base-content-emphasis m-0 font-black text-[43px] leading-[1] pb-16"
-         >
-            Welcome to
-            <span class="text-primary transition-colors duration-300">
-               tw-colors
-            </span>
-         </h1>
-
-         <ul class="grid sm:grid-cols-2 gap-6">
-            <ThemedCard theme="light" />
-            <ThemedCard theme="dark" />
-            <ThemedCard theme="forest" />
-            <ThemedCard theme="salmon" />
-         </ul>
-      </div>
+   <main>
+      <Nav />
+      <Hero />
+      <Playground client:load />
    </main>
 </Layout>
+
+<style>
+   main {
+      @apply h-full 
+         min-h-screen;
+      background: linear-gradient(
+         115deg,
+         hsl(var(--twc-gradient-start)) 6%,
+         hsl(var(--twc-gradient-stop)) 250%
+      );
+   }
+</style>

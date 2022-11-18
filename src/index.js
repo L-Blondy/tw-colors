@@ -24,7 +24,7 @@ function toHslContent(color) {
    return `${h} ${s}% ${l}%`;
 }
 
-module.exports = function colorTheme(config = {}) {
+module.exports = (config = {}) => {
    const resolved = { utilities: {}, colors: {} };
    const configObject = typeof config === 'function' ? config({ dark, light }) : config;
 

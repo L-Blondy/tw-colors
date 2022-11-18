@@ -1,0 +1,52 @@
+{
+	"light": {
+		"primary": "hsl(180 84% 33%)",
+		"primary-content": "#f7f7f7",
+		"gradient-start": "hsl(202 82% 35%)",
+		"gradient-stop": "hsl(119 70% 52%)",
+		"base-content": "#DADEE0",
+		"base-content-emphasis": "#F3F3F3",
+		"highlight": "white",
+		"downlight": "black"
+	},
+	"dark": {
+		"primary": "hsl(180 84% 33%)",
+		"primary-content": "#f7f7f7",
+		"gradient-start": "hsl(202 82% 35%)",
+		"gradient-stop": "hsl(119 70% 52%)",
+		"base-content": "#DADEE0",
+		"base-content-emphasis": "#F3F3F3",
+		"highlight": "white",
+		"downlight": "black"
+	},
+	"atom": {
+		"primary": "hsl(180 84% 33%)",
+		"primary-content": "#f7f7f7",
+		"gradient-start": "hsl(202 82% 35%)",
+		"gradient-stop": "hsl(119 70% 52%)",
+		"base-content": "#DADEE0",
+		"base-content-emphasis": "#F3F3F3",
+		"highlight": "white",
+		"downlight": "black"
+	},
+	"darkula": {
+		"primary": "hsl(180 84% 33%)",
+		"primary-content": "#f7f7f7",
+		"gradient-start": "hsl(202 82% 35%)",
+		"gradient-stop": "hsl(119 70% 52%)",
+		"base-content": "#DADEE0",
+		"base-content-emphasis": "#F3F3F3",
+		"highlight": "white",
+		"downlight": "black"
+	},
+	"monokai": {
+		"primary": "hsl(180 84% 33%)",
+		"primary-content": "#f7f7f7",
+		"gradient-start": "hsl(202 82% 35%)",
+		"gradient-stop": "hsl(119 70% 52%)",
+		"base-content": "#DADEE0",
+		"base-content-emphasis": "#F3F3F3",
+		"highlight": "white",
+		"downlight": "black"
+	}
+}

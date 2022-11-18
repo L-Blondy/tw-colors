@@ -5,7 +5,8 @@
       "paths": {
          "src/*": ["./src/*"]
       },
-      "jsx": "preserve",
-      "importsNotUsedAsValues": "remove"
+      "jsx": "react-jsx",
+      "importsNotUsedAsValues": "remove",
+      "jsxImportSource": "react"
    }
 }
