@@ -1,6 +1,6 @@
 /* cSpell:disable */
-const createThemes = require('../src/index.js');
-const themes = require('./src/themes.json');
+const createThemes = require('../lib/index.js');
+const themesUI = require('./src/themes-ui.json');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -25,5 +25,5 @@ module.exports = {
          ],
       },
    },
-   plugins: [createThemes(themes)],
+   plugins: [createThemes(themesUI)],
 };

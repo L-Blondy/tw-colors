@@ -5,7 +5,7 @@
       "node": true,
       "es2022": true
    },
-   "extends": ["eslint:recommended", "plugin:import/recommended"],
+   "extends": ["eslint:recommended"],
    "parserOptions": {
       "ecmaVersion": "latest"
    },
@@ -35,12 +35,13 @@
       {
          "files": ["*.ts", "*.tsx", "*.js", ".jsx"],
          "extends": [
+            "plugin:astro/recommended",
             "plugin:@typescript-eslint/recommended",
-            "plugin:import/typescript",
             "plugin:react-hooks/recommended"
          ],
          "rules": {
-            "@typescript-eslint/no-empty-interface": 0
+            "@typescript-eslint/no-empty-interface": 0,
+            "@typescript-eslint/no-explicit-any": 0
          }
       },
       {

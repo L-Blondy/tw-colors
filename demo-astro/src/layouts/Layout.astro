@@ -39,7 +39,11 @@ const { title, theme } = Astro.props;
    }
 
    button {
-      @apply tracking-wide;
+      @apply tracking-wide focus-visible:outline-none;
+   }
+
+   button:focus-visible {
+      box-shadow: 0 0 0 2px hsl(var(--twc-highlight) / 0.5);
    }
 
    .thin-container {
