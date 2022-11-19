@@ -33,7 +33,7 @@
          }
       },
       {
-         "files": ["*.ts", "*.tsx", "*.js", ".jsx"],
+         "files": ["*.ts", "*.tsx", "*.js", ".jsx", "*.mjs"],
          "extends": [
             "plugin:astro/recommended",
             "plugin:@typescript-eslint/recommended",
