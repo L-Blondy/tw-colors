@@ -16,20 +16,19 @@
     "themes",
     "dark"
   ],
-  "main": "lib/index.js",
-  "types": "./lib/index.d.ts",
-  "exports": {
-    "require": "./lib/index.cjs",
-    "import": "./lib/index.js"
-  },
+  "main": "dist/lib/index.js",
+  "types": "./dist/lib/index.d.ts",
   "scripts": {
     "test": "jest",
-    "start": "npm i && cd demo-astro && npm i && npm run dev"
+    "build": "tsc"
   },
   "peerDependencies": {
     "tailwindcss": ">=3.0.0"
   },
   "devDependencies": {
+    "@types/color": "^3.0.3",
+    "@types/lodash.foreach": "^4.5.7",
+    "@types/node": "^18.11.9",
     "prettier": "^2.7.1",
     "typescript": ">=4.0.0"
   },
