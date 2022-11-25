@@ -65,7 +65,7 @@ export const createThemes = (config: ConfigObject | ConfigFunction = {}) => {
 
       // resolved.variants
       resolved.variants.push({
-         name: `-theme-${themeName}`,
+         name: `theme-${themeName}`,
          definition: [`&.theme-${themeName}`, `&[data-theme='${themeName}']`],
       });
 
@@ -91,6 +91,8 @@ export const createThemes = (config: ConfigObject | ConfigFunction = {}) => {
          });
       },
       // extend the colors config
-      { theme: { extend: { colors: resolved.colors } } },
+      {
+         theme: { extend: { colors: resolved.colors } },
+      },
    );
 };

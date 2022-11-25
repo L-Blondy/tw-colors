@@ -1,5 +1,7 @@
 # Welcome to [tw-colors](https://github.com/L-Blondy/tw-colors)
 
+The easiest & fastest way to add multiple color themes to Tailwind apps
+
 ## Why
 
 **Problem:**
