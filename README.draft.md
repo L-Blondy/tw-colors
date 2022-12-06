@@ -20,7 +20,7 @@ Rather than having to add variants everywhere, the goal is to provide **multiple
 
 ## The Gist
 
-Take your existing colors config, put it in the `createTheme` plugin and give it a name.
+Take your existing colors config, put it in the `createTheme` plugin and give it a name (e.g. `light`)
 
 *tailwind.config.js*
 ```diff
@@ -30,11 +30,11 @@ Take your existing colors config, put it in the `createTheme` plugin and give it
       content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
       theme: {
          extends: {
-            colors: {
+-           colors: {
 -              primary: 'steelblue',
 -              secondary: 'darkblue',
 -              'base-100': '#f3f3f3',
-            }
+-           }
          },
       },
       plugins: [
@@ -50,14 +50,18 @@ Take your existing colors config, put it in the `createTheme` plugin and give it
 
 ```
 
-Apply the `theme-[name]` class in your app
+Apply the generated theme class anywhere in your app
 
 ```diff
--  <div class='bg-base-100'>
-+  <div class='bg-base-100 theme-light'>
-      <h1 class='text-primary'>...</h1>
-      <p class='text-secondary'>...</p>
-   </div>
+-  <html>
++  <html class='theme-light'>
+      ...
+      <div class='bg-base-100'>
+         <h1 class='text-primary'>...</h1>
+         <p class='text-secondary'>...</p>
+      </div>
+      ...
+   </html>
 ```
 
 That's it, you site has a light theme!
