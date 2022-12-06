@@ -24,40 +24,40 @@ Take your existing colors config, put it in the `createTheme` plugin and give it
 
 *tailwind.config.js*
 ```diff
-+	const { createThemes } = require('tw-colors');
++  const { createThemes } = require('tw-colors');
 
-	module.exports = {
-		content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
-		theme: {
-			extends: {
--				colors: {
--					primary: 'steelblue',
--					secondary: 'darkblue',
--					'base-100': '#f3f3f3',
--				}
-			},
-		},
-		plugins: [
-+			createThemes({
-+				light: { 
-+					primary: 'steelblue',
-+					secondary: 'darkblue',
-+					'base-100': '#f3f3f3',
-+				}
-+			})
-		],
-	};
+   module.exports = {
+      content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+      theme: {
+         extends: {
+            colors: {
+-              primary: 'steelblue',
+-              secondary: 'darkblue',
+-              'base-100': '#f3f3f3',
+            }
+         },
+      },
+      plugins: [
++        createThemes({
++           light: { 
++              primary: 'steelblue',
++              secondary: 'darkblue',
++              'base-100': '#f3f3f3',
++           }
++        })
+      ],
+   };
 
 ```
 
 Apply the `theme-[name]` class in your app
 
 ```diff
--	<div class='bg-base-100'>
-+	<div class='bg-base-100 theme-light'>
-		<h1 class='text-primary'>...</h1>
-		<p class='text-secondary'>...</p>
-	</div>
+-  <div class='bg-base-100'>
++  <div class='bg-base-100 theme-light'>
+      <h1 class='text-primary'>...</h1>
+      <p class='text-secondary'>...</p>
+   </div>
 ```
 
 That's it, you site has a light theme!
