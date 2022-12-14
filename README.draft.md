@@ -20,7 +20,7 @@ Rather than having to add variants everywhere, the goal is to provide **multiple
 
 ## The Gist
 
-Take your existing colors config, put it in the `createTheme` plugin and give it a name (e.g. `light`)
+Take an existing *tailwind.config.js* colors config and move it inside of `createTheme` and give it a name (e.g. `light`)
 
 *tailwind.config.js*
 ```diff
@@ -33,7 +33,7 @@ Take your existing colors config, put it in the `createTheme` plugin and give it
 -           colors: {
 -              primary: 'steelblue',
 -              secondary: 'darkblue',
--              'base-100': '#f3f3f3',
+-              'base-100': '#F3F3F3',
 -           }
          },
       },
@@ -42,7 +42,7 @@ Take your existing colors config, put it in the `createTheme` plugin and give it
 +           light: { 
 +              primary: 'steelblue',
 +              secondary: 'darkblue',
-+              'base-100': '#f3f3f3',
++              'base-100': '#F3F3F3',
 +           }
 +        })
       ],
@@ -50,7 +50,7 @@ Take your existing colors config, put it in the `createTheme` plugin and give it
 
 ```
 
-Apply the generated theme class anywhere in your app
+Apply the generated **theme-[name]** class anywhere in your app
 
 ```diff
 -  <html>
@@ -66,18 +66,87 @@ Apply the generated theme class anywhere in your app
 
 That's it, you site has a light theme!
 
+## Using multiple themes
 
+*tailwind.config.js*
+```diff
+   const { createThemes } = require('tw-colors');
 
+   module.exports = {
+      content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+      plugins: [
+         createThemes({
+            light: { 
+               primary: 'steelblue',
+               secondary: 'darkblue',
+               'base-100': '#F3F3F3',
+            },
++           dark: { 
++              primary: 'turquoise',
++              secondary: 'tomato',
++              'base-100': '#4A4A4A',
++           },
++           forest: { 
++              primary: '#2A9D8F',
++              secondary: '#E9C46A',
++              'base-100': '#264653',
++           },
+         })
+      ],
+   };
+```
 
-## Nested themes
+### Change themes dynamically
 
-## Coming soon...
+```diff
+-  <html class='theme-light'>
++  <html class='theme-dark'>
+      ...
+   </html>
+```
+
+```diff
+-  <html class='theme-dark'>
++  <html class='theme-forest'>
+      ...
+   </html>
+```
+
+### Nest the themes
+
+```diff
+   <html class='theme-dark'>
+      ...
+
+      <div class='theme-light'>
+         ...
+      </div>
+
+      <div class='theme-forest'>
+         ...
+      </div>
+   </html>
+```
+
+### Use data attributes 
+
+```diff
+   <html data-theme='dark'>
+      ...
+
+      <div data-theme='light'>
+         ...
+      </div>
+
+      <div data-theme='forest'>
+         ...
+      </div>
+   </html>
+```
 
 ## 📀 Install now!
 
 ## ✨ Demo
-
-See the demo [here](...)
 
 <div align="center">
 
