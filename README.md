@@ -4,7 +4,8 @@ The easiest & fastest way to add multiple color themes to Tailwind apps
 
 ## Why
 
-To implement a dark theme using Tailwind's dark mode feature, it is necessary to manually add dark variants throughout the application, which can be a time-consuming and complex process. \
+To implement a dark theme using Tailwind's dark mode feature, it is necessary to manually add dark variants throughout the application, which can be a time-consuming and complex process. 
+
 What if I need more than 2 themes?
 
 The goal of this package is to easily add **multiple color themes** to new or existing Tailwind apps just by switching **one className**.
