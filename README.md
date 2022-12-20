@@ -8,7 +8,7 @@ To implement a dark theme using Tailwind's dark mode feature, it is necessary to
 
 What if I need more than 2 themes?
 
-The goal of this package is to easily add **multiple color themes** to new or existing Tailwind apps just by switching **one className**.
+The goal of this package is to easily add **multiple color themes** to existing or new Tailwind apps just by switching **one className**.
 
 ## Highlights
 
