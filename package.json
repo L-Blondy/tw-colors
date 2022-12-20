@@ -1,6 +1,6 @@
 {
   "name": "tw-colors",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": {
     "name": "Laurent Blondy",
     "email": "laurent.blondy1@gmail.com",
@@ -19,8 +19,15 @@
   "main": "dist/lib/index.js",
   "types": "./dist/lib/index.d.ts",
   "scripts": {
-    "test": "jest",
-    "build": "tsc"
+    "build": "tsc",
+    "postpublish": "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag v$PACKAGE_VERSION && git push --tags",
+    "release": "npm run build && npm publish"
+  },
+  "publishConfig": {
+    "access": "public",
+    "branches": [
+      "master"
+    ]
   },
   "peerDependencies": {
     "tailwindcss": ">=3.0.0"
