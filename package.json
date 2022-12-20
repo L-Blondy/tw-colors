@@ -43,5 +43,9 @@
     "color": "^4.2.3",
     "lodash.foreach": "^4.5.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/L-Blondy/tw-colors"
+  },
   "license": "MIT"
 }
