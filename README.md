@@ -4,7 +4,7 @@ The easiest & fastest way to add multiple color themes to Tailwind apps
 
 ## Why
 
-Tailwind's default dark variant can be impractical to use. Forgetting to include a "dark" variant in your styles can cause your app to break.
+To implement a dark theme using Tailwind's dark mode feature, it is necessary to manually add dark variant styles throughout the application, which can be a time-consuming and complex process.
 
 This package allows you to easily add **multiple color themes** to your Tailwind app with just **one className**. This means you don't have to add variants everywhere, and your app will be more maintainable.
 
@@ -196,6 +196,7 @@ Please share
 </div >
 
 [tweet]: https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2Fsaadeghi%2Fdaisyui
-[tweet-url]: https://twitter.com/intent/tweet?text=tw-colors%0ATailwind%20color%20themes%20made%20easy!%0AURL_TO_GITHUB
+[tweet-url]: https://twitter.com/intent/tweet?text=tw-colors%0ATailwind%20color%20themes%20made%20easy!%0Ahttps://github.com/L-Blondy/tw-colors
 [tailwind-intellisense-url]: https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss
 [mdn-color-scheme]: https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme
+<!-- https://github.com/L-Blondy/tw-colors/blob/master/README.md -->
