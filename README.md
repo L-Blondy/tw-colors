@@ -128,14 +128,18 @@ Simply switch the className.
 
 ###  Variants
 
-Using variants enables fine-grained theming by allowing you to apply specific styles to an element based on the current theme. 
+Apply specific styles based on the current theme
 
 ```html
    <!-- change the font-family for the "dark" theme only -->
-   <html class='... theme-dark:font-calibri'>...</html>
+   <html class='... theme-dark:font-calibri'>
+      ...
+   </html>
 
    <!-- change the default font-weight for the "forest" theme only -->
-   <html class='... theme-forest:font-medium'>...</html>
+   <html class='... theme-forest:font-medium'>
+      ...
+   </html>
 ```
 
 ### CSS color-scheme
