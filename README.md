@@ -1,98 +1,187 @@
 # Welcome to [tw-colors](https://github.com/L-Blondy/tw-colors)
 
-The fastest way to theme [tailwindcss](https://tailwindcss.com/) apps.
+The easiest & fastest way to add multiple color themes to Tailwind apps
 
-*Inspired by [daisyui](https://daisyui.com/) 🔥*
+## Why
+
+Tailwind's default dark variant can be impractical to use. Forgetting to include a "dark" variant in your styles can cause your app to break.
+
+This package allows you to easily add **multiple color themes** to your Tailwind app with just **one className**. This means you don't have to add variants everywhere, and your app will be more maintainable.
 
 ## Highlights
 
--  🤩 **Intuitive and easy** to use API
--  🚀 **Faster development**, no need to refactor
--  📦 **Zero javascript shipped**, it's just a tailwind plugin!
--  💫 **Full [Tailwind CSS Intellisense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) support** 🔥🔥🔥
+* 🚀 **No markup change required**,  no need to refactor your existing code.
+* 📦 **Zero javascript** added to the bundle size, it's just some CSS!
+* ✨ **All color formats** are supported, including HEX, RGB, HSL, and named colors
+* 🤩 **Fine-grained theming** with variants
+* 💫 **Full [Tailwind CSS Intellisense][tailwind-intellisense-url] support** 🔥🔥🔥
+ 
 
-## The gist
-
-Define your themes in `tailwind.config.js`, your can choose any color name
-
-```diff
-const createThemes = require('tw-colors')
-
-module.exports = {
-   // ...your tailwind config
-   plugins: [
-      createThemes({
-         light: {
-            primary: 'teal',
-            secondary: 'hsl(50 13% 54%)',
-            'base-100': '#f0f0f0'
-         },
-         dark: {
-            primary: 'gold',
-            secondary: 'rgb(255, 165, 0)',
-            'base-100': '#404040'
-         },
-         forest: {
-            primary: 'green',
-            secondary: 'hsl(156 24% 84%)',
-            'base-100': '#d3d3d3'
-         },
-      }),
-   ],
-};
-
-```
-
-Add the class `theme-${name}` to an element (e.g. `theme-light`, `theme-dark`, `theme-forest` for the above config). 
-The element and all of its children will be themed accordingly, just use the colors <b>as usual</b>!
-
-```html
-<!-- Replace "theme-light" with "theme-dark" to change the theme -->
-<section class="theme-light"> 
-   <div class="bg-base-100">
-      <h2 class="text-primary">...</h2>
-      <p class="text-secondary text-opacity-75">...</p>
-   </div>
-</section>
-```
-
-Alternatively you can also use the `data-theme={name}` syntax
-
-```html
-<!-- Replace data-theme="light" with data-theme="dark" to change the theme -->
-<section data-theme="light"> 
-   <div class="bg-base-100">
-      <h2 class="text-primary">...</h2>
-      <p class="text-secondary">...</p>
-   </div>
-</section>
-```
-
-You can also nest the themes 🔥
-
-```html
-<div class="theme-darkula"> 
-   ...
-   <div class="theme-atom">
-      ...
-      <div class="theme-monokai">
-         ...
-      </div>
-   </div>
-</section>
-```
-
-## 📀 Install now!
+## The Gist
 
 ```bash
-npm i tw-colors
-// or
-yarn add tw-colors
+npm i -D tw-colors
 ```
 
-## ✨ Demo
+Take an existing tailwind config and move the colors in the `createTheme` plugin, giving it a name (e.g. light).
 
-See the demo [here](...)
+*tailwind.config.js*
+```diff
++  const { createThemes } = require('tw-colors');
+
+   module.exports = {
+      content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+      theme: {
+         extends: {
+-           colors: {
+-              'primary': 'steelblue',
+-              'secondary': 'darkblue',
+-              'base-100': '#F3F3F3',
+-           }
+         },
+      },
+      plugins: [
++        createThemes({
++           light: { 
++              'primary': 'steelblue',
++              'secondary': 'darkblue',
++              'base-100': '#F3F3F3',
++           }
++        })
+      ],
+   };
+
+```
+
+Apply the `theme-light` class anywhere in your app. \
+Alternatively you can use data attributes `data-theme="light"`
+
+```diff
+-  <html>
++  <html class='theme-light'>
+      ...
+      <div class='bg-base-100'>
+         <h1 class='text-primary'>...</h1>
+         <p class='text-secondary'>...</p>
+      </div>
+      ...
+   </html>
+```
+
+That's it, you site has a light theme!
+
+## Usage
+
+### Add multiple themes
+
+Inside the `createThemes` function, define multiple color themes that use the same color names.
+
+*tailwind.config.js*
+```diff
+   const { createThemes } = require('tw-colors');
+
+   module.exports = {
+      content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+      plugins: [
+         createThemes({
+            light: { 
+               'primary': 'steelblue',
+               'secondary': 'darkblue',
+               'base-100': '#F3F3F3',
+            },
++           dark: { 
++              'primary': 'turquoise',
++              'secondary': 'tomato',
++              'base-100': '#4A4A4A',
++           },
++           forest: { 
++              'primary': '#2A9D8F',
++              'secondary': '#E9C46A',
++              'base-100': '#264653',
++           },
+         })
+      ],
+   };
+```
+
+### Switching themes
+
+Simply switch the className.
+
+```diff
+-  <html class='theme-light'>
++  <html class='theme-dark'>
+      ...
+   </html>
+```
+
+...or the *data-theme* attribute
+
+```diff
+-  <html data-theme='light'>
++  <html data-theme='dark'>
+      ...
+   </html>
+```
+
+## Advanced usage
+
+###  Variants
+
+Using variants enables fine-grained theming by allowing you to apply specific styles to an element based on the current theme. 
+
+```html
+   <!-- change the font-family for the "dark" theme only -->
+   <html class='... theme-dark:font-calibri'>...</html>
+
+   <!-- change the default font-weight for the "forest" theme only -->
+   <html class='... theme-forest:font-medium'>...</html>
+```
+
+### CSS color-scheme
+
+`createThemes` also accepts a function that exposes the `light` and `dark` functions. \
+To apply the `color-scheme` CSS property, simply wrap your themes with `light` or `dark`."
+
+*tailwind.config.js*
+```js
+   const { createThemes } = require('tw-colors');
+
+   module.exports = {
+      // ...your tailwind config
+      plugins: [
+         createThemes(({ light, dark }) => ({
+            'my-light-theme': light({ 
+               'primary': 'steelblue',
+               'secondary': 'darkblue',
+               'base-100': '#F3F3F3',
+            }),
+            'my-dark-theme': dark({ 
+               'primary': 'turquoise',
+               'secondary': 'tomato',
+               'base-100': '#4A4A4A',
+            }),
+         }))
+      ],
+   };
+```
+
+See the [MDN docs][mdn-color-scheme] for more details on this feature.
+
+### Nested themes
+
+```diff
+   <html class='theme-dark'>
+      ...
+      <div class='theme-light'>
+         ...
+      </div>
+
+      <div class='theme-forest'>
+         ...
+      </div>
+   </html>
+```
 
 <div align="center">
 
@@ -104,3 +193,5 @@ Please share
 
 [tweet]: https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2Fsaadeghi%2Fdaisyui
 [tweet-url]: https://twitter.com/intent/tweet?text=tw-colors%0ATailwind%20color%20themes%20made%20easy!%0AURL_TO_GITHUB
+[tailwind-intellisense-url]: https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss
+[mdn-color-scheme]: https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme
