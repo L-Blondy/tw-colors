@@ -86,7 +86,6 @@ export const createThemes = (config: ConfigObject | ConfigFunction = {}) => {
          addUtilities(resolved.utilities);
          // add the theme as variant e.g. "theme-[name]:text-2xl"
          resolved.variants.forEach((variant) => {
-            console.log(variant.name, variant.definition);
             addVariant(variant.name, variant.definition);
          });
       },
