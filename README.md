@@ -214,7 +214,7 @@ Example usage:
 .my-class {
    color: hsl(var(--twc-primary));
    // with opacity
-   background-color: hsl(var(--twc-primary) / 0.5);
+   color: hsl(var(--twc-primary) / 0.5);
 }
 ```
 
