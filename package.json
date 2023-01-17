@@ -1,12 +1,12 @@
 {
   "name": "tw-colors",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": {
     "name": "Laurent Blondy",
     "email": "laurent.blondy1@gmail.com",
     "url": "https://blondy.dev/"
   },
-  "description": "A Tailwind CSS plugin for managing color themes",
+  "description": "Tailwind plugin for switching color theme with just one className",
   "keywords": [
     "tailwind",
     "tailwindcss",
@@ -20,8 +20,8 @@
   "types": "./dist/lib/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "postpublish": "git tag v%npm_package_version% && git push --tags",
-    "release": "npm run build && npm publish"
+    "prepublish": "npm run build",
+    "postpublish": "git add . && git commit -a && git tag v%npm_package_version% && git push --tags"
   },
   "publishConfig": {
     "access": "public",

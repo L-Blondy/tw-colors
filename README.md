@@ -1,14 +1,6 @@
 # Welcome to [tw-colors](https://github.com/L-Blondy/tw-colors)
 
-The easiest & fastest way to add multiple color themes to Tailwind apps
-
-## Why
-
-To implement a dark theme using Tailwind's dark mode feature, it is necessary to manually add dark variants throughout the application, which can be a time-consuming and complex process. 
-
-What if I need more than 2 themes?
-
-The goal of this package is to easily add **multiple color themes** to existing or new Tailwind apps just by switching **one className**.
+Introducing the ultimate game-changer for your Tailwind app! Say goodbye to cluttered dark variants and messy CSS variables. With this tailwind plugin, switching between color themes is as effortless as changing one className. Elevate your design game and add a touch of vibrant color to your app today!
 
 ## Highlights
 
