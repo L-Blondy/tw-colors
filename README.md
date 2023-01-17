@@ -183,10 +183,6 @@ See the [MDN docs][mdn-color-scheme] for more details on this feature.
 
 ### CSS Variables
 
-**tw-colors** generates css variables this way: `twc-[color name]`. The css variables contain **hsl** values.
-
-For example, the variables `--twc-primary`, `--twc-secondary`, `--twc-base-100` will be generated for the following config:
-
 **tw-colors** creates CSS variables using the format `twc-[color name]`, they contain HSL values. 
 
 For example, with the following configuration, the variables `--twc-primary`, `--twc-secondary`, `--twc-base-100` will be created.
