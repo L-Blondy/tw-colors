@@ -181,6 +181,47 @@ See the [MDN docs][mdn-color-scheme] for more details on this feature.
    </html>
 ```
 
+### CSS Variables
+
+**tw-colors** generates css variables this way: `twc-[color name]`. The css variables contain **hsl** values.
+
+For example, the variables `--twc-primary`, `--twc-secondary`, `--twc-base-100` will be generated for the following config:
+
+**tw-colors** creates CSS variables using the format `twc-[color name]`, they contain HSL values. 
+
+For example, with the following configuration, the variables `--twc-primary`, `--twc-secondary`, `--twc-base-100` will be created.
+
+*tailwind.config.js*
+```js
+   module.exports = {
+      // ...your tailwind config
+      plugins: [
+         createThemes({
+            'my-light-theme': { 
+               'primary': 'steelblue',
+               'secondary': 'darkblue',
+               'base-100': '#F3F3F3',
+            },
+            'my-dark-theme': { 
+               'primary': 'turquoise',
+               'secondary': 'tomato',
+               'base-100': '#4A4A4A',
+            },
+         })
+      ],
+   };
+```
+
+Example usage:
+
+```css 
+.my-class {
+   color: hsl(var(--twc-primary));
+   // with opacity
+   background-color: hsl(var(--twc-primary) / 0.5);
+}
+```
+
 <div align="center">
 
 Please share
