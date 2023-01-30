@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Document</title>
+   </head>
+   <body>
+      <div data-theme="t1">
+         <div class="bg-c1">Should have {opacity: 1}</div>
+         <div class="bg-c1/10">Should have {opacity: 0.1}</div>
+         <div class="bg-c1 bg-opacity-10">Should have {opacity: 0.1}</div>
+      </div>
+
+      <div data-theme="t2">
+         <div class="bg-c1">Should have {opacity: 0.5}, 1 with t3 theme</div>
+         <div class="bg-c1/[0.2]">Should have {opacity: 0.2}</div>
+         <div class="bg-c1 bg-opacity-20">Should have {opacity: 0.5}, 0.2 with t3 theme</div>
+      </div>
+
+      <button
+         onclick="document.querySelectorAll('[data-theme]').forEach(el=>{el.dataset.theme='t3'})"
+      >
+         Activate t3 theme
+      </button>
+      <script type="module" src="/index.js"></script>
+   </body>
+</html>
