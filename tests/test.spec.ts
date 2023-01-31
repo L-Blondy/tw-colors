@@ -50,7 +50,6 @@ describe('test vitest', () => {
 
       expect(utilities).toEqual({
          '.theme-hsl,[data-theme="hsl"]': {
-            'color-scheme': 'initial',
             '--twc-c1': '1 2% 3%',
             '--twc-c2': '1 2% 3%',
             '--twc-c3': '1 2% 3%',
@@ -59,7 +58,6 @@ describe('test vitest', () => {
             '--twc-c4-opacity': '0.50',
          },
          '.theme-rgb,[data-theme="rgb"]': {
-            'color-scheme': 'initial',
             '--twc-c1': '0 100% 50%',
             '--twc-c2': '0 100% 50%',
             '--twc-c3': '0 100% 50%',
@@ -68,13 +66,11 @@ describe('test vitest', () => {
             '--twc-c4-opacity': '0.50',
          },
          '.theme-hex,[data-theme="hex"]': {
-            'color-scheme': 'initial',
             '--twc-c1': '0 100% 50%',
             '--twc-c2': '0 100% 50%',
             '--twc-c2-opacity': '0.50',
          },
          '.theme-colorName,[data-theme="colorName"]': {
-            'color-scheme': 'initial',
             '--twc-red': '0 100% 50%',
          },
       });
@@ -95,7 +91,6 @@ describe('test vitest', () => {
 
       expect(utilities).toEqual({
          '.theme-t1,[data-theme="t1"]': {
-            'color-scheme': 'initial',
             '--twc-c1': '0 100% 50%',
          },
          '.theme-t2,[data-theme="t2"]': {
@@ -106,6 +101,123 @@ describe('test vitest', () => {
             'color-scheme': 'dark',
             '--twc-c1': '0 100% 50%',
          },
+      });
+   });
+
+   describe('Nested colors', () => {
+      test('Utilities', () => {
+         const { utilities } = resolveConfig({
+            light: {
+               primary: {
+                  100: 'red',
+                  200: 'blue',
+               },
+               secondary: {
+                  100: 'rgb(255 0 0 / 0.5)',
+                  200: 'rgb(255 0 0 / 0.7)',
+               },
+            },
+            dark: {
+               primary: {
+                  100: 'lime',
+                  200: 'pink',
+               },
+               secondary: {
+                  100: 'rgb(255 0 0 / 0.6)',
+                  200: 'rgb(255 0 0 / 0.8)',
+               },
+            },
+         });
+         expect(utilities).toEqual({
+            '.theme-light,[data-theme="light"]': {
+               '--twc-primary-100': '0 100% 50%',
+               '--twc-primary-200': '240 100% 50%',
+               '--twc-secondary-100': '0 100% 50%',
+               '--twc-secondary-100-opacity': '0.50',
+               '--twc-secondary-200': '0 100% 50%',
+               '--twc-secondary-200-opacity': '0.70',
+            },
+            '.theme-dark,[data-theme="dark"]': {
+               '--twc-primary-100': '120 100% 50%',
+               '--twc-primary-200': '350 100% 88%',
+               '--twc-secondary-100': '0 100% 50%',
+               '--twc-secondary-100-opacity': '0.60',
+               '--twc-secondary-200': '0 100% 50%',
+               '--twc-secondary-200-opacity': '0.80',
+            },
+         });
+      });
+
+      test('color-scheme', () => {
+         const { utilities } = resolveConfig(({ light, dark }) => ({
+            light: light({
+               primary: {
+                  100: 'red',
+                  200: 'blue',
+               },
+               secondary: {
+                  100: 'rgb(255 0 0 / 0.5)',
+                  200: 'rgb(255 0 0 / 0.7)',
+               },
+            }),
+            dark: dark({
+               primary: {
+                  100: 'lime',
+                  200: 'pink',
+               },
+               secondary: {
+                  100: 'rgb(255 0 0 / 0.6)',
+                  200: 'rgb(255 0 0 / 0.8)',
+                  nested: {
+                     100: 'rgb(255 0 0 / 0.9)',
+                     200: 'rgb(255 0 0 / 0.1)',
+                  },
+               },
+            }),
+            none: {
+               primary: {
+                  100: 'lime',
+                  200: 'pink',
+               },
+               secondary: {
+                  100: 'hsl(50 10% 12% / 0.6)',
+                  200: 'hsl(60 11% 13% / 0.8)',
+               },
+            },
+         }));
+
+         expect(utilities).toEqual({
+            '.theme-light,[data-theme="light"]': {
+               'color-scheme': 'light',
+               '--twc-primary-100': '0 100% 50%',
+               '--twc-primary-200': '240 100% 50%',
+               '--twc-secondary-100': '0 100% 50%',
+               '--twc-secondary-100-opacity': '0.50',
+               '--twc-secondary-200': '0 100% 50%',
+               '--twc-secondary-200-opacity': '0.70',
+            },
+            '.theme-dark,[data-theme="dark"]': {
+               'color-scheme': 'dark',
+               '--twc-primary-100': '120 100% 50%',
+               '--twc-primary-200': '350 100% 88%',
+               '--twc-secondary-100': '0 100% 50%',
+               '--twc-secondary-100-opacity': '0.60',
+               '--twc-secondary-200': '0 100% 50%',
+               '--twc-secondary-200-opacity': '0.80',
+               '--twc-secondary-nested-100': '0 100% 50%',
+               '--twc-secondary-nested-100-opacity': '0.90',
+               '--twc-secondary-nested-200': '0 100% 50%',
+               '--twc-secondary-nested-200-opacity': '0.10',
+            },
+            '.theme-none,[data-theme="none"]': {
+               '--twc-primary-100': '120 100% 50%',
+               '--twc-primary-200': '350 100% 88%',
+               '--twc-secondary-100': '50 10% 12%',
+               '--twc-secondary-100-opacity': '0.60',
+               '--twc-secondary-200': '60 11% 13%',
+               '--twc-secondary-200-opacity': '0.80',
+            },
+         });
       });
    });
 });

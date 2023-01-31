@@ -1,12 +1,16 @@
+interface MaybeNested<K extends keyof any = string, V = string> {
+    [key: string]: V | MaybeNested<K, V>;
+}
 declare const SCHEME: unique symbol;
-export interface Colors extends Record<string, string> {
-}
+export type Colors = MaybeNested<string, string>;
 export interface ColorsWithScheme<T> extends Colors {
-    [SCHEME]: T;
+    [SCHEME]?: T;
 }
-type SingleThemeConfig = Colors | ColorsWithScheme<'light' | 'dark'>;
+export interface FlatColorsWithScheme<T> extends Record<string, string> {
+    [SCHEME]?: T;
+}
 type SchemerFn<T> = (colors: Colors) => ColorsWithScheme<T>;
-export type ConfigObject = Record<string, SingleThemeConfig>;
+export type ConfigObject = Record<string, ColorsWithScheme<'light' | 'dark'>>;
 export type ConfigFunction = ({ light, dark, }: {
     light: SchemerFn<'light'>;
     dark: SchemerFn<'dark'>;

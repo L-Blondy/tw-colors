@@ -1,17 +1,24 @@
 import Color from 'color';
 import plugin from 'tailwindcss/plugin';
 import forEach from 'lodash.foreach';
+import flatten from 'flat';
+
+interface MaybeNested<K extends keyof any = string, V = string> {
+   [key: string]: V | MaybeNested<K, V>;
+}
 
 const SCHEME = Symbol('color-scheme');
 const VAR_PREFIX = 'twc';
 
-export interface Colors extends Record<string, string> {}
+export type Colors = MaybeNested<string, string>;
 
 export interface ColorsWithScheme<T> extends Colors {
-   [SCHEME]: T;
+   [SCHEME]?: T;
 }
 
-type SingleThemeConfig = Colors | ColorsWithScheme<'light' | 'dark'>;
+interface FlatColorsWithScheme<T> extends Record<string, string> {
+   [SCHEME]?: T;
+}
 
 type SchemerFn<T> = (colors: Colors) => ColorsWithScheme<T>;
 
@@ -29,7 +36,7 @@ const light: SchemerFn<'light'> = (colors) => {
    };
 };
 
-export type ConfigObject = Record<string, SingleThemeConfig>;
+export type ConfigObject = Record<string, ColorsWithScheme<'light' | 'dark'>>;
 export type ConfigFunction = ({
    light,
    dark,
@@ -59,12 +66,20 @@ export const resolveConfig = (config: ConfigObject | ConfigFunction = {}) => {
    };
    const configObject = typeof config === 'function' ? config({ dark, light }) : config;
 
-   forEach(configObject, (colors: SingleThemeConfig, themeName: string) => {
+   forEach(configObject, (colors: ColorsWithScheme<'light' | 'dark'>, themeName: string) => {
       const cssSelector = `.theme-${themeName},[data-theme="${themeName}"]`;
 
-      resolved.utilities[cssSelector] = {
-         'color-scheme': (colors as ColorsWithScheme<'light' | 'dark'>)[SCHEME] || 'initial',
-      };
+      resolved.utilities[cssSelector] = colors[SCHEME]
+         ? {
+              'color-scheme': colors[SCHEME],
+           }
+         : {};
+
+      // flatten color definitions
+      const flatColors: FlatColorsWithScheme<'light' | 'dark'> = flatten(colors, {
+         safe: true,
+         delimiter: '-',
+      });
 
       // resolved.variants
       resolved.variants.push({
@@ -72,7 +87,7 @@ export const resolveConfig = (config: ConfigObject | ConfigFunction = {}) => {
          definition: [`&.theme-${themeName}`, `&[data-theme='${themeName}']`],
       });
 
-      forEach(colors, (colorValue, colorName) => {
+      forEach(flatColors, (colorValue, colorName) => {
          // this case was handled above
          if ((colorName as any) === SCHEME) return;
          const [h, s, l, defaultAlphaValue] = Color(colorValue).hsl().round().array();
@@ -90,7 +105,7 @@ export const resolveConfig = (config: ConfigObject | ConfigFunction = {}) => {
             if (!isNaN(+opacityValue)) {
                return `hsl(var(${twcColorVariable}) / ${opacityValue})`;
             }
-            // if no opacityValue was provided (=it is not parsable to number)
+            // if no opacityValue was provided (=it is not parsable to a number)
             // the twcOpacityVariable (opacity defined in the color definition rgb(0, 0, 0, 0.5)) should have the priority
             // over the tw class based opacity(e.g. "bg-opacity-90")
             // This is how tailwind behaves as for v3.2.4

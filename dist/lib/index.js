@@ -7,6 +7,7 @@ exports.createThemes = exports.resolveConfig = void 0;
 const color_1 = __importDefault(require("color"));
 const plugin_1 = __importDefault(require("tailwindcss/plugin"));
 const lodash_foreach_1 = __importDefault(require("lodash.foreach"));
+const flat_1 = __importDefault(require("flat"));
 const SCHEME = Symbol('color-scheme');
 const VAR_PREFIX = 'twc';
 const dark = (colors) => {
@@ -29,16 +30,22 @@ const resolveConfig = (config = {}) => {
     };
     const configObject = typeof config === 'function' ? config({ dark, light }) : config;
     (0, lodash_foreach_1.default)(configObject, (colors, themeName) => {
+        const flatColors = (0, flat_1.default)(colors, {
+            safe: true,
+            delimiter: '-',
+        });
         const cssSelector = `.theme-${themeName},[data-theme="${themeName}"]`;
-        resolved.utilities[cssSelector] = {
-            'color-scheme': colors[SCHEME] || 'initial',
-        };
+        resolved.utilities[cssSelector] = colors[SCHEME]
+            ? {
+                'color-scheme': colors[SCHEME],
+            }
+            : {};
         // resolved.variants
         resolved.variants.push({
             name: `theme-${themeName}`,
             definition: [`&.theme-${themeName}`, `&[data-theme='${themeName}']`],
         });
-        (0, lodash_foreach_1.default)(colors, (colorValue, colorName) => {
+        (0, lodash_foreach_1.default)(flatColors, (colorValue, colorName) => {
             // this case was handled above
             if (colorName === SCHEME)
                 return;

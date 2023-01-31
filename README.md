@@ -30,7 +30,7 @@ Take an existing tailwind config and move the colors in the `createTheme` plugin
 -           colors: {
 -              'primary': 'steelblue',
 -              'secondary': 'darkblue',
--              'base-100': '#F3F3F3',
+-              'brand': '#F3F3F3',
 -           }
          },
       },
@@ -39,7 +39,7 @@ Take an existing tailwind config and move the colors in the `createTheme` plugin
 +           light: { 
 +              'primary': 'steelblue',
 +              'secondary': 'darkblue',
-+              'base-100': '#F3F3F3',
++              'brand': '#F3F3F3',
 +           }
 +        })
       ],
@@ -54,7 +54,7 @@ Alternatively you can use data attributes `data-theme="light"`
 -  <html>
 +  <html class='theme-light'>
       ...
-      <div class='bg-base-100'>
+      <div class='bg-brand'>
          <h1 class='text-primary'>...</h1>
          <p class='text-secondary'>...</p>
       </div>
@@ -81,17 +81,17 @@ Inside the `createThemes` function, define multiple color themes that use the sa
             light: { 
                'primary': 'steelblue',
                'secondary': 'darkblue',
-               'base-100': '#F3F3F3',
+               'brand': '#F3F3F3',
             },
 +           dark: { 
 +              'primary': 'turquoise',
 +              'secondary': 'tomato',
-+              'base-100': '#4A4A4A',
++              'brand': '#4A4A4A',
 +           },
 +           forest: { 
 +              'primary': '#2A9D8F',
 +              'secondary': '#E9C46A',
-+              'base-100': '#264653',
++              'brand': '#264653',
 +           },
          })
       ],
@@ -152,12 +152,12 @@ To apply the `color-scheme` CSS property, simply wrap your themes with `light` o
             'my-light-theme': light({ 
                'primary': 'steelblue',
                'secondary': 'darkblue',
-               'base-100': '#F3F3F3',
+               'brand': '#F3F3F3',
             }),
             'my-dark-theme': dark({ 
                'primary': 'turquoise',
                'secondary': 'tomato',
-               'base-100': '#4A4A4A',
+               'brand': '#4A4A4A',
             }),
          }))
       ],
@@ -185,7 +185,7 @@ See the [MDN docs][mdn-color-scheme] for more details on this feature.
 
 **tw-colors** creates CSS variables using the format `--twc-[color name]`, they contain HSL values. 
 
-For example, with the following configuration, the variables `--twc-primary`, `--twc-secondary`, `--twc-base-100` will be created.
+For example, with the following configuration, the variables `--twc-primary`, `--twc-secondary`, `--twc-brand` will be created.
 
 *tailwind.config.js*
 ```js
@@ -196,12 +196,12 @@ For example, with the following configuration, the variables `--twc-primary`, `-
             'my-light-theme': { 
                'primary': 'steelblue',
                'secondary': 'darkblue',
-               'base-100': '#F3F3F3',
+               'brand': '#F3F3F3',
             },
             'my-dark-theme': { 
                'primary': 'turquoise',
                'secondary': 'tomato',
-               'base-100': '#4A4A4A',
+               'brand': '#4A4A4A',
             },
          })
       ],
