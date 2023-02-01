@@ -1,6 +1,6 @@
 {
   "name": "tw-colors",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": {
     "name": "Laurent Blondy",
     "email": "laurent.blondy1@gmail.com",
@@ -34,22 +34,22 @@
   "peerDependencies": {
     "tailwindcss": ">=3.0.0"
   },
+  "dependencies": {
+    "color": "^4.2.3",
+    "flat": "^5.0.2",
+    "lodash.foreach": "^4.5.0"
+  },
   "devDependencies": {
     "@types/color": "^3.0.3",
+    "@types/flat": "^5.0.2",
     "@types/lodash.foreach": "^4.5.7",
     "@types/node": "^18.11.9",
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
     "prettier": "^2.7.1",
     "typescript": ">=4.0.0",
     "vite": "^4.0.4",
     "vitest": "^0.28.3"
-  },
-  "dependencies": {
-    "@types/flat": "^5.0.2",
-    "autoprefixer": "^10.4.13",
-    "color": "^4.2.3",
-    "flat": "^5.0.2",
-    "lodash.foreach": "^4.5.0",
-    "postcss": "^8.4.21"
   },
   "repository": {
     "type": "git",
