@@ -96,7 +96,7 @@ export const resolveConfig = (config: ConfigObject | ConfigFunction = {}) => {
          // set the css variable in "@layer utilities"
          resolved.utilities[cssSelector]![twcColorVariable] = `${h} ${s}% ${l}%`;
          // if an alpha value was provided in the color definition, store it in a css variable
-         if (defaultAlphaValue) {
+         if (typeof defaultAlphaValue === 'number') {
             resolved.utilities[cssSelector]![twcOpacityVariable] = defaultAlphaValue.toFixed(2);
          }
          // set the dynamic color in tailwind config theme.colors
