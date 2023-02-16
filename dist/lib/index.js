@@ -30,16 +30,17 @@ const resolveConfig = (config = {}) => {
     };
     const configObject = typeof config === 'function' ? config({ dark, light }) : config;
     (0, lodash_foreach_1.default)(configObject, (colors, themeName) => {
-        const flatColors = (0, flat_1.default)(colors, {
-            safe: true,
-            delimiter: '-',
-        });
         const cssSelector = `.theme-${themeName},[data-theme="${themeName}"]`;
         resolved.utilities[cssSelector] = colors[SCHEME]
             ? {
                 'color-scheme': colors[SCHEME],
             }
             : {};
+        // flatten color definitions
+        const flatColors = (0, flat_1.default)(colors, {
+            safe: true,
+            delimiter: '-',
+        });
         // resolved.variants
         resolved.variants.push({
             name: `theme-${themeName}`,
@@ -55,7 +56,7 @@ const resolveConfig = (config = {}) => {
             // set the css variable in "@layer utilities"
             resolved.utilities[cssSelector][twcColorVariable] = `${h} ${s}% ${l}%`;
             // if an alpha value was provided in the color definition, store it in a css variable
-            if (defaultAlphaValue) {
+            if (typeof defaultAlphaValue === 'number') {
                 resolved.utilities[cssSelector][twcOpacityVariable] = defaultAlphaValue.toFixed(2);
             }
             // set the dynamic color in tailwind config theme.colors
@@ -64,7 +65,7 @@ const resolveConfig = (config = {}) => {
                 if (!isNaN(+opacityValue)) {
                     return `hsl(var(${twcColorVariable}) / ${opacityValue})`;
                 }
-                // if no opacityValue was provided (=it is not parsable to number)
+                // if no opacityValue was provided (=it is not parsable to a number)
                 // the twcOpacityVariable (opacity defined in the color definition rgb(0, 0, 0, 0.5)) should have the priority
                 // over the tw class based opacity(e.g. "bg-opacity-90")
                 // This is how tailwind behaves as for v3.2.4
