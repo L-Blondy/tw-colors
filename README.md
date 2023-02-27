@@ -161,7 +161,7 @@ Based on the current themes, specific styles can be applied with variants
    <html class='theme-dark font-sans'>
       ...
       <div class='theme-dark:font-serif'>
-         Sans font here
+         ❌ Sans font here
       </div>
    </html>
 ```
@@ -173,7 +173,7 @@ Based on the current themes, specific styles can be applied with variants
    <html class='theme-dark font-sans theme-dark:font-serif'>
       ...
       <div>
-         Serif font here
+         ✅ Serif font here
       </div>
    </html>
 ```
