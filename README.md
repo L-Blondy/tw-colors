@@ -167,7 +167,7 @@ Based on the current themes, specific styles can be applied with variants
 ```
 
 
-✔️ **Works fine**
+✅ **Works fine**
 
 ```html
    <html class='theme-dark font-sans theme-dark:font-serif'>
@@ -192,7 +192,7 @@ Based on the current themes, specific styles can be applied with variants
       <html class='theme-dark font-sans theme-dark:font-serif'>
          ...
          <div>
-            ✔️ Serif is active
+            ✅ Serif is active
          </div>
 
          <section class="theme-light">
@@ -201,17 +201,17 @@ Based on the current themes, specific styles can be applied with variants
       </html>
    ```
 
-   ✔️ **Works as expected**
+   ✅ **Works as expected**
 
    ```html
       <html class='theme-dark font-sans theme-dark:font-serif'>
          ...
          <div>
-            ✔️ Serif is active
+            ✅ Serif is active
          </div>
 
          <section class="theme-light font-sans theme-dark:font-serif">
-            ✔️ Sans is active
+            ✅ Sans is active
          </section>   
       </html>
    ```
