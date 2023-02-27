@@ -153,9 +153,9 @@ Based on the current themes, specific styles can be applied with variants
    </div>
 ```
 
-⚠️ **Variants only work alongside theme declarations**
+⚠️ Variants only work alongside theme declarations
 
-❌ **Does not work**
+❌ Does not work
 
 ```html
    <html class='theme-dark font-sans'>
@@ -167,7 +167,7 @@ Based on the current themes, specific styles can be applied with variants
 ```
 
 
-✅ **Works fine**
+✅ Works fine
 
 ```html
    <html class='theme-dark font-sans theme-dark:font-serif'>
@@ -181,12 +181,12 @@ Based on the current themes, specific styles can be applied with variants
 *Note: this feature might be added in future versions based on community feedback*
 
 <details>
-   <summary><strong style="display:inline;">Caveats: inherited properties</strong></summary>
+   <summary><strong style="display:inline;font-size:var(--readme-font-size,1rem);">Caveats: inherited properties</strong></summary>
 
    Inherited properties (e.g. "font-family") are inherited by **all descendants**, including nested themes.
    In order to stop the propagation the base styles should be re-declared on nested themes
 
-   ❌ **Unexpected behavior**
+   ❌ Unexpected behavior
 
    ```html
       <html class='theme-dark font-sans theme-dark:font-serif'>
@@ -201,7 +201,7 @@ Based on the current themes, specific styles can be applied with variants
       </html>
    ```
 
-   ✅ **Works as expected**
+   ✅ Works as expected
 
    ```html
       <html class='theme-dark font-sans theme-dark:font-serif'>
