@@ -180,48 +180,46 @@ Variants only work alongside theme declarations
 
 *Note: this feature might be added in future versions based on community feedback*
 
-<details>
-   <summary>
-      <p style="display: inline;">
-         <strong>
-            Caveats: inherited properties
-         </strong>
-      </p>
-   </summary>
+<p>
+   <details>
+      <summary>
+            <strong> Caveats: inherited properties </strong>
+      </summary>
 
-   Inherited properties (e.g. "font-family") are inherited by **all descendants**, including nested themes.
-   In order to stop the propagation the base styles should be re-declared on nested themes
+      Inherited properties (e.g. "font-family") are inherited by **all descendants**, including nested themes.
+      In order to stop the propagation the base styles should be re-declared on nested themes
 
-   ❌ Unexpected behavior
+      ❌ Unexpected behavior
 
-   ```html
-      <html class='theme-dark font-sans theme-dark:font-serif'>
-         ...
-         <div>
-            ✅ Serif is active
-         </div>
+      ```html
+         <html class='theme-dark font-sans theme-dark:font-serif'>
+            ...
+            <div>
+               ✅ Serif is active
+            </div>
 
-         <div class="theme-light">
-            ❌ Serif is still active, it got inherited from the parent theme
-         </div>     
-      </html>
-   ```
+            <div class="theme-light">
+               ❌ Serif is still active, it got inherited from the parent theme
+            </div>     
+         </html>
+      ```
 
-   ✅ Works as expected
+      ✅ Works as expected
 
-   ```html
-      <html class='theme-dark font-sans theme-dark:font-serif'>
-         ...
-         <div>
-            ✅ Serif is active
-         </div>
+      ```html
+         <html class='theme-dark font-sans theme-dark:font-serif'>
+            ...
+            <div>
+               ✅ Serif is active
+            </div>
 
-         <div class="theme-light font-sans theme-dark:font-serif">
-            ✅ Sans is active
-         </div>   
-      </html>
-   ```
-</details>
+            <div class="theme-light font-sans theme-dark:font-serif">
+               ✅ Sans is active
+            </div>   
+         </html>
+      ```
+   </details>
+</p>
 
 ### CSS color-scheme
 
