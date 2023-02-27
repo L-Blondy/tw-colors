@@ -153,7 +153,7 @@ Based on the current themes, specific styles can be applied with variants
    </div>
 ```
 
-⚠️ Variants only work alongside theme declarations
+Variants only work alongside theme declarations
 
 ❌ Does not work
 
