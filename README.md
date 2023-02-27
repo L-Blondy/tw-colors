@@ -120,21 +120,102 @@ Simply switch the className.
 
 ## Advanced usage
 
-###  Variants
+### Nested themes
 
-Apply specific styles based on the current theme
-
-```html
-   <!-- change the font-family for the "dark" theme only -->
-   <html class='... theme-dark:font-calibri'>
+```diff
+   <html class='theme-dark'>
       ...
-   </html>
+      <div class='theme-light'>
+         ...
+      </div>
 
-   <!-- change the default font-weight for the "forest" theme only -->
-   <html class='... theme-forest:font-medium'>
-      ...
+      <div class='theme-forest'>
+         ...
+      </div>
    </html>
 ```
+
+###  Variants
+
+Based on the current themes, specific styles can be applied with variants
+
+```html
+   <!-- Use "serif" font for the dark theme, "sans" font for all other themes -->
+
+   <div class='theme-dark font-sans theme-dark:font-serif'>
+      ...
+      <div>Serif font here</div>
+   </div>
+
+   <div class='theme-light font-sans theme-dark:font-serif'>
+      ...
+      <div>Sans font here</div>
+   </div>
+```
+
+#### Variants only work alongside theme declarations
+
+❌ **Does not work**
+
+```html
+   <html class='theme-dark font-sans'>
+      ...
+      <div class='theme-dark:font-serif'>
+         Sans font here
+      </div>
+   </html>
+```
+
+
+✔️ **Works fine**
+
+```html
+   <html class='theme-dark font-sans theme-dark:font-serif'>
+      ...
+      <div>
+         Serif font here
+      </div>
+   </html>
+```
+
+*Note: this feature might be added in future versions based on community feedback*
+
+<details>
+   <summary>Caveats</summary>
+
+   Inherited properties (e.g "font-family") are inherited by **all descendants**, including nested themes.
+   In order to stop the propagation the base styles should be re-declared on nested themes
+
+   ❌ **Does not work as expected**
+
+   ```html
+      <html class='theme-dark font-sans theme-dark:font-serif'>
+         ...
+         <div>
+            ✔️ Serif is active
+         </div>
+
+         <section class="theme-light">
+            ❌ Serif is still active, it got inherited from the parent theme
+         </section>     
+      </html>
+   ```
+
+   ✔️ **Works as expected**
+
+   ```html
+      <html class='theme-dark font-sans theme-dark:font-serif'>
+         ...
+         <div>
+            ✔️ Serif is active
+         </div>
+
+         <section class="theme-light font-sans theme-dark:font-serif">
+            ✔️ Sans is active
+         </section>   
+      </html>
+   ```
+</details>
 
 ### CSS color-scheme
 
@@ -165,21 +246,6 @@ To apply the `color-scheme` CSS property, simply wrap your themes with `light` o
 ```
 
 See the [MDN docs][mdn-color-scheme] for more details on this feature.
-
-### Nested themes
-
-```diff
-   <html class='theme-dark'>
-      ...
-      <div class='theme-light'>
-         ...
-      </div>
-
-      <div class='theme-forest'>
-         ...
-      </div>
-   </html>
-```
 
 ### CSS Variables
 
