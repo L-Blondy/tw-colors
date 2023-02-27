@@ -195,9 +195,9 @@ Based on the current themes, specific styles can be applied with variants
             ✅ Serif is active
          </div>
 
-         <section class="theme-light">
+         <div class="theme-light">
             ❌ Serif is still active, it got inherited from the parent theme
-         </section>     
+         </div>     
       </html>
    ```
 
@@ -210,9 +210,9 @@ Based on the current themes, specific styles can be applied with variants
             ✅ Serif is active
          </div>
 
-         <section class="theme-light font-sans theme-dark:font-serif">
+         <div class="theme-light font-sans theme-dark:font-serif">
             ✅ Sans is active
-         </section>   
+         </div>   
       </html>
    ```
 </details>
