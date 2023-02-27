@@ -181,9 +181,9 @@ Variants only work alongside theme declarations
 *Note: this feature might be added in future versions based on community feedback*
 
 <details>
-   <summary style="display:flex;">
-      <p style="display:inline;">
-         <strong style="display:inline;">
+   <summary>
+      <p style="display: inline;">
+         <strong>
             Caveats: inherited properties
          </strong>
       </p>
