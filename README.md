@@ -183,7 +183,7 @@ Based on the current themes, specific styles can be applied with variants
 <details>
    <summary><strong style="display:inline;">Caveats: inherited properties</strong></summary>
 
-   Inherited properties (e.g "font-family") are inherited by **all descendants**, including nested themes.
+   Inherited properties (e.g. "font-family") are inherited by **all descendants**, including nested themes.
    In order to stop the propagation the base styles should be re-declared on nested themes
 
    ❌ **Unexpected behavior**
