@@ -181,7 +181,7 @@ Based on the current themes, specific styles can be applied with variants
 *Note: this feature might be added in future versions based on community feedback*
 
 <details>
-   <summary><h3 style="display:inline;">Caveats</h3></summary>
+   <summary><h2 style="display:inline;">Caveats</h2></summary>
 
    Inherited properties (e.g "font-family") are inherited by **all descendants**, including nested themes.
    In order to stop the propagation the base styles should be re-declared on nested themes
