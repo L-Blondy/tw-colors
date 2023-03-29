@@ -17,9 +17,10 @@
     "dark"
   ],
   "main": "dist/lib/index.js",
-  "types": "./dist/lib/index.d.ts",
+  "module": "dist/lib/index.mjs",
+  "types": "dist/lib/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsup",
     "prepublish": "npm run build && vitest run",
     "postpublish": "git add . && git commit -a && git tag v%npm_package_version% && git push --tags && git push",
     "test": "npm run build && vitest",
@@ -47,6 +48,7 @@
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
     "prettier": "^2.7.1",
+    "tsup": "^6.7.0",
     "typescript": ">=4.0.0",
     "vite": "^4.0.4",
     "vitest": "^0.28.3"
