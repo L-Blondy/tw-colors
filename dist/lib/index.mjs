@@ -17,6 +17,9 @@ var light = (colors) => {
     ...colors
   };
 };
+var toHslaArray = (colorValue) => {
+  return Color(colorValue).hsl().round().array();
+};
 var resolveConfig = (config = {}) => {
   const resolved = {
     variants: [],
@@ -40,7 +43,7 @@ var resolveConfig = (config = {}) => {
     forEach(flatColors, (colorValue, colorName) => {
       if (colorName === SCHEME)
         return;
-      const [h, s, l, defaultAlphaValue] = Color(colorValue).hsl().round().array();
+      const [h, s, l, defaultAlphaValue] = toHslaArray(colorValue);
       const twcColorVariable = `--${VAR_PREFIX}-${colorName}`;
       const twcOpacityVariable = `--${VAR_PREFIX}-${colorName}-opacity`;
       resolved.utilities[cssSelector][twcColorVariable] = `${h} ${s}% ${l}%`;
@@ -82,6 +85,7 @@ var createThemes = (config = {}) => {
 };
 export {
   createThemes,
-  resolveConfig
+  resolveConfig,
+  toHslaArray
 };
 //# sourceMappingURL=index.mjs.map

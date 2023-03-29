@@ -9,6 +9,8 @@ interface ColorsWithScheme<T> extends Colors {
     [SCHEME]?: T;
 }
 type SchemerFn<T> = (colors: Colors) => ColorsWithScheme<T>;
+type HslaArray = [number, number, number, number | undefined];
+declare const toHslaArray: (colorValue?: string) => HslaArray;
 type ConfigObject = Record<string, ColorsWithScheme<'light' | 'dark'>>;
 type ConfigFunction = ({ light, dark, }: {
     light: SchemerFn<'light'>;
@@ -30,4 +32,4 @@ declare const createThemes: (config?: ConfigObject | ConfigFunction) => {
     config?: Partial<tailwindcss_types_config.Config> | undefined;
 };
 
-export { Colors, ColorsWithScheme, ConfigFunction, ConfigObject, createThemes, resolveConfig };
+export { Colors, ColorsWithScheme, ConfigFunction, ConfigObject, createThemes, resolveConfig, toHslaArray };

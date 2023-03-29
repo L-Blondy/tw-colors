@@ -36,6 +36,12 @@ const light: SchemerFn<'light'> = (colors) => {
    };
 };
 
+type HslaArray = [number, number, number, number | undefined];
+
+export const toHslaArray = (colorValue?: string): HslaArray => {
+   return Color(colorValue).hsl().round(1).array() as HslaArray;
+};
+
 export type ConfigObject = Record<string, ColorsWithScheme<'light' | 'dark'>>;
 export type ConfigFunction = ({
    light,
@@ -90,7 +96,7 @@ export const resolveConfig = (config: ConfigObject | ConfigFunction = {}) => {
       forEach(flatColors, (colorValue, colorName) => {
          // this case was handled above
          if ((colorName as any) === SCHEME) return;
-         const [h, s, l, defaultAlphaValue] = Color(colorValue).hsl().round().array();
+         const [h, s, l, defaultAlphaValue] = toHslaArray(colorValue);
          const twcColorVariable = `--${VAR_PREFIX}-${colorName}`;
          const twcOpacityVariable = `--${VAR_PREFIX}-${colorName}-opacity`;
          // set the css variable in "@layer utilities"

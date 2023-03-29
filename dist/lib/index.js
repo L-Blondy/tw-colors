@@ -31,7 +31,8 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var lib_exports = {};
 __export(lib_exports, {
   createThemes: () => createThemes,
-  resolveConfig: () => resolveConfig
+  resolveConfig: () => resolveConfig,
+  toHslaArray: () => toHslaArray
 });
 module.exports = __toCommonJS(lib_exports);
 var import_color = __toESM(require("color"));
@@ -51,6 +52,9 @@ var light = (colors) => {
     [SCHEME]: "light",
     ...colors
   };
+};
+var toHslaArray = (colorValue) => {
+  return (0, import_color.default)(colorValue).hsl().round().array();
 };
 var resolveConfig = (config = {}) => {
   const resolved = {
@@ -75,7 +79,7 @@ var resolveConfig = (config = {}) => {
     (0, import_lodash.default)(flatColors, (colorValue, colorName) => {
       if (colorName === SCHEME)
         return;
-      const [h, s, l, defaultAlphaValue] = (0, import_color.default)(colorValue).hsl().round().array();
+      const [h, s, l, defaultAlphaValue] = toHslaArray(colorValue);
       const twcColorVariable = `--${VAR_PREFIX}-${colorName}`;
       const twcOpacityVariable = `--${VAR_PREFIX}-${colorName}-opacity`;
       resolved.utilities[cssSelector][twcColorVariable] = `${h} ${s}% ${l}%`;
@@ -118,6 +122,7 @@ var createThemes = (config = {}) => {
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   createThemes,
-  resolveConfig
+  resolveConfig,
+  toHslaArray
 });
 //# sourceMappingURL=index.js.map
