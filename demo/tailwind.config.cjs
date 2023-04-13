@@ -19,6 +19,7 @@ module.exports = {
       createThemes(({ light, dark }) => ({
          light: light({
             primary: {
+               DEFAULT: 'orange',
                100: 'red',
                200: 'blue',
                nested: {
@@ -29,6 +30,7 @@ module.exports = {
          }),
          dark: dark({
             primary: {
+               DEFAULT: 'red',
                100: 'lime',
                200: 'pink',
                nested: {

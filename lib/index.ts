@@ -82,10 +82,15 @@ export const resolveConfig = (config: ConfigObject | ConfigFunction = {}) => {
          : {};
 
       // flatten color definitions
-      const flatColors: FlatColorsWithScheme<'light' | 'dark'> = flatten(colors, {
+      const flatColorsWithDEFAULT: FlatColorsWithScheme<'light' | 'dark'> = flatten(colors, {
          safe: true,
          delimiter: '-',
       });
+
+      const flatColors = Object.entries(flatColorsWithDEFAULT).reduce((acc, [key, value]) => {
+         acc[key.replace(/\-DEFAULT$/, '')] = value;
+         return acc;
+      }, {} as FlatColorsWithScheme<'dark' | 'light'>);
 
       // resolved.variants
       resolved.variants.push({
@@ -96,6 +101,7 @@ export const resolveConfig = (config: ConfigObject | ConfigFunction = {}) => {
       forEach(flatColors, (colorValue, colorName) => {
          // this case was handled above
          if ((colorName as any) === SCHEME) return;
+         console.log(colorName);
          const [h, s, l, defaultAlphaValue] = toHslaArray(colorValue);
          const twcColorVariable = `--${VAR_PREFIX}-${colorName}`;
          const twcOpacityVariable = `--${VAR_PREFIX}-${colorName}-opacity`;
