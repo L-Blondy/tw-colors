@@ -101,9 +101,10 @@ export const resolveConfig = (config: ConfigObject | ConfigFunction = {}) => {
       forEach(flatColors, (colorValue, colorName) => {
          // this case was handled above
          if ((colorName as any) === SCHEME) return;
+         const safeColorName = escapeChars(colorName, '/');
          const [h, s, l, defaultAlphaValue] = toHslaArray(colorValue);
-         const twcColorVariable = `--${VAR_PREFIX}-${colorName}`;
-         const twcOpacityVariable = `--${VAR_PREFIX}-${colorName}-opacity`;
+         const twcColorVariable = `--${VAR_PREFIX}-${safeColorName}`;
+         const twcOpacityVariable = `--${VAR_PREFIX}-${safeColorName}-opacity`;
          // set the css variable in "@layer utilities"
          resolved.utilities[cssSelector]![twcColorVariable] = `${h} ${s}% ${l}%`;
          // if an alpha value was provided in the color definition, store it in a css variable
@@ -111,7 +112,7 @@ export const resolveConfig = (config: ConfigObject | ConfigFunction = {}) => {
             resolved.utilities[cssSelector]![twcOpacityVariable] = defaultAlphaValue.toFixed(2);
          }
          // set the dynamic color in tailwind config theme.colors
-         resolved.colors[colorName] = ({ opacityVariable, opacityValue }) => {
+         resolved.colors[safeColorName] = ({ opacityVariable, opacityValue }) => {
             // if the opacity is set  with a slash (e.g. bg-primary/90), use the provided value
             if (!isNaN(+opacityValue)) {
                return `hsl(var(${twcColorVariable}) / ${opacityValue})`;
@@ -154,3 +155,12 @@ export const createThemes = (config: ConfigObject | ConfigFunction = {}) => {
       },
    );
 };
+
+function escapeChars(str: string, ...chars: string[]) {
+   let result = str;
+   for (let char of chars) {
+      const regexp = new RegExp(char, 'g');
+      result = str.replace(regexp, '\\' + char);
+   }
+   return result;
+}

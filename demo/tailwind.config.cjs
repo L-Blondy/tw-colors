@@ -27,6 +27,7 @@ module.exports = {
                   200: 'rgb(255 0 0 / 0.5)',
                },
             },
+            'with/slash': 'black',
          }),
          dark: dark({
             primary: {
@@ -38,6 +39,7 @@ module.exports = {
                   200: 'rgb(255 0 255 / 0.5)',
                },
             },
+            'with/slash': 'grey',
          }),
       })),
    ],
