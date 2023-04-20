@@ -79,6 +79,7 @@ test('color-scheme', () => {
    const { utilities } = resolveConfig(({ light, dark }) => ({
       t1: {
          c1: 'red',
+         'slash/slash': 'red',
       },
       t2: light({
          c1: 'red',
@@ -91,6 +92,7 @@ test('color-scheme', () => {
    expect(utilities).toEqual({
       '.theme-t1,[data-theme="t1"]': {
          '--twc-c1': '0 100% 50%',
+         '--twc-slash\\/slash': '0 100% 50%',
       },
       '.theme-t2,[data-theme="t2"]': {
          'color-scheme': 'light',

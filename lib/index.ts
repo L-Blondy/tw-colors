@@ -112,7 +112,7 @@ export const resolveConfig = (config: ConfigObject | ConfigFunction = {}) => {
             resolved.utilities[cssSelector]![twcOpacityVariable] = defaultAlphaValue.toFixed(2);
          }
          // set the dynamic color in tailwind config theme.colors
-         resolved.colors[safeColorName] = ({ opacityVariable, opacityValue }) => {
+         resolved.colors[colorName] = ({ opacityVariable, opacityValue }) => {
             // if the opacity is set  with a slash (e.g. bg-primary/90), use the provided value
             if (!isNaN(+opacityValue)) {
                return `hsl(var(${twcColorVariable}) / ${opacityValue})`;
