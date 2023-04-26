@@ -287,6 +287,7 @@ Example usage:
 
 <details>
 <summary><b>Custom CSS Variables</b></summary><br/>
+
 The CSS variables names can be **customized** by passing some options as `createThemes` **2nd argument**.
 
 The available options are: 
