@@ -285,9 +285,11 @@ Example usage:
 }
 ```
 
-The CSS variables names can be **customized** by passing some options as **createThemes 2nd argument**.
+#### Custom CSS Variables
 
-Now with the following configuration, the variables `--prefix-primary-suffix`, `--prefix-secondary-suffix`, `--prefix-brand-suffix` will be created.
+The CSS variables names can be **customized** by passing some options as `createThemes` **2nd argument**.
+
+With the following configuration, the variables `--prefix-primary-suffix`, `--prefix-secondary-suffix`, `--prefix-brand-suffix` will be created.
 
 *tailwind.config.js*
 ```js
