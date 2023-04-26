@@ -287,6 +287,9 @@ Example usage:
 
 #### Custom CSS Variables
 
+<details>
+<summary>Custom CSS Variables</summary>
+
 The CSS variables names can be **customized** by passing some options as `createThemes` **2nd argument**.
 
 The available options are: 
@@ -318,6 +321,7 @@ With the following configuration, the variables `--prefix-primary-suffix`, `--pr
       ],
    };
 ```
+</details>
 
 <div align="center">
 
