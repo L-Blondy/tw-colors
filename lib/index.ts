@@ -51,7 +51,15 @@ export type ConfigFunction = ({
    dark: SchemerFn<'dark'>;
 }) => ConfigObject;
 
-export const resolveConfig = (config: ConfigObject | ConfigFunction = {}) => {
+export interface Options {
+   cssVariablePrefix?: string;
+   cssVariableSuffix?: string;
+}
+
+export const resolveConfig = (
+   config: ConfigObject | ConfigFunction = {},
+   { cssVariablePrefix = 'twc-', cssVariableSuffix = '' }: Options = {},
+) => {
    const resolved: {
       variants: { name: string; definition: string[] }[];
       utilities: Record<string, Record<string, string>>;
@@ -103,8 +111,8 @@ export const resolveConfig = (config: ConfigObject | ConfigFunction = {}) => {
          if ((colorName as any) === SCHEME) return;
          const safeColorName = escapeChars(colorName, '/');
          const [h, s, l, defaultAlphaValue] = toHslaArray(colorValue);
-         const twcColorVariable = `--${VAR_PREFIX}-${safeColorName}`;
-         const twcOpacityVariable = `--${VAR_PREFIX}-${safeColorName}-opacity`;
+         const twcColorVariable = `--${cssVariablePrefix}${safeColorName}${cssVariableSuffix}`;
+         const twcOpacityVariable = `--${cssVariablePrefix}${safeColorName}-opacity${cssVariableSuffix}`;
          // set the css variable in "@layer utilities"
          resolved.utilities[cssSelector]![twcColorVariable] = `${h} ${s}% ${l}%`;
          // if an alpha value was provided in the color definition, store it in a css variable
@@ -132,8 +140,8 @@ export const resolveConfig = (config: ConfigObject | ConfigFunction = {}) => {
    return resolved;
 };
 
-export const createThemes = (config: ConfigObject | ConfigFunction = {}) => {
-   const resolved = resolveConfig(config);
+export const createThemes = (config: ConfigObject | ConfigFunction = {}, options: Options = {}) => {
+   const resolved = resolveConfig(config, options);
 
    return plugin(
       ({ addUtilities, addVariant }) => {

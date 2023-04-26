@@ -16,31 +16,34 @@ module.exports = {
             c1: 'purple',
          },
       }),
-      createThemes(({ light, dark }) => ({
-         light: light({
-            primary: {
-               DEFAULT: 'orange',
-               100: 'red',
-               200: 'blue',
-               nested: {
-                  100: 'rgb(0 0 255 / 0.5)',
-                  200: 'rgb(255 0 0 / 0.5)',
+      createThemes(
+         ({ light, dark }) => ({
+            light: light({
+               primary: {
+                  DEFAULT: 'orange',
+                  100: 'red',
+                  200: 'blue',
+                  nested: {
+                     100: 'rgb(0 0 255 / 0.5)',
+                     200: 'rgb(255 0 0 / 0.5)',
+                  },
                },
-            },
-            'with/slash': 'black',
-         }),
-         dark: dark({
-            primary: {
-               DEFAULT: 'red',
-               100: 'lime',
-               200: 'pink',
-               nested: {
-                  100: 'rgb(0 255 0 / 0.5)',
-                  200: 'rgb(255 0 255 / 0.5)',
+               'with/slash': 'black',
+            }),
+            dark: dark({
+               primary: {
+                  DEFAULT: 'red',
+                  100: 'lime',
+                  200: 'pink',
+                  nested: {
+                     100: 'rgb(0 255 0 / 0.5)',
+                     200: 'rgb(255 0 255 / 0.5)',
+                  },
                },
-            },
-            'with/slash': 'grey',
+               'with/slash': 'grey',
+            }),
          }),
-      })),
+         { cssVariablePrefix: 'prefix_', cssVariableSuffix: '_suffix' },
+      ),
    ],
 };

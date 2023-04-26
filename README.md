@@ -251,7 +251,7 @@ See the [MDN docs][mdn-color-scheme] for more details on this feature.
 
 ### CSS Variables
 
-**tw-colors** creates CSS variables using the format `--twc-[color name]`, they contain HSL values. 
+**tw-colors** creates CSS variables using the format `--twc-[color name]` by default, they contain HSL values. 
 
 For example, with the following configuration, the variables `--twc-primary`, `--twc-secondary`, `--twc-brand` will be created.
 
@@ -281,9 +281,36 @@ Example usage:
 ```css 
 .my-class {
    color: hsl(var(--twc-primary));
-   // with opacity
-   color: hsl(var(--twc-primary) / 0.5);
+   background: hsl(var(--twc-primary) / 0.5);
 }
+```
+
+The CSS variables names can be **customized** by passing some options as **createThemes 2nd argument**.
+
+Now with the following configuration, the variables `--prefix-primary-suffix`, `--prefix-secondary-suffix`, `--prefix-brand-suffix` will be created.
+
+*tailwind.config.js*
+```js
+   module.exports = {
+      // ...your tailwind config
+      plugins: [
+         createThemes({
+            'my-light-theme': { 
+               'primary': 'steelblue',
+               'secondary': 'darkblue',
+               'brand': '#F3F3F3',
+            },
+            'my-dark-theme': { 
+               'primary': 'turquoise',
+               'secondary': 'tomato',
+               'brand': '#4A4A4A',
+            },
+         }, {
+            cssVariablePrefix: 'prefix-', 
+            cssVariableSuffix: '-suffix' 
+         })
+      ],
+   };
 ```
 
 <div align="center">
