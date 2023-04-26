@@ -22,7 +22,7 @@
   "scripts": {
     "build": "tsup",
     "prepublish": "git pull && npm run build && vitest run",
-    "postpublish": "git add . && git commit -a && git tag v%npm_package_version% && git push --tags && git push",
+    "postpublish": "git add . && git commit -a && cross-var git tag v$npm_package_version && git push --tags && git push",
     "test": "npm run build && vitest",
     "demo": "npm run build && vite"
   },
@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "color": "^4.2.3",
+    "cross-var": "^1.1.0",
     "flat": "^5.0.2",
     "lodash.foreach": "^4.5.0"
   },
