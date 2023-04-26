@@ -290,8 +290,8 @@ Example usage:
 The CSS variables names can be **customized** by passing some options as `createThemes` **2nd argument**.
 
 The available options are: 
-* `cssVariablePrefix`, default: `'twc-'`
-* `cssVariableSuffix`, default: `''`
+* **cssVariablePrefix**, default: `'twc-'`
+* **cssVariableSuffix**, default: `''`
 
 With the following configuration, the variables `--prefix-primary-suffix`, `--prefix-secondary-suffix`, `--prefix-brand-suffix` will be created.
 
