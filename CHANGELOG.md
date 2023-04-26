@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.5](https://github.com/L-Blondy/tw-colors/compare/v1.2.4...v1.2.5) - 2023-04-26
+
+### Added
+
+- [[#10](https://github.com/L-Blondy/tw-colors/issues/10)] - added options to customize the CSS variables: `cssVariablePrefix`, `cssVariableSuffix`
+
 ## [1.2.4](https://github.com/L-Blondy/tw-colors/compare/v1.2.1...v1.2.4) - 2023-04-20
 
 ### Fixed
