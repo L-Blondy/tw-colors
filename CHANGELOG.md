@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.6](https://github.com/L-Blondy/tw-colors/compare/v1.2.5...v1.2.6) - 2023-05-03
+
+### Fixed
+
+- [[#11](https://github.com/L-Blondy/tw-colors/issues/11)] - Removed the **cross-var** npm package
+
 ## [1.2.5](https://github.com/L-Blondy/tw-colors/compare/v1.2.4...v1.2.5) - 2023-04-26
 
 ### Added
