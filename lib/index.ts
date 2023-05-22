@@ -123,16 +123,16 @@ export const resolveConfig = (
          resolved.colors[colorName] = ({ opacityVariable, opacityValue }) => {
             // if the opacity is set  with a slash (e.g. bg-primary/90), use the provided value
             if (!isNaN(+opacityValue)) {
-               return `hsl(var(${twcColorVariable}) / ${opacityValue})`;
+               return `hsl(var(${twcColorVariable},${h} ${s}% ${l}%) / ${opacityValue})`;
             }
             // if no opacityValue was provided (=it is not parsable to a number)
             // the twcOpacityVariable (opacity defined in the color definition rgb(0, 0, 0, 0.5)) should have the priority
             // over the tw class based opacity(e.g. "bg-opacity-90")
             // This is how tailwind behaves as for v3.2.4
             if (opacityVariable) {
-               return `hsl(var(${twcColorVariable}) / var(${twcOpacityVariable}, var(${opacityVariable})))`;
+               return `hsl(var(${twcColorVariable},${h} ${s}% ${l}%) / var(${twcOpacityVariable}, var(${opacityVariable})))`;
             }
-            return `hsl(var(${twcColorVariable}) / var(${twcOpacityVariable}, 1))`;
+            return `hsl(var(${twcColorVariable},${h} ${s}% ${l}%) / var(${twcOpacityVariable}, 1))`;
          };
       });
    });
@@ -144,6 +144,7 @@ export const createThemes = (config: ConfigObject | ConfigFunction = {}, options
    const resolved = resolveConfig(config, options);
 
    return plugin(
+      // @ts-ignore
       ({ addUtilities, addVariant }) => {
          // add the css variables to "@layer utilities"
          addUtilities(resolved.utilities);
