@@ -81,7 +81,7 @@ export const resolveConfig = (
    const configObject = typeof config === 'function' ? config({ dark, light }) : config;
 
    forEach(configObject, (colors: ColorsWithScheme<'light' | 'dark'>, themeName: string) => {
-      const cssSelector = `.theme-${themeName},[data-theme="${themeName}"]`;
+      const cssSelector = `.${themeName},[data-theme="${themeName}"]`;
 
       resolved.utilities[cssSelector] = colors[SCHEME]
          ? {
@@ -102,8 +102,8 @@ export const resolveConfig = (
 
       // resolved.variants
       resolved.variants.push({
-         name: `theme-${themeName}`,
-         definition: [`&.theme-${themeName}`, `&[data-theme='${themeName}']`],
+         name: `${themeName}`,
+         definition: [`&.${themeName}`, `&[data-theme='${themeName}']`],
       });
 
       forEach(flatColors, (colorValue, colorName) => {
@@ -147,7 +147,7 @@ export const createThemes = (config: ConfigObject | ConfigFunction = {}, options
       ({ addUtilities, addVariant }) => {
          // add the css variables to "@layer utilities"
          addUtilities(resolved.utilities);
-         // add the theme as variant e.g. "theme-[name]:text-2xl"
+         // add the theme as variant e.g. "[name]:text-2xl"
          resolved.variants.forEach((variant) => {
             addVariant(variant.name, variant.definition);
          });
