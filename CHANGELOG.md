@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.0.0](https://github.com/L-Blondy/tw-colors/compare/v1.2.6...v2.0.0) - 2023-08-06
+## [2.0.1](https://github.com/L-Blondy/tw-colors/compare/v1.2.6...v2.0.1) - 2023-08-06
 
 ### breaking change:
 
