@@ -49,7 +49,6 @@ export type ConfigFunction = ({
 export interface Options {
    getCssVariable?: (themeName: string) => string;
    getThemeClassName?: (themeName: string) => string;
-   defaultTheme?: string;
 }
 
 export const resolveConfig = (
