@@ -298,7 +298,7 @@ createThemes({
 })
 ```
 
-### <samp>getCssVariableName</samp>
+### <samp>getCssVariable</samp>
 
 **default**: <code>(themeName) => \`--twc-${themeName}\`</code>
 
