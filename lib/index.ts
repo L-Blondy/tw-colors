@@ -8,7 +8,6 @@ interface MaybeNested<K extends keyof any = string, V = string> {
 }
 
 const SCHEME = Symbol('color-scheme');
-const VAR_PREFIX = 'twc';
 
 export type Colors = MaybeNested<string, string>;
 
@@ -22,19 +21,15 @@ interface FlatColorsWithScheme<T> extends Record<string, string> {
 
 type SchemerFn<T> = (colors: Colors) => ColorsWithScheme<T>;
 
-const dark: SchemerFn<'dark'> = (colors) => {
-   return {
-      [SCHEME]: 'dark',
-      ...colors,
-   };
-};
+const dark: SchemerFn<'dark'> = (colors) => ({
+   [SCHEME]: 'dark',
+   ...colors,
+});
 
-const light: SchemerFn<'light'> = (colors) => {
-   return {
-      [SCHEME]: 'light',
-      ...colors,
-   };
-};
+const light: SchemerFn<'light'> = (colors) => ({
+   [SCHEME]: 'light',
+   ...colors,
+});
 
 type HslaArray = [number, number, number, number | undefined];
 
@@ -52,13 +47,17 @@ export type ConfigFunction = ({
 }) => ConfigObject;
 
 export interface Options {
-   cssVariablePrefix?: string;
-   cssVariableSuffix?: string;
+   getCssVariable?: (themeName: string) => string;
+   getThemeClassName?: (themeName: string) => string;
+   defaultTheme?: string;
 }
 
 export const resolveConfig = (
    config: ConfigObject | ConfigFunction = {},
-   { cssVariablePrefix = 'twc-', cssVariableSuffix = '' }: Options = {},
+   {
+      getCssVariable = (themeName: string) => `--twc-${themeName}`,
+      getThemeClassName = (themeName: string) => `theme-${themeName}`,
+   }: Options = {},
 ) => {
    const resolved: {
       variants: { name: string; definition: string[] }[];
@@ -81,7 +80,7 @@ export const resolveConfig = (
    const configObject = typeof config === 'function' ? config({ dark, light }) : config;
 
    forEach(configObject, (colors: ColorsWithScheme<'light' | 'dark'>, themeName: string) => {
-      const cssSelector = `.theme-${themeName},[data-theme="${themeName}"]`;
+      const cssSelector = `.${getThemeClassName(themeName)},[data-theme="${themeName}"]`;
 
       resolved.utilities[cssSelector] = colors[SCHEME]
          ? {
@@ -102,8 +101,8 @@ export const resolveConfig = (
 
       // resolved.variants
       resolved.variants.push({
-         name: `theme-${themeName}`,
-         definition: [`&.theme-${themeName}`, `&[data-theme='${themeName}']`],
+         name: `${getThemeClassName(themeName)}`,
+         definition: [`&.${getThemeClassName(themeName)}`, `&[data-theme='${themeName}']`],
       });
 
       forEach(flatColors, (colorValue, colorName) => {
@@ -111,8 +110,8 @@ export const resolveConfig = (
          if ((colorName as any) === SCHEME) return;
          const safeColorName = escapeChars(colorName, '/');
          const [h, s, l, defaultAlphaValue] = toHslaArray(colorValue);
-         const twcColorVariable = `--${cssVariablePrefix}${safeColorName}${cssVariableSuffix}`;
-         const twcOpacityVariable = `--${cssVariablePrefix}${safeColorName}-opacity${cssVariableSuffix}`;
+         const twcColorVariable = getCssVariable(safeColorName);
+         const twcOpacityVariable = `${getCssVariable(safeColorName)}-opacity`;
          // set the css variable in "@layer utilities"
          resolved.utilities[cssSelector]![twcColorVariable] = `${h} ${s}% ${l}%`;
          // if an alpha value was provided in the color definition, store it in a css variable

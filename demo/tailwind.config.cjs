@@ -43,7 +43,10 @@ module.exports = {
                'with/slash': 'grey',
             }),
          }),
-         { cssVariablePrefix: 'prefix_', cssVariableSuffix: '_suffix' },
+         {
+            getCssVariable: (themeName) => `--test-${themeName}`,
+            getThemeClassName: (themeName) => `theme-${themeName}`,
+         },
       ),
    ],
 };

@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/L-Blondy/tw-colors/compare/v1.2.6...v2.0.0) - 2023-08-06
+
+### breaking change:
+
+- Dropped support for the `cssVariablePrefix` and `cssVariableSuffix` options. Check out the new `getCssVariable` Option
+
+### Added
+
+-`getCssVariable` option to customize the css variables.
+-`getThemeClassName` option to customize the generated theme classNames and variants.
+
 ## [1.2.6](https://github.com/L-Blondy/tw-colors/compare/v1.2.5...v1.2.6) - 2023-05-03
 
 ### Fixed
