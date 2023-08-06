@@ -309,27 +309,21 @@ With the following configuration, the following variables will be created:
 * `--a-secondary-z` (ex *twc-secondary*)
 * `--a-brand-z` (ex *twc-brand*)
 
-*tailwind.config.js*
 ```js
-   module.exports = {
-      // ...your tailwind config
-      plugins: [
-         createThemes({
-            'light': { 
-               'primary': 'steelblue',
-               'secondary': 'darkblue',
-               'brand': '#F3F3F3',
-            },
-            'dark': { 
-               'primary': 'turquoise',
-               'secondary': 'tomato',
-               'brand': '#4A4A4A',
-            },
-         }, {
-            getCssVariable: (themeName) => `--a-${themeName}-z`;
-         })
-      ],
-   };
+createThemes({
+   'light': { 
+      'primary': 'steelblue',
+      'secondary': 'darkblue',
+      'brand': '#F3F3F3',
+   },
+   'dark': { 
+      'primary': 'turquoise',
+      'secondary': 'tomato',
+      'brand': '#4A4A4A',
+   },
+}, {
+   getCssVariable: (themeName) => `--a-${themeName}-z`;
+})
 ```
 
 ### <samp>getThemeClassName</samp>
@@ -341,6 +335,24 @@ Lets you customize the classNames for the themes and variants
 With the following configuration, the following theme classNames and variants will be created: 
 * `branding-light` (ex *theme-light*)
 * `branding-dark` (ex *theme-dark*)
+
+
+```js
+createThemes({
+   'light': { 
+      'primary': 'steelblue',
+      'secondary': 'darkblue',
+      'brand': '#F3F3F3',
+   },
+   'dark': { 
+      'primary': 'turquoise',
+      'secondary': 'tomato',
+      'brand': '#4A4A4A',
+   },
+}, {
+   getThemeClassName: (themeName) => `branding-${themeName}`;
+})
+```
 
 <div align="center">
 
