@@ -21,7 +21,7 @@ export type TwcConfig<ThemeName extends string = string> =
 export interface TwcOptions<ThemeName extends string = string> {
    getCssVariable?: (colorName: string) => string;
    getThemeClassName?: (themeName: ThemeName) => string;
-   defaultTheme?: NoInfer<ThemeName>;
+   defaultTheme?: NoInfer<ThemeName> | {}; // "| {}" avoids ts error in case the config is functional
 }
 
 /**
