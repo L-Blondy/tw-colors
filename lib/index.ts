@@ -148,14 +148,14 @@ function defaultGetThemeClassName(themeName: string) {
    return `theme-${themeName}`;
 }
 
-function dark(colors: NestedColors): { [SCHEME]: 'dark' } & NestedColors {
+function dark(colors: NestedColors): { [SCHEME]: 'dark' } & MaybeNested<string, string> {
    return {
       ...colors,
       [SCHEME]: 'dark',
    };
 }
 
-function light(colors: NestedColors): { [SCHEME]: 'light' } & NestedColors {
+function light(colors: NestedColors): { [SCHEME]: 'light' } & MaybeNested<string, string> {
    return {
       ...colors,
       [SCHEME]: 'light',

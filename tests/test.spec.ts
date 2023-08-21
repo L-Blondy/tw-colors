@@ -1,8 +1,8 @@
-import { resolveConfig } from '../lib';
+import { resolveTwcConfig } from '../lib';
 import { describe, expect, test } from 'vitest';
 
 test('Variants', () => {
-   const { variants } = resolveConfig({
+   const { variants } = resolveTwcConfig({
       light: {},
       dark: {},
       halloween: {},
@@ -25,7 +25,7 @@ test('Variants', () => {
 });
 
 test('Utilities', () => {
-   const { utilities } = resolveConfig({
+   const { utilities } = resolveTwcConfig({
       hsl: {
          c1: 'hsl(1, 2%, 3%)',
          c2: 'hsl(1 2% 3%)',
@@ -76,7 +76,7 @@ test('Utilities', () => {
 });
 
 test('color-scheme', () => {
-   const { utilities } = resolveConfig(({ light, dark }) => ({
+   const { utilities } = resolveTwcConfig(({ light, dark }) => ({
       t1: {
          c1: 'red',
          'slash/slash': 'red',
@@ -107,7 +107,7 @@ test('color-scheme', () => {
 
 describe('Nested colors', () => {
    test('Utilities', () => {
-      const { utilities } = resolveConfig({
+      const { utilities } = resolveTwcConfig({
          light: {
             primary: {
                100: 'red',
@@ -150,7 +150,7 @@ describe('Nested colors', () => {
    });
 
    test('color-scheme', () => {
-      const { utilities } = resolveConfig(({ light, dark }) => ({
+      const { utilities } = resolveTwcConfig(({ light, dark }) => ({
          light: light({
             primary: {
                100: 'red',
