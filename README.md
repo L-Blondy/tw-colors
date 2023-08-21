@@ -293,8 +293,27 @@ Some options can be passed as the second argument to the plugin
 createThemes({
    // your colors config goes here 
 }, {
-   getCssVariable: (colorName) => `--twc-${colorName}`;
-   getThemeClassName: (themeName) => `theme-${themeName}`;
+   defaultTheme: 'light',
+   getCssVariable: (colorName) => `--twc-${colorName}`,
+   getThemeClassName: (themeName) => `theme-${themeName}`,
+})
+```
+
+### <samp>defaultTheme</samp>
+
+The default theme to use, think of it as a fallback theme.
+
+**Example** 
+```js
+createThemes({
+   'light': { 
+      'primary': 'steelblue',
+   },
+   'dark': { 
+      'primary': 'turquoise',
+   },
+}, {
+   defaultTheme: 'light' // 'light' | 'dark'
 })
 ```
 
@@ -322,7 +341,7 @@ createThemes({
       'brand': '#4A4A4A',
    },
 }, {
-   getCssVariable: (colorName) => `--a-${colorName}-z`;
+   getCssVariable: (colorName) => `--a-${colorName}-z`
 })
 ```
 
@@ -350,7 +369,7 @@ createThemes({
       'brand': '#4A4A4A',
    },
 }, {
-   getThemeClassName: (themeName) => `branding-${themeName}`;
+   getThemeClassName: (themeName) => `branding-${themeName}`
 })
 ```
 

@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.1.0](https://github.com/L-Blondy/tw-colors/compare/v2.0.3...v2.1.0) - 2023-08-06
+
+### breaking change:
+
+- `resolveConfig` was renamed to `resolveTwcConfig`
+- Only two types are exposed: `TwcConfig` and `TwcOptions`, corresponding to `createThemes(TwcConfig, TwcOptions)` and `resolveTwcConfig(TwcConfig, TwcOptions)`. Previously exposed types are no longer valid.
+
+### Added
+
+- `defaultTheme` option 
+
 ## [2.0.3](https://github.com/L-Blondy/tw-colors/compare/v1.2.6...v2.0.3) - 2023-08-06
 
 ### breaking change:
@@ -8,8 +19,8 @@
 
 ### Added
 
--`getCssVariable` option to customize the css variables.
--`getThemeClassName` option to customize the generated theme classNames and variants.
+- `getCssVariable` option to customize the css variables.
+- `getThemeClassName` option to customize the generated theme classNames and variants.
 
 ## [1.2.6](https://github.com/L-Blondy/tw-colors/compare/v1.2.5...v1.2.6) - 2023-05-03
 

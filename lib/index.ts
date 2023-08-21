@@ -4,6 +4,7 @@ import forEach from 'lodash.foreach';
 import flatten from 'flat';
 
 const SCHEME = Symbol('color-scheme');
+const emptyConfig: TwcConfig = {};
 
 type NestedColors = { [SCHEME]?: 'light' | 'dark' } & MaybeNested<string, string>;
 type FlatColors = { [SCHEME]?: 'light' | 'dark' } & Record<string, string>;
@@ -13,18 +14,18 @@ type TwcFunctionConfig<ThemeName extends string> = (scheme: {
    dark: typeof dark;
 }) => TwcObjectConfig<ThemeName>;
 
-export type TwcConfig<ThemeName extends string> =
+export type TwcConfig<ThemeName extends string = string> =
    | TwcObjectConfig<ThemeName>
    | TwcFunctionConfig<ThemeName>;
 
-export interface TwcOptions<ThemeName extends string> {
+export interface TwcOptions<ThemeName extends string = string> {
    getCssVariable?: (colorName: string) => string;
    getThemeClassName?: (themeName: ThemeName) => string;
    defaultTheme?: NoInfer<ThemeName>;
 }
 
 export const resolveTwcConfig = <ThemeName extends string>(
-   config: TwcConfig<ThemeName> = {} as TwcConfig<ThemeName>,
+   config: TwcConfig<ThemeName> = emptyConfig,
    {
       getCssVariable = defaultGetCssVariable,
       getThemeClassName = defaultGetThemeClassName,
@@ -103,7 +104,7 @@ export const resolveTwcConfig = <ThemeName extends string>(
 };
 
 export const createThemes = <ThemeName extends string>(
-   config: TwcConfig<ThemeName> = {} as TwcConfig<ThemeName>,
+   config: TwcConfig<ThemeName> = emptyConfig,
    options: TwcOptions<ThemeName> = {},
 ) => {
    const resolved = resolveTwcConfig(config, options);
@@ -179,19 +180,3 @@ interface MaybeNested<K extends keyof any = string, V extends string = string> {
 }
 
 type NoInfer<T> = [T][T extends any ? 0 : never];
-
-// createThemes(
-//    {
-//       light: {
-//          primary: 'red',
-//       },
-//       dark: {
-//          primary: 'blue',
-//          sec: { 100: '', 200: { 300: { 400: '' } } },
-//       },
-//    },
-//    {
-//       getThemeClassName: (themeName) => themeName,
-//       defaultTheme: 'dark',
-//    },
-// );
