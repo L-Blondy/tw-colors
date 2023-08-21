@@ -24,6 +24,10 @@ export interface TwcOptions<ThemeName extends string = string> {
    defaultTheme?: NoInfer<ThemeName>;
 }
 
+/**
+ * Resolves the variants, utilities and colors to inject in the plugin
+ * Library authors might use this function instead of the createThemes function
+ */
 export const resolveTwcConfig = <ThemeName extends string>(
    config: TwcConfig<ThemeName> = emptyConfig,
    {
@@ -120,7 +124,7 @@ export const createThemes = <ThemeName extends string>(
       {
          theme: {
             extend: {
-               // @ts-ignore
+               // @ts-ignore tailwind types are broken
                colors: resolved.colors,
             },
          },
