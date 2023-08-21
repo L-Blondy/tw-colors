@@ -1,6 +1,6 @@
 # Welcome to [tw-colors](https://github.com/L-Blondy/tw-colors)
 
-Introducing the ultimate game-changer for your Tailwind app! Say goodbye to cluttered dark variants and messy CSS variables. With this tailwind plugin, switching between color themes is as effortless as changing one className. Elevate your design game and add a touch of vibrant color to your app today!
+Introducing the ultimate game-changer for your Tailwind app! Say goodbye to cluttered dark variants and messy CSS variables. With this tailwind plugin, switching between color themes is as effortless as changing one className.
 
 ## Highlights
 
