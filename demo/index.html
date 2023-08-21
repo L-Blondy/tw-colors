@@ -49,18 +49,21 @@
          <div class="bg-primary-nested-200">theme-dark: purplish</div>
       </div>
 
-      <div>With slash</div>
+      <div>With slash:</div>
       <div data-theme="dark">
-         <div class="bg-with/slash">slash</div>
+         <div class="bg-with/slash">grey</div>
       </div>
       <div data-theme="light">
-         <div class="bg-with/slash">slash</div>
+         <div class="theme-light bg-with/slash theme-light:text-red-300">black</div>
       </div>
 
       <div>Colors should work also when declared on the theme element</div>
       <ul>
          <li class="theme-light bg-primary">light</li>
          <li class="theme-dark bg-primary">dark</li>
+      </ul>
+      <ul>
+         <li class="bg-c1">default theme should apply</li>
       </ul>
       <script type="module" src="/index.js"></script>
    </body>

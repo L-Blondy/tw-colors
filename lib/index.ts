@@ -5,25 +5,31 @@ import flatten from 'flat';
 
 const SCHEME = Symbol('color-scheme');
 
-type ThemeName = string;
 type NestedColors = { [SCHEME]?: 'light' | 'dark' } & MaybeNested<string, string>;
 type FlatColors = { [SCHEME]?: 'light' | 'dark' } & Record<string, string>;
-type TwcObjectConfig = Record<ThemeName, NestedColors>;
-type TwcFunctionConfig = (scheme: { light: typeof light; dark: typeof dark }) => TwcObjectConfig;
+type TwcObjectConfig<ThemeName extends string> = Record<ThemeName, NestedColors>;
+type TwcFunctionConfig<ThemeName extends string> = (scheme: {
+   light: typeof light;
+   dark: typeof dark;
+}) => TwcObjectConfig<ThemeName>;
 
-export type TwcConfig = TwcObjectConfig | TwcFunctionConfig;
+export type TwcConfig<ThemeName extends string> =
+   | TwcObjectConfig<ThemeName>
+   | TwcFunctionConfig<ThemeName>;
 
-export interface TwcOptions {
-   getCssVariable?: (themeName: string) => string;
-   getThemeClassName?: (themeName: string) => string;
+export interface TwcOptions<ThemeName extends string> {
+   getCssVariable?: (colorName: string) => string;
+   getThemeClassName?: (themeName: ThemeName) => string;
+   defaultTheme?: NoInfer<ThemeName>;
 }
 
-export const resolveTwcConfig = (
-   config: TwcConfig = {},
+export const resolveTwcConfig = <ThemeName extends string>(
+   config: TwcConfig<ThemeName> = {} as TwcConfig<ThemeName>,
    {
       getCssVariable = defaultGetCssVariable,
       getThemeClassName = defaultGetThemeClassName,
-   }: TwcOptions = {},
+      defaultTheme,
+   }: TwcOptions<ThemeName> = {},
 ) => {
    const resolved: {
       variants: { name: string; definition: string[] }[];
@@ -45,11 +51,14 @@ export const resolveTwcConfig = (
    };
    const configObject = typeof config === 'function' ? config({ dark, light }) : config;
 
+   // @ts-ignore forEach types fail to assign themeName
    forEach(configObject, (colors: NestedColors, themeName: ThemeName) => {
       const themeClassName = getThemeClassName(themeName);
-      const cssSelector = `.${themeClassName},[data-theme="${themeName}"]`;
+      const cssSelector =
+         themeName === defaultTheme
+            ? `.${themeClassName},[data-theme="${themeName}"],:root`
+            : `.${themeClassName},[data-theme="${themeName}"]`;
       const flatColors = flattenColors(colors);
-
       // set the resolved.variants
       resolved.variants.push({
          name: `${themeClassName}`,
@@ -93,7 +102,10 @@ export const resolveTwcConfig = (
    return resolved;
 };
 
-export const createThemes = (config: TwcConfig = {}, options: TwcOptions = {}) => {
+export const createThemes = <ThemeName extends string>(
+   config: TwcConfig<ThemeName> = {} as TwcConfig<ThemeName>,
+   options: TwcOptions<ThemeName> = {},
+) => {
    const resolved = resolveTwcConfig(config, options);
 
    return plugin(
@@ -162,6 +174,24 @@ function light(colors: NestedColors): { [SCHEME]: 'light' } & MaybeNested<string
    };
 }
 
-interface MaybeNested<K extends keyof any = string, V = string> {
+interface MaybeNested<K extends keyof any = string, V extends string = string> {
    [key: string]: V | MaybeNested<K, V>;
 }
+
+type NoInfer<T> = [T][T extends any ? 0 : never];
+
+// createThemes(
+//    {
+//       light: {
+//          primary: 'red',
+//       },
+//       dark: {
+//          primary: 'blue',
+//          sec: { 100: '', 200: { 300: { 400: '' } } },
+//       },
+//    },
+//    {
+//       getThemeClassName: (themeName) => themeName,
+//       defaultTheme: 'dark',
+//    },
+// );
