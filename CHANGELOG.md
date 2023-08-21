@@ -1,6 +1,12 @@
 # Changelog
 
-## [2.1.0](https://github.com/L-Blondy/tw-colors/compare/v2.0.3...v2.1.0) - 2023-08-06
+## [2.1.1](https://github.com/L-Blondy/tw-colors/compare/v2.1.0...v2.1.1) - 2023-08-21
+
+### Fixed
+
+- Fixed a typescript error when using a functional config and the defaultTheme option
+
+## [2.1.0](https://github.com/L-Blondy/tw-colors/compare/v2.0.3...v2.1.0) - 2023-08-21
 
 ### breaking change:
 
