@@ -3,60 +3,27 @@ import plugin from 'tailwindcss/plugin';
 import forEach from 'lodash.foreach';
 import flatten from 'flat';
 
-interface MaybeNested<K extends keyof any = string, V = string> {
-   [key: string]: V | MaybeNested<K, V>;
-}
-
 const SCHEME = Symbol('color-scheme');
 
-export type Colors = MaybeNested<string, string>;
+type ThemeName = string;
+type NestedColors = { [SCHEME]?: 'light' | 'dark' } & MaybeNested<string, string>;
+type FlatColors = { [SCHEME]?: 'light' | 'dark' } & Record<string, string>;
+type TwcObjectConfig = Record<ThemeName, NestedColors>;
+type TwcFunctionConfig = (scheme: { light: typeof light; dark: typeof dark }) => TwcObjectConfig;
 
-export interface ColorsWithScheme<T> extends Colors {
-   [SCHEME]?: T;
-}
+export type TwcConfig = TwcObjectConfig | TwcFunctionConfig;
 
-interface FlatColorsWithScheme<T> extends Record<string, string> {
-   [SCHEME]?: T;
-}
-
-type SchemerFn<T> = (colors: Colors) => ColorsWithScheme<T>;
-
-const dark: SchemerFn<'dark'> = (colors) => ({
-   [SCHEME]: 'dark',
-   ...colors,
-});
-
-const light: SchemerFn<'light'> = (colors) => ({
-   [SCHEME]: 'light',
-   ...colors,
-});
-
-type HslaArray = [number, number, number, number | undefined];
-
-export const toHslaArray = (colorValue?: string): HslaArray => {
-   return Color(colorValue).hsl().round(1).array() as HslaArray;
-};
-
-export type ConfigObject = Record<string, ColorsWithScheme<'light' | 'dark'>>;
-export type ConfigFunction = ({
-   light,
-   dark,
-}: {
-   light: SchemerFn<'light'>;
-   dark: SchemerFn<'dark'>;
-}) => ConfigObject;
-
-export interface Options {
+export interface TwcOptions {
    getCssVariable?: (themeName: string) => string;
    getThemeClassName?: (themeName: string) => string;
 }
 
-export const resolveConfig = (
-   config: ConfigObject | ConfigFunction = {},
+export const resolveTwcConfig = (
+   config: TwcConfig = {},
    {
-      getCssVariable = (themeName: string) => `--twc-${themeName}`,
-      getThemeClassName = (themeName: string) => `theme-${themeName}`,
-   }: Options = {},
+      getCssVariable = defaultGetCssVariable,
+      getThemeClassName = defaultGetThemeClassName,
+   }: TwcOptions = {},
 ) => {
    const resolved: {
       variants: { name: string; definition: string[] }[];
@@ -78,31 +45,19 @@ export const resolveConfig = (
    };
    const configObject = typeof config === 'function' ? config({ dark, light }) : config;
 
-   forEach(configObject, (colors: ColorsWithScheme<'light' | 'dark'>, themeName: string) => {
-      const cssSelector = `.${getThemeClassName(themeName)},[data-theme="${themeName}"]`;
+   forEach(configObject, (colors: NestedColors, themeName: ThemeName) => {
+      const themeClassName = getThemeClassName(themeName);
+      const cssSelector = `.${themeClassName},[data-theme="${themeName}"]`;
+      const flatColors = flattenColors(colors);
 
-      resolved.utilities[cssSelector] = colors[SCHEME]
-         ? {
-              'color-scheme': colors[SCHEME],
-           }
-         : {};
-
-      // flatten color definitions
-      const flatColorsWithDEFAULT: FlatColorsWithScheme<'light' | 'dark'> = flatten(colors, {
-         safe: true,
-         delimiter: '-',
-      });
-
-      const flatColors = Object.entries(flatColorsWithDEFAULT).reduce((acc, [key, value]) => {
-         acc[key.replace(/\-DEFAULT$/, '')] = value;
-         return acc;
-      }, {} as FlatColorsWithScheme<'dark' | 'light'>);
-
-      // resolved.variants
+      // set the resolved.variants
       resolved.variants.push({
-         name: `${getThemeClassName(themeName)}`,
-         definition: [`&.${getThemeClassName(themeName)}`, `&[data-theme='${themeName}']`],
+         name: `${themeClassName}`,
+         definition: [`&.${themeClassName}`, `&[data-theme='${themeName}']`],
       });
+
+      // set the color-scheme css property
+      resolved.utilities[cssSelector] = colors[SCHEME] ? { 'color-scheme': colors[SCHEME] } : {};
 
       forEach(flatColors, (colorValue, colorName) => {
          // this case was handled above
@@ -111,7 +66,7 @@ export const resolveConfig = (
          const [h, s, l, defaultAlphaValue] = toHslaArray(colorValue);
          const twcColorVariable = getCssVariable(safeColorName);
          const twcOpacityVariable = `${getCssVariable(safeColorName)}-opacity`;
-         // set the css variable in "@layer utilities"
+         // add the css variable in "@layer utilities"
          resolved.utilities[cssSelector]![twcColorVariable] = `${h} ${s}% ${l}%`;
          // if an alpha value was provided in the color definition, store it in a css variable
          if (typeof defaultAlphaValue === 'number') {
@@ -124,8 +79,8 @@ export const resolveConfig = (
                return `hsl(var(${twcColorVariable}) / ${opacityValue})`;
             }
             // if no opacityValue was provided (=it is not parsable to a number)
-            // the twcOpacityVariable (opacity defined in the color definition rgb(0, 0, 0, 0.5)) should have the priority
-            // over the tw class based opacity(e.g. "bg-opacity-90")
+            // the twcOpacityVariable (opacity defined in the color definition rgb(0, 0, 0, 0.5))
+            // should have the priority over the tw class based opacity(e.g. "bg-opacity-90")
             // This is how tailwind behaves as for v3.2.4
             if (opacityVariable) {
                return `hsl(var(${twcColorVariable}) / var(${twcOpacityVariable}, var(${opacityVariable})))`;
@@ -138,17 +93,15 @@ export const resolveConfig = (
    return resolved;
 };
 
-export const createThemes = (config: ConfigObject | ConfigFunction = {}, options: Options = {}) => {
-   const resolved = resolveConfig(config, options);
+export const createThemes = (config: TwcConfig = {}, options: TwcOptions = {}) => {
+   const resolved = resolveTwcConfig(config, options);
 
    return plugin(
       ({ addUtilities, addVariant }) => {
          // add the css variables to "@layer utilities"
          addUtilities(resolved.utilities);
          // add the theme as variant e.g. "theme-[name]:text-2xl"
-         resolved.variants.forEach((variant) => {
-            addVariant(variant.name, variant.definition);
-         });
+         resolved.variants.forEach(({ name, definition }) => addVariant(name, definition));
       },
       // extend the colors config
       {
@@ -169,4 +122,46 @@ function escapeChars(str: string, ...chars: string[]) {
       result = str.replace(regexp, '\\' + char);
    }
    return result;
+}
+
+function flattenColors(colors: NestedColors) {
+   const flatColorsWithDEFAULT: FlatColors = flatten(colors, {
+      safe: true,
+      delimiter: '-',
+   });
+
+   return Object.entries(flatColorsWithDEFAULT).reduce((acc, [key, value]) => {
+      acc[key.replace(/\-DEFAULT$/, '')] = value;
+      return acc;
+   }, {} as FlatColors);
+}
+
+function toHslaArray(colorValue?: string) {
+   return Color(colorValue).hsl().round(1).array() as [number, number, number, number | undefined];
+}
+
+function defaultGetCssVariable(themeName: string) {
+   return `--twc-${themeName}`;
+}
+
+function defaultGetThemeClassName(themeName: string) {
+   return `theme-${themeName}`;
+}
+
+function dark(colors: NestedColors): { [SCHEME]: 'dark' } & NestedColors {
+   return {
+      ...colors,
+      [SCHEME]: 'dark',
+   };
+}
+
+function light(colors: NestedColors): { [SCHEME]: 'light' } & NestedColors {
+   return {
+      ...colors,
+      [SCHEME]: 'light',
+   };
+}
+
+interface MaybeNested<K extends keyof any = string, V = string> {
+   [key: string]: V | MaybeNested<K, V>;
 }
