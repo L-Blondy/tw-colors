@@ -291,11 +291,12 @@ Some options can be passed as the second argument to the plugin
 
 ```js
 createThemes({
-   // your colors config goes here 
+   // your colors config here...
 }, {
    defaultTheme: 'light',
    getCssVariable: (colorName) => `--twc-${colorName}`,
    getThemeClassName: (themeName) => `theme-${themeName}`,
+   strict: false,
 })
 ```
 
@@ -303,7 +304,7 @@ createThemes({
 
 The default theme to use, think of it as a fallback theme.
 
-**Example** 
+*Example*
 ```js
 createThemes({
    'light': { 
@@ -314,6 +315,29 @@ createThemes({
    },
 }, {
    defaultTheme: 'light' // 'light' | 'dark'
+})
+```
+
+### <samp>strict</samp>
+
+**default**: `false`
+
+By default **tw-colors** ignores invalid colors. \
+With `strict: true` invalid colors produce an error.
+
+*Example*
+```js
+createThemes({
+   'light': { 
+      // invalid color
+      'primary': 'redish',
+   },
+   'dark': { 
+      'primary': 'turquoise',
+   },
+}, {
+   // an error will be thrown
+   strict: true
 })
 ```
 

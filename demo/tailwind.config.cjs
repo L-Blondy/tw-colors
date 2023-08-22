@@ -17,7 +17,7 @@ module.exports = {
                c1: 'purple',
             },
          },
-         { defaultTheme: 't2' },
+         { defaultTheme: 't2', strict: false },
       ),
       createThemes(
          ({ light, dark }) => ({

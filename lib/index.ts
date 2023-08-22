@@ -21,7 +21,8 @@ export type TwcConfig<ThemeName extends string = string> =
 export interface TwcOptions<ThemeName extends string = string> {
    getCssVariable?: (colorName: string) => string;
    getThemeClassName?: (themeName: ThemeName) => string;
-   defaultTheme?: NoInfer<ThemeName> | {}; // "| {}" avoids ts error in case the config is functional
+   defaultTheme?: NoInfer<ThemeName> | (string & {}); // "| (string & {})" avoids ts error in case the config is functional
+   strict?: boolean;
 }
 
 /**
@@ -34,6 +35,7 @@ export const resolveTwcConfig = <ThemeName extends string>(
       getCssVariable = defaultGetCssVariable,
       getThemeClassName = defaultGetThemeClassName,
       defaultTheme,
+      strict = false,
    }: TwcOptions<ThemeName> = {},
 ) => {
    const resolved: {
@@ -55,7 +57,6 @@ export const resolveTwcConfig = <ThemeName extends string>(
       colors: {},
    };
    const configObject = typeof config === 'function' ? config({ dark, light }) : config;
-
    // @ts-ignore forEach types fail to assign themeName
    forEach(configObject, (colors: NestedColors, themeName: ThemeName) => {
       const themeClassName = getThemeClassName(themeName);
@@ -77,7 +78,17 @@ export const resolveTwcConfig = <ThemeName extends string>(
          // this case was handled above
          if ((colorName as any) === SCHEME) return;
          const safeColorName = escapeChars(colorName, '/');
-         const [h, s, l, defaultAlphaValue] = toHslaArray(colorValue);
+         let [h, s, l, defaultAlphaValue]: HslaArray = [0, 0, 0, 1];
+         try {
+            [h, s, l, defaultAlphaValue] = toHslaArray(colorValue);
+         } catch (error: any) {
+            const message = `\r\nWarning - In theme "${themeName}" color "${colorName}". ${error.message}`;
+
+            if (strict) {
+               throw new Error(message);
+            }
+            return console.error(message);
+         }
          const twcColorVariable = getCssVariable(safeColorName);
          const twcOpacityVariable = `${getCssVariable(safeColorName)}-opacity`;
          // add the css variable in "@layer utilities"
@@ -154,7 +165,7 @@ function flattenColors(colors: NestedColors) {
 }
 
 function toHslaArray(colorValue?: string) {
-   return Color(colorValue).hsl().round(1).array() as [number, number, number, number | undefined];
+   return Color(colorValue).hsl().round(1).array() as HslaArray;
 }
 
 function defaultGetCssVariable(themeName: string) {
@@ -184,3 +195,5 @@ interface MaybeNested<K extends keyof any = string, V extends string = string> {
 }
 
 type NoInfer<T> = [T][T extends any ? 0 : never];
+
+type HslaArray = [number, number, number, number | undefined];
