@@ -322,8 +322,8 @@ createThemes({
 
 **default**: `false`
 
-By default **tw-colors** ignores invalid colors. \
-With `strict: true` invalid colors produce an error.
+If `false` invalid colors are ignored. \
+If `true` invalid colors produce an error.
 
 *Example*
 ```js
