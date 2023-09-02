@@ -65,6 +65,17 @@
       <ul>
          <li class="bg-c1">default theme should apply</li>
       </ul>
+      <h2>Theme nesting</h2>
+      <div class="theme-dark">
+         <div class="theme-light">
+            <div class="bg-primary">Primary Orange</div>
+         </div>
+      </div>
+      <div class="theme-light">
+         <div class="theme-dark">
+            <div class="bg-primary">Primary Red</div>
+         </div>
+      </div>
       <script type="module" src="/index.js"></script>
    </body>
 </html>
