@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.0.0](https://github.com/L-Blondy/tw-colors/compare/v2.2.0...v3.0.0) - 2023-09-04
+
+### Added
+- The variants can now be declared anywhere without having to redeclare the theme.
+- New option `produceThemeVariant` to customize the variant names. It will fallback to `produceThemeClass` if omitted
+
+### breaking changes:
+- Renamed the option `getCssVariable` to `produceCssVariable`.
+- Renamed the option `getThemeClassName` to `produceThemeClass`. The default return value is now the `themeName` instead of <code>`theme-${themeName}`</code>
+
 ## [2.2.0](https://github.com/L-Blondy/tw-colors/compare/v2.1.1...v2.2.0) - 2023-08-22
 
 ### Added
@@ -14,7 +24,7 @@
 
 ## [2.1.0](https://github.com/L-Blondy/tw-colors/compare/v2.0.3...v2.1.0) - 2023-08-21
 
-### breaking change:
+### breaking changes:
 
 - `resolveConfig` was renamed to `resolveTwcConfig`
 - Only two types are exposed: `TwcConfig` and `TwcOptions`, corresponding to `createThemes(TwcConfig, TwcOptions)` and `resolveTwcConfig(TwcConfig, TwcOptions)`. Previously exposed types are no longer valid.
@@ -25,7 +35,7 @@
 
 ## [2.0.3](https://github.com/L-Blondy/tw-colors/compare/v1.2.6...v2.0.3) - 2023-08-06
 
-### breaking change:
+### breaking changes:
 
 - Dropped support for the `cssVariablePrefix` and `cssVariableSuffix` options. Check out the new `getCssVariable` Option
 

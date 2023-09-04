@@ -17,7 +17,11 @@ module.exports = {
                c1: 'purple',
             },
          },
-         { defaultTheme: 't2', strict: false },
+         {
+            defaultTheme: 't2',
+            strict: false,
+            produceThemeVariant: (themeName) => `theme-${themeName}`,
+         },
       ),
       createThemes(
          ({ light, dark }) => ({
@@ -47,8 +51,7 @@ module.exports = {
             }),
          }),
          {
-            getCssVariable: (colorName) => `--test-${colorName}`,
-            getThemeClassName: (themeName) => `theme-${themeName}`,
+            produceThemeVariant: (themeName) => `theme-${themeName}`,
          },
       ),
    ],

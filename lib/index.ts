@@ -14,13 +14,26 @@ type TwcFunctionConfig<ThemeName extends string> = (scheme: {
    dark: typeof dark;
 }) => TwcObjectConfig<ThemeName>;
 
+type ResolvedVariants = Array<{ name: string; definition: string[] }>;
+type ResolvedUtilities = { [selector: string]: Record<string, string> };
+type ResolvedColors = {
+   [colorName: string]: ({
+      opacityValue,
+      opacityVariable,
+   }: {
+      opacityValue: string;
+      opacityVariable: string;
+   }) => string;
+};
+
 export type TwcConfig<ThemeName extends string = string> =
    | TwcObjectConfig<ThemeName>
    | TwcFunctionConfig<ThemeName>;
 
 export interface TwcOptions<ThemeName extends string = string> {
-   getCssVariable?: (colorName: string) => string;
-   getThemeClassName?: (themeName: ThemeName) => string;
+   produceCssVariable?: (colorName: string) => string;
+   produceThemeClass?: (themeName: ThemeName) => string;
+   produceThemeVariant?: (themeName: ThemeName) => string;
    defaultTheme?: NoInfer<ThemeName> | (string & {}); // "| (string & {})" avoids ts error in case the config is functional
    strict?: boolean;
 }
@@ -32,25 +45,17 @@ export interface TwcOptions<ThemeName extends string = string> {
 export const resolveTwcConfig = <ThemeName extends string>(
    config: TwcConfig<ThemeName> = emptyConfig,
    {
-      getCssVariable = defaultGetCssVariable,
-      getThemeClassName = defaultGetThemeClassName,
+      produceCssVariable = defaultProduceCssVariable,
+      produceThemeClass = defaultProduceThemeClass,
+      produceThemeVariant = produceThemeClass,
       defaultTheme,
       strict = false,
    }: TwcOptions<ThemeName> = {},
 ) => {
    const resolved: {
-      variants: { name: string; definition: string[] }[];
-      utilities: Record<string, Record<string, string>>;
-      colors: Record<
-         string,
-         ({
-            opacityValue,
-            opacityVariable,
-         }: {
-            opacityValue: string;
-            opacityVariable: string;
-         }) => string
-      >;
+      variants: ResolvedVariants;
+      utilities: ResolvedUtilities;
+      colors: ResolvedColors;
    } = {
       variants: [],
       utilities: {},
@@ -59,16 +64,40 @@ export const resolveTwcConfig = <ThemeName extends string>(
    const configObject = typeof config === 'function' ? config({ dark, light }) : config;
    // @ts-ignore forEach types fail to assign themeName
    forEach(configObject, (colors: NestedColors, themeName: ThemeName) => {
-      const themeClassName = getThemeClassName(themeName);
-      const cssSelector =
-         themeName === defaultTheme
-            ? `.${themeClassName},[data-theme="${themeName}"],:root`
-            : `.${themeClassName},[data-theme="${themeName}"]`;
+      const themeClassName = produceThemeClass(themeName);
+      const themeVariant = produceThemeVariant(themeName);
+      const isDefault = themeName === defaultTheme;
+
+      const cssSelector = [
+         `.${themeClassName}`,
+         `[data-theme="${themeName}"]`,
+         isDefault && ':root',
+      ]
+         .filter(Boolean)
+         .join(',');
+
       const flatColors = flattenColors(colors);
       // set the resolved.variants
       resolved.variants.push({
-         name: `${themeClassName}`,
-         definition: [`&.${themeClassName}`, `&[data-theme='${themeName}']`],
+         name: themeVariant,
+         // tailwind will generate only the first matched definition
+         definition: [
+            `.${themeClassName}&`,
+            `.${themeClassName} > &:not([data-theme])`,
+            `.${themeClassName} &:not(.${themeClassName} [data-theme]:not(.${themeClassName}) * )`,
+            `.${themeClassName}:not(:has([data-theme])) &:not([data-theme])`, // See the browser support: https://caniuse.com/css-has
+            `[data-theme='${themeName}']&`,
+            `[data-theme='${themeName}'] > &:not([data-theme])`,
+            `[data-theme='${themeName}'] &:not([data-theme='${themeName}'] [data-theme]:not([data-theme='${themeName}']) * )`,
+            `[data-theme='${themeName}']:not(:has([data-theme])) &:not([data-theme])`, // See the browser support: https://caniuse.com/css-has
+            ...(isDefault
+               ? [
+                    `&:root`,
+                    `:root > &:not([data-theme])`,
+                    `:root &:not([data-theme] *):not([data-theme])`,
+                 ]
+               : []),
+         ],
       });
 
       // set the color-scheme css property
@@ -89,8 +118,8 @@ export const resolveTwcConfig = <ThemeName extends string>(
             }
             return console.error(message);
          }
-         const twcColorVariable = getCssVariable(safeColorName);
-         const twcOpacityVariable = `${getCssVariable(safeColorName)}-opacity`;
+         const twcColorVariable = produceCssVariable(safeColorName);
+         const twcOpacityVariable = `${produceCssVariable(safeColorName)}-opacity`;
          // add the css variable in "@layer utilities"
          resolved.utilities[cssSelector]![twcColorVariable] = `${h} ${s}% ${l}%`;
          // if an alpha value was provided in the color definition, store it in a css variable
@@ -168,12 +197,12 @@ function toHslaArray(colorValue?: string) {
    return Color(colorValue).hsl().round(1).array() as HslaArray;
 }
 
-function defaultGetCssVariable(themeName: string) {
+function defaultProduceCssVariable(themeName: string) {
    return `--twc-${themeName}`;
 }
 
-function defaultGetThemeClassName(themeName: string) {
-   return `theme-${themeName}`;
+function defaultProduceThemeClass(themeName: string) {
+   return themeName;
 }
 
 function dark(colors: NestedColors): { [SCHEME]: 'dark' } & MaybeNested<string, string> {

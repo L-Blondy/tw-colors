@@ -7,73 +7,265 @@
       <title>Document</title>
    </head>
    <body>
-      <div data-theme="t1">
-         <div class="bg-c1">Should have {opacity: 1}</div>
-         <div class="bg-c1/10">Should have {opacity: 0.1}</div>
-         <div class="bg-c1 bg-opacity-10">Should have {opacity: 0.1}</div>
-      </div>
+      <div style="display: flex">
+         <!-- DATA ATTRIBUTES -->
+         <div style="width: 50%; padding-bottom: 60px">
+            <h2>Color Opacity</h2>
+            <div data-theme="t1">
+               <div class="bg-c1">Should have {opacity: 1}</div>
+               <div class="bg-c1/10">Should have {opacity: 0.1}</div>
+               <div class="bg-c1 bg-opacity-10">Should have {opacity: 0.1}</div>
+            </div>
 
-      <div data-theme="t2">
-         <div class="bg-c1">Should have {opacity: 0.5}, 1 with t3 theme</div>
-         <div class="bg-c1/[0.2]">Should have {opacity: 0.2}</div>
-         <div class="bg-c1 bg-opacity-20">Should have {opacity: 0.5}, 0.2 with t3 theme</div>
-      </div>
+            <div data-theme="t2">
+               <div class="bg-c1">Should have {opacity: 0.5}, 1 with t3 theme</div>
+               <div class="bg-c1/[0.2]">Should have {opacity: 0.2}</div>
+               <div class="bg-c1 bg-opacity-20">Should have {opacity: 0.5}, 0.2 with t3 theme</div>
+            </div>
 
-      <button
-         onclick="document.querySelectorAll('[data-theme]').forEach(el=>{el.dataset.theme='t3'})"
-      >
-         Activate t3 theme
-      </button>
+            <button
+               onclick="document.querySelectorAll('[data-theme]').forEach(el=>{el.dataset.theme='t3'})"
+            >
+               Activate t3 theme
+            </button>
 
-      <br />
+            <br />
 
-      <div data-theme="light">
-         <div class="bg-primary">theme-light default: orange</div>
-         <div class="bg-primary-100">theme-light: red</div>
-         <div class="bg-primary-200">theme-light: blue</div>
-         <div class="bg-primary-nested-100">theme-light: blueish</div>
-         <div class="bg-primary-nested-100 bg-opacity-20">theme-light: blueish</div>
-         <div class="bg-primary-nested-100/20">theme-light: blueish {opacity: 0.2}</div>
-         <div class="bg-primary-nested-200">theme-light: salmonish</div>
-         <div class="bg-primary-nested-200 bg-opacity-20">theme-light: salmonish</div>
-         <div class="bg-primary-nested-200/20">theme-light: salmonish {opacity: 0.2}</div>
-      </div>
+            <h2>Nested config</h2>
+            <div data-theme="light">
+               <div class="bg-primary">theme-light default: orange</div>
+               <div class="bg-primary-100">theme-light: red</div>
+               <div class="bg-primary-200">theme-light: blue</div>
+               <div class="bg-primary-nested-100">theme-light: blueish</div>
+               <div class="bg-primary-nested-100 bg-opacity-20">theme-light: blueish</div>
+               <div class="bg-primary-nested-100/20">theme-light: blueish {opacity: 0.2}</div>
+               <div class="bg-primary-nested-200">theme-light: salmonish</div>
+               <div class="bg-primary-nested-200 bg-opacity-20">theme-light: salmonish</div>
+               <div class="bg-primary-nested-200/20">theme-light: salmonish {opacity: 0.2}</div>
+            </div>
 
-      <div data-theme="dark">
-         <div class="bg-primary">theme-dark default: red</div>
-         <div class="bg-primary-100">theme-dark: lime</div>
-         <div class="bg-primary-100 bg-opacity-20">theme-dark: lime {opacity: 0.2}</div>
-         <div class="bg-primary-200">theme-dark: pink</div>
-         <div class="bg-primary-200 bg-opacity-20">theme-dark: pink {opacity: 0.2}</div>
-         <div class="bg-primary-nested-100">theme-dark: limish</div>
-         <div class="bg-primary-nested-200">theme-dark: purplish</div>
-      </div>
+            <div data-theme="dark">
+               <div class="bg-primary">theme-dark default: red</div>
+               <div class="bg-primary-100">theme-dark: lime</div>
+               <div class="bg-primary-100 bg-opacity-20">theme-dark: lime {opacity: 0.2}</div>
+               <div class="bg-primary-200">theme-dark: pink</div>
+               <div class="bg-primary-200 bg-opacity-20">theme-dark: pink {opacity: 0.2}</div>
+               <div class="bg-primary-nested-100">theme-dark: limish</div>
+               <div class="bg-primary-nested-200">theme-dark: purplish</div>
+            </div>
 
-      <div>With slash:</div>
-      <div data-theme="dark">
-         <div class="bg-with/slash">grey</div>
-      </div>
-      <div data-theme="light">
-         <div class="theme-light bg-with/slash theme-light:text-red-300">black</div>
-      </div>
+            <div>Colors with slash:</div>
+            <div data-theme="dark">
+               <div class="bg-with/slash">grey</div>
+            </div>
+            <div data-theme="light">
+               <div class="bg-with/slash theme-light:text-red-300">black</div>
+            </div>
 
-      <div>Colors should work also when declared on the theme element</div>
-      <ul>
-         <li class="theme-light bg-primary">light</li>
-         <li class="theme-dark bg-primary">dark</li>
-      </ul>
-      <ul>
-         <li class="bg-c1">default theme should apply</li>
-      </ul>
-      <h2>Theme nesting</h2>
-      <div class="theme-dark">
-         <div class="theme-light">
-            <div class="bg-primary">Primary Orange</div>
+            <div>
+               Colors should work also when declared on the theme element, as well as variants
+            </div>
+            <ul>
+               <li
+                  data-theme="light"
+                  class="bg-primary theme-light:border theme-light:border-black"
+               >
+                  light with black border
+               </li>
+               <li data-theme="dark" class="bg-primary">dark</li>
+            </ul>
+            <ul>
+               <li class="bg-c1 theme-t2:border theme-t2:border-black">
+                  default theme should apply (blueish)
+               </li>
+            </ul>
+            <h2>Theme nesting and variants</h2>
+            <div data-theme="dark">
+               <div data-theme="light">
+                  <div
+                     class="bg-primary theme-dark:rounded-full theme-light:border theme-light:border-black"
+                  >
+                     Primary Orange (should have no border-radius, should have a black border)
+                  </div>
+               </div>
+            </div>
+            <div data-theme="light">
+               <div data-theme="dark">
+                  <div class="bg-primary">Primary Red</div>
+               </div>
+            </div>
+            <div data-theme="dark">
+               <div data-theme="dark">
+                  <div class="bg-primary">Primary Red</div>
+               </div>
+            </div>
+            <h2>Nested variants with default theme</h2>
+            <div data-theme="t1">
+               <div class="bg-c1 theme-t2:border theme-t2:border-black">Should have NO border</div>
+            </div>
+            <div data-theme="t1">
+               <div>
+                  <div class="bg-c1 theme-t2:border theme-t2:border-black">
+                     Should have NO border
+                  </div>
+               </div>
+            </div>
+            <div data-theme="t2">
+               <div data-theme="t1">
+                  <div>
+                     <div class="bg-c1 theme-t2:border theme-t2:border-black">
+                        Should have NO border
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div data-theme="t2">
+               <div class="bg-c1 theme-t2:border theme-t2:border-black">Should have a border</div>
+            </div>
+            <div data-theme="t2">
+               <div>
+                  <div data-theme="t1">
+                     <div>
+                        <div data-theme="t2">
+                           <div>
+                              <div class="bg-c1 theme-t2:border theme-t2:border-black">
+                                 Should have a border
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div>
+               <div class="bg-c1 theme-t2:border theme-t2:border-black">Should have a border</div>
+            </div>
          </div>
-      </div>
-      <div class="theme-light">
-         <div class="theme-dark">
-            <div class="bg-primary">Primary Red</div>
+         <!-- CLASSNAMES -->
+         <div style="width: 50%; padding-bottom: 60px">
+            <h2>Color Opacity</h2>
+            <div data-theme class="t1">
+               <div class="bg-c1">Should have {opacity: 1}</div>
+               <div class="bg-c1/10">Should have {opacity: 0.1}</div>
+               <div class="bg-c1 bg-opacity-10">Should have {opacity: 0.1}</div>
+            </div>
+
+            <div data-theme class="t2">
+               <div class="bg-c1">Should have {opacity: 0.5}, 1 with t3 theme</div>
+               <div class="bg-c1/[0.2]">Should have {opacity: 0.2}</div>
+               <div class="bg-c1 bg-opacity-20">Should have {opacity: 0.5}, 0.2 with t3 theme</div>
+            </div>
+
+            <button>noop</button>
+
+            <br />
+
+            <h2>Nested config</h2>
+            <div data-theme class="light">
+               <div class="bg-primary">theme-light default: orange</div>
+               <div class="bg-primary-100">theme-light: red</div>
+               <div class="bg-primary-200">theme-light: blue</div>
+               <div class="bg-primary-nested-100">theme-light: blueish</div>
+               <div class="bg-primary-nested-100 bg-opacity-20">theme-light: blueish</div>
+               <div class="bg-primary-nested-100/20">theme-light: blueish {opacity: 0.2}</div>
+               <div class="bg-primary-nested-200">theme-light: salmonish</div>
+               <div class="bg-primary-nested-200 bg-opacity-20">theme-light: salmonish</div>
+               <div class="bg-primary-nested-200/20">theme-light: salmonish {opacity: 0.2}</div>
+            </div>
+
+            <div data-theme class="dark">
+               <div class="bg-primary">theme-dark default: red</div>
+               <div class="bg-primary-100">theme-dark: lime</div>
+               <div class="bg-primary-100 bg-opacity-20">theme-dark: lime {opacity: 0.2}</div>
+               <div class="bg-primary-200">theme-dark: pink</div>
+               <div class="bg-primary-200 bg-opacity-20">theme-dark: pink {opacity: 0.2}</div>
+               <div class="bg-primary-nested-100">theme-dark: limish</div>
+               <div class="bg-primary-nested-200">theme-dark: purplish</div>
+            </div>
+
+            <div>Colors with slash:</div>
+            <div data-theme class="dark">
+               <div class="bg-with/slash">grey</div>
+            </div>
+            <div data-theme class="light">
+               <div class="bg-with/slash theme-light:text-red-300">black</div>
+            </div>
+
+            <div>
+               Colors should work also when declared on the theme element, as well as variants
+            </div>
+            <ul>
+               <li data-theme class="light bg-primary theme-light:border theme-light:border-black">
+                  light with black border
+               </li>
+               <li data-theme class="dark bg-primary">dark</li>
+            </ul>
+            <ul>
+               <li class="bg-c1 theme-t2:border theme-t2:border-black">
+                  default theme should apply (blueish)
+               </li>
+            </ul>
+            <h2>Theme nesting and variants</h2>
+            <div data-theme class="dark">
+               <div data-theme class="light">
+                  <div
+                     class="bg-primary theme-dark:rounded-full theme-light:border theme-light:border-black"
+                  >
+                     Primary Orange (should have no border-radius, should have a black border)
+                  </div>
+               </div>
+            </div>
+            <div data-theme class="light">
+               <div data-theme class="dark">
+                  <div class="bg-primary">Primary Red</div>
+               </div>
+            </div>
+            <div data-theme class="dark">
+               <div data-theme class="dark">
+                  <div class="bg-primary">Primary Red</div>
+               </div>
+            </div>
+            <h2>Nested variants with default theme</h2>
+            <div data-theme class="t1">
+               <div class="bg-c1 theme-t2:border theme-t2:border-black">Should have NO border</div>
+            </div>
+            <div data-theme class="t1">
+               <div>
+                  <div class="bg-c1 theme-t2:border theme-t2:border-black">
+                     Should have NO border
+                  </div>
+               </div>
+            </div>
+            <div data-theme class="t2">
+               <div data-theme class="t1">
+                  <div>
+                     <div class="bg-c1 theme-t2:border theme-t2:border-black">
+                        Should have NO border
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div data-theme class="t2">
+               <div class="bg-c1 theme-t2:border theme-t2:border-black">Should have a border</div>
+            </div>
+            <div data-theme class="t2">
+               <div>
+                  <div data-theme class="t1">
+                     <div>
+                        <div data-theme class="t2">
+                           <div>
+                              <div class="bg-c1 theme-t2:border theme-t2:border-black">
+                                 Should have a border
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div>
+               <div class="bg-c1 theme-t2:border theme-t2:border-black">Should have a border</div>
+            </div>
          </div>
       </div>
       <script type="module" src="/index.js"></script>

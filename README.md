@@ -4,20 +4,24 @@ Introducing the ultimate game-changer for your Tailwind app! Say goodbye to clut
 
 ## Highlights
 
-* 🚀 **No markup change required**,  no need to refactor your existing code.
 * 📦 **Zero javascript** added to the bundle size, it's just some CSS!
-* ✨ **All color formats** are supported, including HEX, RGB, HSL, and named colors
-* 🤩 **Fine-grained theming** with variants
+* 🚀 **Fully customizable**, tailor it to your needs
+* 🎯 **Fine-grained theming** with variants
+* 🤩 **Nested themes** for complex layouts
+* ✨ **All color formats are supported**, including HEX, RGB, HSL, and named colors
 * 💫 **Full [Tailwind CSS Intellisense][tailwind-intellisense-url] support** 🔥🔥🔥
- 
 
-## The Gist
+## Changelog
+
+See the full [changelog here](https://github.com/L-Blondy/tw-colors/blob/master/CHANGELOG.md) 
+
+## Usage
 
 ```bash
 npm i -D tw-colors
 ```
 
-Take an existing tailwind config and move the colors in the `createTheme` plugin, giving it a name (e.g. light).
+Take an existing tailwind config and move the colors in the `createThemes` plugin, giving it a name (e.g. light).
 
 *tailwind.config.js*
 ```diff
@@ -47,12 +51,13 @@ Take an existing tailwind config and move the colors in the `createTheme` plugin
 
 ```
 
-Apply the `theme-light` class anywhere in your app. \
-Alternatively you can use data attributes `data-theme="light"`
+Apply `class='light'` or `data-theme='light'` anywhere in your app. 
+
+*See the [options](https://github.com/L-Blondy/tw-colors/tree/master#producethemeclass) to customize the className*
 
 ```diff
 -  <html>
-+  <html class='theme-light'>
++  <html class='light'>
       ...
       <div class='bg-brand'>
          <h1 class='text-primary'>...</h1>
@@ -64,11 +69,7 @@ Alternatively you can use data attributes `data-theme="light"`
 
 That's it, you site has a light theme!
 
-## Usage
-
-### Add multiple themes
-
-Inside the `createThemes` function, define multiple color themes that use the same color names.
+### Add more themes
 
 *tailwind.config.js*
 ```diff
@@ -98,38 +99,52 @@ Inside the `createThemes` function, define multiple color themes that use the sa
    };
 ```
 
+You now have a **light**, a **dark** and a **forest** theme!
+
 ### Switching themes
 
-Simply switch the className.
+Simply switch the *class* or the *data-theme* attribute
 
 ```diff
--  <html class='theme-light'>
-+  <html class='theme-dark'>
+-  <html class='light'>
++  <html class='dark'>
       ...
    </html>
 ```
-
-...or the *data-theme* attribute
-
-```diff
--  <html data-theme='light'>
-+  <html data-theme='dark'>
-      ...
-   </html>
-```
-
-## Advanced usage
 
 ### Nested themes
 
+#### With <samp>data-theme</samp>
+
+Just nest the themes...
+
 ```diff
-   <html class='theme-dark'>
+   <html data-theme='dark'>
       ...
-      <div class='theme-light'>
+      <div data-theme='light'>
          ...
       </div>
 
-      <div class='theme-forest'>
+      <div data-theme='forest'>
+         ...
+      </div>
+   </html>
+```
+
+
+
+#### With <samp>class</samp>
+
+For [variants](https://github.com/L-Blondy/tw-colors/tree/master#variants) to work properly in nested themes, an empty `data-theme` attribute must be added alongside nested theme class
+
+```diff
+   <html class='dark'>
+      ...
+      <div data-theme class='light'>
+         ...
+      </div>
+
+      <div data-theme class='forest'>
          ...
       </div>
    </html>
@@ -137,48 +152,22 @@ Simply switch the className.
 
 ###  Variants
 
-Based on the current themes, specific styles can be applied with variants
+Based on the current theme, specific styles can be applied using variants.
+
+**Note:** In the following example the variants would have no effect with `data-theme='light'`
 
 ```html
-   <!-- Use "serif" font for the dark theme, "sans" font for all other themes -->
-
-   <div class='theme-dark font-sans theme-dark:font-serif'>
+   <!-- Use "serif" font for the dark theme only -->
+   <div data-theme='dark' class='font-sans dark:font-serif'>
       ...
       <div>Serif font here</div>
-   </div>
 
-   <div class='theme-light font-sans theme-dark:font-serif'>
-      ...
-      <div>Sans font here</div>
+      <!-- this button is rounded when the theme is `dark` -->
+      <button class='dark:rounded'>Click Me</button>
    </div>
 ```
 
-Variants only work alongside theme declarations
-
-❌ Does not work
-
-```html
-   <html class='theme-dark font-sans'>
-      ...
-      <div class='theme-dark:font-serif'>
-         ❌ Sans font here
-      </div>
-   </html>
-```
-
-
-✅ Works fine
-
-```html
-   <html class='theme-dark font-sans theme-dark:font-serif'>
-      ...
-      <div>
-         ✅ Serif font here
-      </div>
-   </html>
-```
-
-*Note: this feature might be added in future versions based on community feedback*
+*See the [options](https://github.com/L-Blondy/tw-colors/tree/master#producethemevariant) to customize the variant name*
 
 <details>
    <summary>
@@ -222,32 +211,26 @@ Variants only work alongside theme declarations
 ### CSS color-scheme
 
 `createThemes` also accepts a function that exposes the `light` and `dark` functions. \
-To apply the `color-scheme` CSS property, simply wrap your themes with `light` or `dark`."
+To apply the `color-scheme` CSS property, simply wrap a theme with `light` or `dark`."
+
+
+See the [MDN docs][mdn-color-scheme] for more details on this feature.
 
 *tailwind.config.js*
 ```js
-   const { createThemes } = require('tw-colors');
-
-   module.exports = {
-      // ...your tailwind config
-      plugins: [
-         createThemes(({ light, dark }) => ({
-            'my-light-theme': light({ 
-               'primary': 'steelblue',
-               'secondary': 'darkblue',
-               'brand': '#F3F3F3',
-            }),
-            'my-dark-theme': dark({ 
-               'primary': 'turquoise',
-               'secondary': 'tomato',
-               'brand': '#4A4A4A',
-            }),
-         }))
-      ],
-   };
+createThemes(({ light, dark }) => ({
+   'my-light-theme': light({ 
+      'primary': 'steelblue',
+      'secondary': 'darkblue',
+      'brand': '#F3F3F3',
+   }),
+   'my-dark-theme': dark({ 
+      'primary': 'turquoise',
+      'secondary': 'tomato',
+      'brand': '#4A4A4A',
+   }),
+}))
 ```
-
-See the [MDN docs][mdn-color-scheme] for more details on this feature.
 
 ### CSS Variables
 
@@ -285,24 +268,27 @@ Example usage:
 }
 ```
 
+*See the [options](https://github.com/L-Blondy/tw-colors/tree/master#producecssvariable) to customize the css variables*
+
 ## Options
 
-Some options can be passed as the second argument to the plugin
+The options can be passed as the second argument to the plugin
 
 ```js
 createThemes({
    // your colors config here...
 }, {
-   defaultTheme: 'light',
-   getCssVariable: (colorName) => `--twc-${colorName}`,
-   getThemeClassName: (themeName) => `theme-${themeName}`,
-   strict: false,
+   produceCssVariable: (colorName) => `--twc-${colorName}`,
+   produceThemeClass: (themeName) => `theme-${themeName}`
+   produceThemeVariant: (themeName) => `theme-${themeName}`
+   defaultTheme: 'light'
+   strict: false
 })
 ```
 
 ### <samp>defaultTheme</samp>
 
-The default theme to use, think of it as a fallback theme.
+The default theme to use, think of it as a fallback theme when no theme is declared.
 
 *Example*
 ```js
@@ -341,16 +327,16 @@ createThemes({
 })
 ```
 
-### <samp>getCssVariable</samp>
+### <samp>produceCssVariable</samp>
 
 **default**: <code>(colorName) => \`--twc-${colorName}\`</code>
 
-Lets you customize the css variables generated by the plugin.
+Customize the css variables generated by the plugin.
 
 With the below configuration, the following variables will be created:
-* `--a-primary-z` (ex *twc-primary*)
-* `--a-secondary-z` (ex *twc-secondary*)
-* `--a-brand-z` (ex *twc-brand*)
+* `--a-primary-z` (instead of *twc-primary*)
+* `--a-secondary-z` (instead of *twc-secondary*)
+* `--a-brand-z` (instead of *twc-brand*)
 
 ```js
 createThemes({
@@ -365,19 +351,19 @@ createThemes({
       'brand': '#4A4A4A',
    },
 }, {
-   getCssVariable: (colorName) => `--a-${colorName}-z`
+   produceCssVariable: (colorName) => `--a-${colorName}-z`
 })
 ```
 
-### <samp>getThemeClassName</samp>
+### <samp>produceThemeClass</samp>
 
-**default**: <code>(themeName) => \`theme-${themeName}\`</code>
+**default**: <code>(themeName) => themeName</code>
 
-Lets you customize the classNames for the themes and variants
+Customize the classNames of the themes and variants
 
 With the below configuration, the following theme classNames and variants will be created: 
-* `branding-light` (ex *theme-light*)
-* `branding-dark` (ex *theme-dark*)
+* `theme-light` (instead of *light*)
+* `theme-dark` (instead of *dark*)
 
 
 ```js
@@ -393,8 +379,56 @@ createThemes({
       'brand': '#4A4A4A',
    },
 }, {
-   getThemeClassName: (themeName) => `branding-${themeName}`
+   produceThemeClass: (themeName) => `theme-${themeName}`
 })
+```
+
+```html
+<html class='theme-dark'>
+   ...
+   <button class='theme-dark:rounded'>
+      Click Me
+   </button>
+   ...
+</html>
+```
+
+### <samp>produceThemeVariant</samp>
+
+**default**: same as `produceThemeClass`
+
+Customize the variants
+
+With the below configuration, the following variants will be created: 
+* `theme-light` (instead of *light*)
+* `theme-dark` (instead of *dark*)
+
+
+```js
+createThemes({
+   'light': { 
+      'primary': 'steelblue',
+      'secondary': 'darkblue',
+      'brand': '#F3F3F3',
+   },
+   'dark': { 
+      'primary': 'turquoise',
+      'secondary': 'tomato',
+      'brand': '#4A4A4A',
+   },
+}, {
+   produceThemeVariant: (themeName) => `theme-${themeName}`
+})
+```
+
+```html
+<html data-theme='dark'>
+   ...
+   <button class='theme-dark:rounded'>
+      Click Me
+   </button>
+   ...
+</html>
 ```
 
 <div align="center">
