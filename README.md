@@ -169,9 +169,31 @@ Based on the current theme, specific styles can be applied using variants.
 
 *See the [options](https://github.com/L-Blondy/tw-colors/tree/master#producethemevariant) to customize the variant name*
 
+
 <details>
    <summary>
-         <strong> Caveats: inherited properties </strong>
+      <strong> Caveat: group-{modifier} </strong>
+   </summary>
+   Always use the group variant before the theme variant.
+
+   ```html
+      <html class='theme-dark'>
+         ...
+         <div class='group'>
+            <div class='theme-dark:group-hover:bg-red-500'>
+               ❌ the group variant does not work
+            </div>
+            <div class='group-hover:theme-dark:bg-red-500'>
+               ✅ the group variant works properly
+            </div>
+         </div>    
+      </html>
+   ```
+</details>
+
+<details>
+   <summary>
+      <strong> Caveat: inherited properties </strong>
    </summary>
 
    Inherited properties (e.g. "font-family") are inherited by **all descendants**, including nested themes.

@@ -87,9 +87,9 @@ export const resolveTwcConfig = <ThemeName extends string>(
             `.${themeClassName} &:not(.${themeClassName} [data-theme]:not(.${themeClassName}) * )`,
             `.${themeClassName}:not(:has([data-theme])) &:not([data-theme])`, // See the browser support: https://caniuse.com/css-has
             `[data-theme='${themeName}']&`,
-            `[data-theme='${themeName}'] > &:not([data-theme])`,
-            `[data-theme='${themeName}'] &:not([data-theme='${themeName}'] [data-theme]:not([data-theme='${themeName}']) * )`,
-            `[data-theme='${themeName}']:not(:has([data-theme])) &:not([data-theme])`, // See the browser support: https://caniuse.com/css-has
+            `:is([data-theme='${themeName}'] > &:not([data-theme]))`,
+            `:is([data-theme='${themeName}'] &:not([data-theme='${themeName}'] [data-theme]:not([data-theme='${themeName}']) * ))`,
+            `:is([data-theme='${themeName}']:not(:has([data-theme])) &:not([data-theme]))`, // See the browser support: https://caniuse.com/css-has
             ...(isDefault
                ? [
                     `&:root`,

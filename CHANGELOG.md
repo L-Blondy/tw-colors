@@ -1,5 +1,10 @@
 # Changelog
 
+## [3.0.1](https://github.com/L-Blondy/tw-colors/compare/v3.0.0...v3.0.1) - 2023-09-04
+
+### Added
+- Added support for group modifiers with theme variants
+
 ## [3.0.0](https://github.com/L-Blondy/tw-colors/compare/v2.2.0...v3.0.0) - 2023-09-04
 
 ### Added
