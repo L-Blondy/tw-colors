@@ -82,19 +82,19 @@ export const resolveTwcConfig = <ThemeName extends string>(
          name: themeVariant,
          // tailwind will generate only the first matched definition
          definition: [
-            `.${themeClassName}&`,
-            `.${themeClassName} > &:not([data-theme])`,
-            `.${themeClassName} &:not(.${themeClassName} [data-theme]:not(.${themeClassName}) * )`,
-            `.${themeClassName}:not(:has([data-theme])) &:not([data-theme])`, // See the browser support: https://caniuse.com/css-has
-            `[data-theme='${themeName}']&`,
+            `&.${themeClassName}`,
+            `:is(.${themeClassName} > &:not([data-theme]))`,
+            `:is(.${themeClassName} &:not(.${themeClassName} [data-theme]:not(.${themeClassName}) * ))`,
+            `:is(.${themeClassName}:not(:has([data-theme])) &:not([data-theme]))`, // See the browser support: https://caniuse.com/css-has
+            `&[data-theme='${themeName}']`,
             `:is([data-theme='${themeName}'] > &:not([data-theme]))`,
             `:is([data-theme='${themeName}'] &:not([data-theme='${themeName}'] [data-theme]:not([data-theme='${themeName}']) * ))`,
             `:is([data-theme='${themeName}']:not(:has([data-theme])) &:not([data-theme]))`, // See the browser support: https://caniuse.com/css-has
             ...(isDefault
                ? [
                     `&:root`,
-                    `:root > &:not([data-theme])`,
-                    `:root &:not([data-theme] *):not([data-theme])`,
+                    `:is(:root > &:not([data-theme]))`,
+                    `:is(:root &:not([data-theme] *):not([data-theme]))`,
                  ]
                : []),
          ],
