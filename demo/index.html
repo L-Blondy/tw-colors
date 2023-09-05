@@ -131,7 +131,6 @@
                         <div class="group">
                            <div data-theme="t2">
                               <div>
-                                 <!-- :is([data-theme='t1'] > .group:hover .theme-t1\:group-hover\:bg-slate-400:not([data-theme])) -->
                                  <div
                                     class="bg-c1 theme-t2:border theme-t2:border-black group-hover:theme-t2:bg-slate-400"
                                  >
@@ -280,9 +279,30 @@
                <div>
                   <div data-theme class="t1">
                      <div>
+                        <div class="group">
+                           <div data-theme class="t2">
+                              <div>
+                                 <div
+                                    class="bg-c1 theme-t2:border theme-t2:border-black group-hover:theme-t2:bg-slate-400"
+                                 >
+                                    Should have a border
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div data-theme class="t2">
+               <div>
+                  <div data-theme class="t1">
+                     <div>
                         <div data-theme class="t2">
-                           <div>
-                              <div class="bg-c1 theme-t2:border theme-t2:border-black">
+                           <div class="group">
+                              <div
+                                 class="bg-c1 theme-t2:border theme-t2:border-black group-hover:theme-t2:bg-slate-400"
+                              >
                                  Should have a border
                               </div>
                            </div>
@@ -291,8 +311,12 @@
                   </div>
                </div>
             </div>
-            <div>
-               <div class="bg-c1 theme-t2:border theme-t2:border-black">Should have a border</div>
+            <div class="group">
+               <div
+                  class="bg-c1 theme-t2:border theme-t2:border-black group-hover:theme-t2:bg-slate-100"
+               >
+                  Should have a border
+               </div>
             </div>
          </div>
       </div>
