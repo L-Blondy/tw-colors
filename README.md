@@ -135,7 +135,7 @@ Just nest the themes...
 
 #### With <samp>class</samp>
 
-For [variants](https://github.com/L-Blondy/tw-colors/tree/master#variants) to work properly in nested themes, an empty `data-theme` attribute must be added alongside nested theme class
+For [variants](https://github.com/L-Blondy/tw-colors/tree/master#variants) to work properly in nested themes, an empty `data-theme` attribute must be added alongside the nested theme `class`
 
 ```diff
    <html class='dark'>
