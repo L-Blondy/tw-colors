@@ -8,18 +8,47 @@ test('Variants', () => {
       halloween: {},
    });
 
+   console.log(variants);
+
    expect(variants).toEqual([
       {
-         name: 'theme-light',
-         definition: [`&.theme-light`, `&[data-theme='light']`],
+         name: 'light',
+         definition: [
+            '.light&',
+            ':is(.light > &:not([data-theme]))',
+            ':is(.light &:not(.light [data-theme]:not(.light) * ))',
+            ':is(.light:not(:has([data-theme])) &:not([data-theme]))',
+            "[data-theme='light']&",
+            ":is([data-theme='light'] > &:not([data-theme]))",
+            ":is([data-theme='light'] &:not([data-theme='light'] [data-theme]:not([data-theme='light']) * ))",
+            ":is([data-theme='light']:not(:has([data-theme])) &:not([data-theme]))",
+         ],
       },
       {
-         name: 'theme-dark',
-         definition: [`&.theme-dark`, `&[data-theme='dark']`],
+         name: 'dark',
+         definition: [
+            '.dark&',
+            ':is(.dark > &:not([data-theme]))',
+            ':is(.dark &:not(.dark [data-theme]:not(.dark) * ))',
+            ':is(.dark:not(:has([data-theme])) &:not([data-theme]))',
+            "[data-theme='dark']&",
+            ":is([data-theme='dark'] > &:not([data-theme]))",
+            ":is([data-theme='dark'] &:not([data-theme='dark'] [data-theme]:not([data-theme='dark']) * ))",
+            ":is([data-theme='dark']:not(:has([data-theme])) &:not([data-theme]))",
+         ],
       },
       {
-         name: 'theme-halloween',
-         definition: [`&.theme-halloween`, `&[data-theme='halloween']`],
+         name: 'halloween',
+         definition: [
+            '.halloween&',
+            ':is(.halloween > &:not([data-theme]))',
+            ':is(.halloween &:not(.halloween [data-theme]:not(.halloween) * ))',
+            ':is(.halloween:not(:has([data-theme])) &:not([data-theme]))',
+            "[data-theme='halloween']&",
+            ":is([data-theme='halloween'] > &:not([data-theme]))",
+            ":is([data-theme='halloween'] &:not([data-theme='halloween'] [data-theme]:not([data-theme='halloween']) * ))",
+            ":is([data-theme='halloween']:not(:has([data-theme])) &:not([data-theme]))",
+         ],
       },
    ]);
 });
@@ -48,7 +77,7 @@ test('Utilities', () => {
    });
 
    expect(utilities).toEqual({
-      '.theme-hsl,[data-theme="hsl"]': {
+      '.hsl,[data-theme="hsl"]': {
          '--twc-c1': '1 2% 3%',
          '--twc-c2': '1 2% 3%',
          '--twc-c3': '1 2% 3%',
@@ -56,7 +85,7 @@ test('Utilities', () => {
          '--twc-c4': '1 2% 3%',
          '--twc-c4-opacity': '0.50',
       },
-      '.theme-rgb,[data-theme="rgb"]': {
+      '.rgb,[data-theme="rgb"]': {
          '--twc-c1': '0 100% 50%',
          '--twc-c2': '0 100% 50%',
          '--twc-c3': '0 100% 50%',
@@ -64,12 +93,12 @@ test('Utilities', () => {
          '--twc-c4': '0 100% 50%',
          '--twc-c4-opacity': '0.50',
       },
-      '.theme-hex,[data-theme="hex"]': {
+      '.hex,[data-theme="hex"]': {
          '--twc-c1': '0 100% 50%',
          '--twc-c2': '0 100% 50%',
          '--twc-c2-opacity': '0.50',
       },
-      '.theme-colorName,[data-theme="colorName"]': {
+      '.colorName,[data-theme="colorName"]': {
          '--twc-red': '0 100% 50%',
       },
    });
@@ -90,15 +119,15 @@ test('color-scheme', () => {
    }));
 
    expect(utilities).toEqual({
-      '.theme-t1,[data-theme="t1"]': {
+      '.t1,[data-theme="t1"]': {
          '--twc-c1': '0 100% 50%',
          '--twc-slash\\/slash': '0 100% 50%',
       },
-      '.theme-t2,[data-theme="t2"]': {
+      '.t2,[data-theme="t2"]': {
          'color-scheme': 'light',
          '--twc-c1': '0 100% 50%',
       },
-      '.theme-t3,[data-theme="t3"]': {
+      '.t3,[data-theme="t3"]': {
          'color-scheme': 'dark',
          '--twc-c1': '0 100% 50%',
       },
@@ -130,7 +159,7 @@ describe('Nested colors', () => {
          },
       });
       expect(utilities).toEqual({
-         '.theme-light,[data-theme="light"]': {
+         '.light,[data-theme="light"]': {
             '--twc-primary-100': '0 100% 50%',
             '--twc-primary-200': '240 100% 50%',
             '--twc-secondary-100': '0 100% 50%',
@@ -138,7 +167,7 @@ describe('Nested colors', () => {
             '--twc-secondary-200': '0 100% 50%',
             '--twc-secondary-200-opacity': '0.70',
          },
-         '.theme-dark,[data-theme="dark"]': {
+         '.dark,[data-theme="dark"]': {
             '--twc-primary-100': '120 100% 50%',
             '--twc-primary-200': '349.5 100% 87.6%',
             '--twc-secondary-100': '0 100% 50%',
@@ -188,7 +217,7 @@ describe('Nested colors', () => {
       }));
 
       expect(utilities).toEqual({
-         '.theme-light,[data-theme="light"]': {
+         '.light,[data-theme="light"]': {
             'color-scheme': 'light',
             '--twc-primary-100': '0 100% 50%',
             '--twc-primary-200': '240 100% 50%',
@@ -197,7 +226,7 @@ describe('Nested colors', () => {
             '--twc-secondary-200': '0 100% 50%',
             '--twc-secondary-200-opacity': '0.70',
          },
-         '.theme-dark,[data-theme="dark"]': {
+         '.dark,[data-theme="dark"]': {
             'color-scheme': 'dark',
             '--twc-primary-100': '120 100% 50%',
             '--twc-primary-200': '349.5 100% 87.6%',
@@ -210,7 +239,7 @@ describe('Nested colors', () => {
             '--twc-secondary-nested-200': '0 100% 50%',
             '--twc-secondary-nested-200-opacity': '0.10',
          },
-         '.theme-none,[data-theme="none"]': {
+         '.none,[data-theme="none"]': {
             '--twc-primary-100': '120 100% 50%',
             '--twc-primary-200': '349.5 100% 87.6%',
             '--twc-secondary-100': '50 10% 12%',
