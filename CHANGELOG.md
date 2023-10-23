@@ -1,6 +1,6 @@
 # Changelog
 
-## [3.1.1](https://github.com/L-Blondy/tw-colors/compare/v3.1.0...v3.1.1) - 2023-10-23
+## [3.1.2](https://github.com/L-Blondy/tw-colors/compare/v3.1.0...v3.1.2) - 2023-10-23
 
 ### Fixed
 - Fixed intellisense for the theme class
