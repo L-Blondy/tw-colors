@@ -5,7 +5,6 @@
 ### Fixed
 - Fixed intellisense for the theme class
 
-
 ## [3.1.0](https://github.com/L-Blondy/tw-colors/compare/v3.0.3...v3.1.0) - 2023-10-23
 
 ### Fixed
