@@ -8,8 +8,6 @@ test('Variants', () => {
       halloween: {},
    });
 
-   console.log(variants);
-
    expect(variants).toEqual([
       {
          name: 'light',
@@ -53,8 +51,8 @@ test('Variants', () => {
    ]);
 });
 
-test('Utilities', () => {
-   const { utilities } = resolveTwcConfig({
+test('Base', () => {
+   const { base } = resolveTwcConfig({
       hsl: {
          c1: 'hsl(1, 2%, 3%)',
          c2: 'hsl(1 2% 3%)',
@@ -76,7 +74,7 @@ test('Utilities', () => {
       },
    });
 
-   expect(utilities).toEqual({
+   expect(base).toEqual({
       '.hsl,[data-theme="hsl"]': {
          '--twc-c1': '1 2% 3%',
          '--twc-c2': '1 2% 3%',
@@ -105,7 +103,7 @@ test('Utilities', () => {
 });
 
 test('color-scheme', () => {
-   const { utilities } = resolveTwcConfig(({ light, dark }) => ({
+   const { base } = resolveTwcConfig(({ light, dark }) => ({
       t1: {
          c1: 'red',
          'slash/slash': 'red',
@@ -118,7 +116,7 @@ test('color-scheme', () => {
       }),
    }));
 
-   expect(utilities).toEqual({
+   expect(base).toEqual({
       '.t1,[data-theme="t1"]': {
          '--twc-c1': '0 100% 50%',
          '--twc-slash\\/slash': '0 100% 50%',
@@ -135,8 +133,8 @@ test('color-scheme', () => {
 });
 
 describe('Nested colors', () => {
-   test('Utilities', () => {
-      const { utilities } = resolveTwcConfig({
+   test('Base', () => {
+      const { base } = resolveTwcConfig({
          light: {
             primary: {
                100: 'red',
@@ -158,7 +156,7 @@ describe('Nested colors', () => {
             },
          },
       });
-      expect(utilities).toEqual({
+      expect(base).toEqual({
          '.light,[data-theme="light"]': {
             '--twc-primary-100': '0 100% 50%',
             '--twc-primary-200': '240 100% 50%',
@@ -179,7 +177,7 @@ describe('Nested colors', () => {
    });
 
    test('color-scheme', () => {
-      const { utilities } = resolveTwcConfig(({ light, dark }) => ({
+      const { base } = resolveTwcConfig(({ light, dark }) => ({
          light: light({
             primary: {
                100: 'red',
@@ -216,7 +214,7 @@ describe('Nested colors', () => {
          },
       }));
 
-      expect(utilities).toEqual({
+      expect(base).toEqual({
          '.light,[data-theme="light"]': {
             'color-scheme': 'light',
             '--twc-primary-100': '0 100% 50%',

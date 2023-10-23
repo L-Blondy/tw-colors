@@ -15,7 +15,7 @@ type TwcFunctionConfig<ThemeName extends string> = (scheme: {
 }) => TwcObjectConfig<ThemeName>;
 
 type ResolvedVariants = Array<{ name: string; definition: string[] }>;
-type ResolvedUtilities = { [selector: string]: Record<string, string> };
+type ResolvedBase = { [selector: string]: Record<string, string> };
 type ResolvedColors = {
    [colorName: string]: ({
       opacityValue,
@@ -39,7 +39,7 @@ export interface TwcOptions<ThemeName extends string = string> {
 }
 
 /**
- * Resolves the variants, utilities and colors to inject in the plugin
+ * Resolves the variants, base and colors to inject in the plugin
  * Library authors might use this function instead of the createThemes function
  */
 export const resolveTwcConfig = <ThemeName extends string>(
@@ -54,11 +54,11 @@ export const resolveTwcConfig = <ThemeName extends string>(
 ) => {
    const resolved: {
       variants: ResolvedVariants;
-      utilities: ResolvedUtilities;
+      base: ResolvedBase;
       colors: ResolvedColors;
    } = {
       variants: [],
-      utilities: {},
+      base: {},
       colors: {},
    };
    const configObject = typeof config === 'function' ? config({ dark, light }) : config;
@@ -101,7 +101,7 @@ export const resolveTwcConfig = <ThemeName extends string>(
       });
 
       // set the color-scheme css property
-      resolved.utilities[cssSelector] = colors[SCHEME] ? { 'color-scheme': colors[SCHEME] } : {};
+      resolved.base[cssSelector] = colors[SCHEME] ? { 'color-scheme': colors[SCHEME] } : {};
 
       forEach(flatColors, (colorValue, colorName) => {
          // this case was handled above
@@ -120,11 +120,11 @@ export const resolveTwcConfig = <ThemeName extends string>(
          }
          const twcColorVariable = produceCssVariable(safeColorName);
          const twcOpacityVariable = `${produceCssVariable(safeColorName)}-opacity`;
-         // add the css variable in "@layer utilities"
-         resolved.utilities[cssSelector]![twcColorVariable] = `${h} ${s}% ${l}%`;
+         // add the css variable in "@layer base"
+         resolved.base[cssSelector]![twcColorVariable] = `${h} ${s}% ${l}%`;
          // if an alpha value was provided in the color definition, store it in a css variable
          if (typeof defaultAlphaValue === 'number') {
-            resolved.utilities[cssSelector]![twcOpacityVariable] = defaultAlphaValue.toFixed(2);
+            resolved.base[cssSelector]![twcOpacityVariable] = defaultAlphaValue.toFixed(2);
          }
          // set the dynamic color in tailwind config theme.colors
          resolved.colors[colorName] = ({ opacityVariable, opacityValue }) => {
@@ -154,9 +154,9 @@ export const createThemes = <ThemeName extends string>(
    const resolved = resolveTwcConfig(config, options);
 
    return plugin(
-      ({ addUtilities, addVariant }) => {
-         // add the css variables to "@layer utilities"
-         addUtilities(resolved.utilities);
+      ({ addBase, addVariant }) => {
+         // add the css variables to "@layer base"
+         addBase(resolved.base);
          // add the theme as variant e.g. "theme-[name]:text-2xl"
          resolved.variants.forEach(({ name, definition }) => addVariant(name, definition));
       },
