@@ -16,6 +16,7 @@ type TwcFunctionConfig<ThemeName extends string> = (scheme: {
 
 type ResolvedVariants = Array<{ name: string; definition: string[] }>;
 type ResolvedBase = { [selector: string]: Record<string, string> };
+type ResolvedUtilities = { [selector: string]: Record<string, string> };
 type ResolvedColors = {
    [colorName: string]: ({
       opacityValue,
@@ -55,10 +56,12 @@ export const resolveTwcConfig = <ThemeName extends string>(
    const resolved: {
       variants: ResolvedVariants;
       base: ResolvedBase;
+      utilities: ResolvedUtilities;
       colors: ResolvedColors;
    } = {
       variants: [],
       base: {},
+      utilities: {},
       colors: {},
    };
    const configObject = typeof config === 'function' ? config({ dark, light }) : config;
@@ -68,13 +71,12 @@ export const resolveTwcConfig = <ThemeName extends string>(
       const themeVariant = produceThemeVariant(themeName);
       const isDefault = themeName === defaultTheme;
 
-      const cssSelector = [
-         `.${themeClassName}`,
-         `[data-theme="${themeName}"]`,
-         isDefault && ':root',
-      ]
-         .filter(Boolean)
-         .join(',');
+      // The class based selectors go in the utilities in order the get the intellisense to work
+      // the rest can go in the base
+      const selector = {
+         className: `.${themeClassName}`,
+         other: [`[data-theme="${themeName}"]`, isDefault && ':root'].filter(Boolean).join(','),
+      };
 
       const flatColors = flattenColors(colors);
       // set the resolved.variants
@@ -101,7 +103,10 @@ export const resolveTwcConfig = <ThemeName extends string>(
       });
 
       // set the color-scheme css property
-      resolved.base[cssSelector] = colors[SCHEME] ? { 'color-scheme': colors[SCHEME] } : {};
+      resolved.utilities[selector.className] = colors[SCHEME]
+         ? { 'color-scheme': colors[SCHEME] }
+         : {};
+      resolved.base[selector.other] = { ...resolved.utilities[selector.className] };
 
       forEach(flatColors, (colorValue, colorName) => {
          // this case was handled above
@@ -121,10 +126,15 @@ export const resolveTwcConfig = <ThemeName extends string>(
          const twcColorVariable = produceCssVariable(safeColorName);
          const twcOpacityVariable = `${produceCssVariable(safeColorName)}-opacity`;
          // add the css variable in "@layer base"
-         resolved.base[cssSelector]![twcColorVariable] = `${h} ${s}% ${l}%`;
+         resolved.utilities[selector.className]![twcColorVariable] = `${h} ${s}% ${l}%`;
+         resolved.base[selector.other]![twcColorVariable] =
+            resolved.utilities[selector.className]![twcColorVariable];
          // if an alpha value was provided in the color definition, store it in a css variable
          if (typeof defaultAlphaValue === 'number') {
-            resolved.base[cssSelector]![twcOpacityVariable] = defaultAlphaValue.toFixed(2);
+            resolved.utilities[selector.className]![twcOpacityVariable] =
+               defaultAlphaValue.toFixed(2);
+            resolved.base[selector.other]![twcOpacityVariable] =
+               resolved.utilities[selector.className]![twcOpacityVariable];
          }
          // set the dynamic color in tailwind config theme.colors
          resolved.colors[colorName] = ({ opacityVariable, opacityValue }) => {
@@ -154,10 +164,12 @@ export const createThemes = <ThemeName extends string>(
    const resolved = resolveTwcConfig(config, options);
 
    return plugin(
-      ({ addBase, addVariant }) => {
-         // add the css variables to "@layer base"
+      ({ addBase, addUtilities, addVariant }) => {
+         // add `.theme-name { --twc-primary: 0 0% 0% }` to the "@layer utilities"
+         addUtilities(resolved.utilities);
+         // add `[data-theme="theme-name"] { --twc-primary: 0 0% 0% }` to the "@layer base"
          addBase(resolved.base);
-         // add the theme as variant e.g. "theme-[name]:text-2xl"
+         // add the theme as variant e.g. "[theme-name]:text-2xl"
          resolved.variants.forEach(({ name, definition }) => addVariant(name, definition));
       },
       // extend the colors config

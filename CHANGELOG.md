@@ -1,13 +1,15 @@
 # Changelog
 
-## [3.1.0](https://github.com/L-Blondy/tw-colors/compare/v3.0.3...v3.1.0) - 2023-1023
+## [3.1.1](https://github.com/L-Blondy/tw-colors/compare/v3.1.0...v3.1.1) - 2023-10-23
+
+### Fixed
+- Fixed intellisense for the theme class
+
+
+## [3.1.0](https://github.com/L-Blondy/tw-colors/compare/v3.0.3...v3.1.0) - 2023-10-23
 
 ### Fixed
 - [[#26](https://github.com/L-Blondy/tw-colors/issues/26)] - NativeWind is now supported.
-
-
-### Other
-- Moved the CSS Variables from the utilities layer to the base layer
 
 ## [3.0.3](https://github.com/L-Blondy/tw-colors/compare/v3.0.0...v3.0.3) - 2023-09-04
 
