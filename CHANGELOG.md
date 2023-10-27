@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.2.0](https://github.com/L-Blondy/tw-colors/compare/v3.1.2...v3.2.0) - 2023-10-27
+
+### Fixed
+- [[#30](https://github.com/L-Blondy/tw-colors/issues/30)] - The colors defined via the plugin now properly override tailwind's default colors in case of name clash.
+
+### Breaking changes:
+- NativeWind 2 with Next.js is no longer supported
+
 ## [3.1.2](https://github.com/L-Blondy/tw-colors/compare/v3.1.0...v3.1.2) - 2023-10-23
 
 ### Fixed
