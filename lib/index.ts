@@ -5,6 +5,7 @@ import flatten from 'flat';
 
 const SCHEME = Symbol('color-scheme');
 const emptyConfig: TwcConfig = {};
+const NO_ALPHA = Symbol();
 
 type NestedColors = { [SCHEME]?: 'light' | 'dark' } & MaybeNested<string, string>;
 type FlatColors = { [SCHEME]?: 'light' | 'dark' } & Record<string, string>;
@@ -80,35 +81,10 @@ export const resolveTwcConfig = <ThemeName extends string>(
          name: themeVariant,
          // tailwind will generate only the first matched definition
          definition: [
-            `.${themeClassName}&`,
-            `:is(.${themeClassName} > &:not([data-theme]))`,
-            `:is(.${themeClassName} &:not(.${themeClassName} [data-theme]:not(.${themeClassName}) * ))`,
-            `:is(.${themeClassName}:not(:has([data-theme])) &:not([data-theme]))`, // See the browser support: https://caniuse.com/css-has
-            `[data-theme='${themeName}']&`,
-            `:is([data-theme='${themeName}'] > &:not([data-theme]))`,
-            `:is([data-theme='${themeName}'] &:not([data-theme='${themeName}'] [data-theme]:not([data-theme='${themeName}']) * ))`,
-            `:is([data-theme='${themeName}']:not(:has([data-theme])) &:not([data-theme]))`, // See the browser support: https://caniuse.com/css-has
-            typeof defaultTheme === 'string' &&
-               themeName === defaultTheme && [
-                  `:root&`,
-                  `:is(:root > &:not([data-theme]))`,
-                  `:is(:root &:not([data-theme] *):not([data-theme]))`,
-               ],
-            typeof defaultTheme === 'object' &&
-               themeName === defaultTheme.light && [
-                  `@media (prefers-color-scheme: light){:root&}`,
-                  `@media (prefers-color-scheme: light){:is(:root > &:not([data-theme]))}`,
-                  `@media (prefers-color-scheme: light){:is(:root &:not([data-theme] *):not([data-theme]))}`,
-               ],
-            typeof defaultTheme === 'object' &&
-               themeName === defaultTheme.dark && [
-                  `@media (prefers-color-scheme: dark){:root&}`,
-                  `@media (prefers-color-scheme: dark){:is(:root > &:not([data-theme]))}`,
-                  `@media (prefers-color-scheme: dark){:is(:root &:not([data-theme] *):not([data-theme]))}`,
-               ],
-         ]
-            .flat()
-            .filter(Boolean) as string[],
+            generateVariantDefinitions(`.${themeClassName}`),
+            generateVariantDefinitions(`[data-theme='${themeName}']`),
+            generateRootVariantDefinitions(themeName, defaultTheme),
+         ].flat(),
       });
 
       const cssSelector = `.${themeClassName},[data-theme="${themeName}"]`;
@@ -121,7 +97,8 @@ export const resolveTwcConfig = <ThemeName extends string>(
          const safeColorName = escapeChars(colorName, '/');
          let [h, s, l, defaultAlphaValue]: HslaArray = [0, 0, 0, 1];
          try {
-            [h, s, l, defaultAlphaValue = 1] = toHslaArray(colorValue);
+            // set defaultAlphaValue to -1 to reset it for each theme. -1 is used as
+            [h, s, l, defaultAlphaValue] = toHslaArray(colorValue);
          } catch (error: any) {
             const message = `\r\nWarning - In theme "${themeName}" color "${colorName}". ${error.message}`;
 
@@ -135,18 +112,32 @@ export const resolveTwcConfig = <ThemeName extends string>(
          // add the css variables in "@layer utilities" for the hsl values
          const hslValues = `${h} ${s}% ${l}%`;
          resolved.utilities[cssSelector][twcColorVariable] = hslValues;
-         setWhenDefault(twcColorVariable, hslValues, { defaultTheme, resolved, themeName });
-         // add the css variables in "@layer utilities" for the alpha
-         const alphaValue = defaultAlphaValue.toFixed(2);
-         resolved.utilities[cssSelector][twcOpacityVariable] = alphaValue;
-         setWhenDefault(twcOpacityVariable, alphaValue, { defaultTheme, resolved, themeName });
+         addRootUtilities(resolved.utilities, {
+            key: twcColorVariable,
+            value: hslValues,
+            defaultTheme,
+            themeName,
+         });
+         if (typeof defaultAlphaValue === 'number') {
+            // add the css variables in "@layer utilities" for the alpha
+            const alphaValue = defaultAlphaValue.toFixed(2);
+            resolved.utilities[cssSelector][twcOpacityVariable] = alphaValue;
+            addRootUtilities(resolved.utilities, {
+               key: twcOpacityVariable,
+               value: alphaValue,
+               defaultTheme,
+               themeName,
+            });
+         } else {
+            resolved.utilities[cssSelector][twcOpacityVariable] = 'unset';
+         }
          // set the dynamic color in tailwind config theme.colors
          resolved.colors[colorName] = ({ opacityVariable, opacityValue }) => {
             // if the opacity is set  with a slash (e.g. bg-primary/90), use the provided value
             if (!isNaN(+opacityValue)) {
                return `hsl(var(${twcColorVariable}) / ${opacityValue})`;
             }
-            // if no opacityValue was provided (=it is not parsable to a number)
+            // if no opacityValue was provided (=it is not parsable to a number),
             // the twcOpacityVariable (opacity defined in the color definition rgb(0, 0, 0, 0.5))
             // should have the priority over the tw class based opacity(e.g. "bg-opacity-90")
             // This is how tailwind behaves as for v3.2.4
@@ -168,9 +159,8 @@ export const createThemes = <ThemeName extends string>(
    const resolved = resolveTwcConfig(config, options);
 
    return plugin(
-      ({ addUtilities, addVariant, matchVariant }) => {
-         // add the css variables to "@layer utilities"
-         // Why ?
+      ({ addUtilities, addVariant }) => {
+         // add the css variables to "@layer utilities" because:
          // - The Base layer does not provide intellisense
          // - The Components layer might get overriden by tailwind default colors in case of name clash
          addUtilities(resolved.utilities);
@@ -236,41 +226,85 @@ function light(colors: NestedColors): { [SCHEME]: 'light' } & MaybeNested<string
    };
 }
 
-function setWhenDefault(
-   key: string,
-   value: string,
+function generateVariantDefinitions(selector: string) {
+   return [
+      `${selector}&`,
+      `:is(${selector} > &:not([data-theme]))`,
+      `:is(${selector} &:not(${selector} [data-theme]:not(${selector}) * ))`,
+      `:is(${selector}:not(:has([data-theme])) &:not([data-theme]))`,
+   ];
+}
+
+function generateRootVariantDefinitions<ThemeName extends string>(
+   themeName: ThemeName,
+   defaultTheme: TwcOptions<ThemeName>['defaultTheme'],
+) {
+   const baseDefinitions = [
+      `:root&`,
+      `:is(:root > &:not([data-theme]))`,
+      `:is(:root &:not([data-theme] *):not([data-theme]))`,
+   ];
+
+   if (typeof defaultTheme === 'string' && themeName === defaultTheme) {
+      return baseDefinitions;
+   }
+
+   if (typeof defaultTheme === 'object' && themeName === defaultTheme.light) {
+      return baseDefinitions.map(
+         (definition) => `@media (prefers-color-scheme: light){${definition}}`,
+      );
+   }
+
+   if (typeof defaultTheme === 'object' && themeName === defaultTheme.dark) {
+      return baseDefinitions.map(
+         (definition) => `@media (prefers-color-scheme: dark){${definition}}`,
+      );
+   }
+   return [];
+}
+
+function addRootUtilities<ThemeName extends string>(
+   utilities: ResolvedUtilities,
    {
-      resolved,
+      key,
+      value,
       defaultTheme,
       themeName,
    }: {
-      resolved: Resolved;
-      defaultTheme: string | DefaultThemeObject | undefined;
-      themeName: string;
+      key: string;
+      value: string;
+      defaultTheme: TwcOptions<ThemeName>['defaultTheme'];
+      themeName: ThemeName;
    },
 ) {
    if (!defaultTheme) return;
    if (typeof defaultTheme === 'string') {
       if (themeName === defaultTheme) {
-         if (!resolved.utilities[':root']) {
-            resolved.utilities[':root'] = {};
+         // initialize
+         if (!utilities[':root']) {
+            utilities[':root'] = {};
          }
-         resolved.utilities[':root'][key] = value;
+         // set
+         utilities[':root'][key] = value;
       }
    } else if (themeName === defaultTheme.light) {
-      if (!resolved.utilities['@media (prefers-color-scheme: light)']) {
-         resolved.utilities['@media (prefers-color-scheme: light)'] = {
+      // initialize
+      if (!utilities['@media (prefers-color-scheme: light)']) {
+         utilities['@media (prefers-color-scheme: light)'] = {
             ':root': {},
          };
       }
-      resolved.utilities['@media (prefers-color-scheme: light)'][':root'][key] = value;
+      // set
+      utilities['@media (prefers-color-scheme: light)'][':root'][key] = value;
    } else if (themeName === defaultTheme.dark) {
-      if (!resolved.utilities['@media (prefers-color-scheme: dark)']) {
-         resolved.utilities['@media (prefers-color-scheme: dark)'] = {
+      // initialize
+      if (!utilities['@media (prefers-color-scheme: dark)']) {
+         utilities['@media (prefers-color-scheme: dark)'] = {
             ':root': {},
          };
       }
-      resolved.utilities['@media (prefers-color-scheme: dark)'][':root'][key] = value;
+      // set
+      utilities['@media (prefers-color-scheme: dark)'][':root'][key] = value;
    }
 }
 
@@ -284,40 +318,40 @@ type HslaArray = [number, number, number, number | undefined];
 
 // TODO: remove
 
-createThemes(
-   {
-      light: { primary: 'red' },
-      dark: { primary: 'red' },
-   },
-   { defaultTheme: 'dark' },
-);
+// createThemes(
+//    {
+//       light: { primary: 'red' },
+//       dark: { primary: 'red' },
+//    },
+//    { defaultTheme: 'dark' },
+// );
 
-createThemes(
-   {
-      light: { primary: 'red' },
-      dark: { primary: 'red' },
-   },
-   { defaultTheme: 'light' },
-);
+// createThemes(
+//    {
+//       light: { primary: 'red' },
+//       dark: { primary: 'red' },
+//    },
+//    { defaultTheme: 'light' },
+// );
 
-createThemes(
-   {
-      light1: { primary: 'red' },
-      dark2: { primary: 'red' },
-   },
-   { defaultTheme: { light: 'light1', dark: 'dark2' } },
-);
-createThemes(
-   () => ({
-      light1: { primary: 'red' },
-      dark2: { primary: 'red' },
-   }),
-   { defaultTheme: { light: 'light1', dark: 'dark2' } },
-);
-createThemes(
-   ({ light, dark }) => ({
-      light1: light({ primary: 'red' }),
-      dark2: dark({ primary: 'red' }),
-   }),
-   { defaultTheme: { light: 'light1', dark: 'dark2' } },
-);
+// createThemes(
+//    {
+//       light1: { primary: 'red' },
+//       dark2: { primary: 'red' },
+//    },
+//    { defaultTheme: { light: 'light1', dark: 'dark2' } },
+// );
+// createThemes(
+//    () => ({
+//       light1: { primary: 'red' },
+//       dark2: { primary: 'red' },
+//    }),
+//    { defaultTheme: { light: 'light1', dark: 'dark2' } },
+// );
+// createThemes(
+//    ({ light, dark }) => ({
+//       light1: light({ primary: 'red' }),
+//       dark2: dark({ primary: 'red' }),
+//    }),
+//    { defaultTheme: { light: 'light1', dark: 'dark2' } },
+// );

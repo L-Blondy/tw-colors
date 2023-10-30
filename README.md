@@ -150,6 +150,45 @@ For [variants](https://github.com/L-Blondy/tw-colors/tree/master#variants) to wo
    </html>
 ```
 
+
+<details>
+   <summary>
+      <strong> Caveat: avoid opacity in the color definition </strong>
+   </summary>
+   When using nested themes, it is better not to provide a base opacity in your color definitions.
+
+   With this setup the opacity (0.8) defined on the primary color of the "parent" theme will be inherited by the "child" theme.
+
+   ```js
+   createThemes({
+      parent: { 
+         'primary': 'hsl(50 50% 50% / 0.8)', // avoid this
+         'secondary': 'darkblue',
+         'brand': '#F3F3F3',
+      },
+      child: { 
+         'primary': 'turquoise',
+         'secondary': 'tomato',
+         'brand': '#4A4A4A',
+      },
+   })
+   ```
+
+
+   ```html
+   <html data-theme='parent'>
+
+      <div data-theme='child'>
+         <!-- The primary color has an unexpected 0.8 opacity -->
+         <button class='bg-primary'>Click me</button>
+        
+        ...
+      </div>
+   </html>  
+   ```
+
+</details>
+
 ###  Variants
 
 Based on the current theme, specific styles can be applied using variants.
