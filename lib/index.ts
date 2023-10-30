@@ -14,8 +14,13 @@ type TwcFunctionConfig<ThemeName extends string> = (scheme: {
    dark: typeof dark;
 }) => TwcObjectConfig<ThemeName>;
 
+type DefaultThemeObject<ThemeName = any> = {
+   light: NoInfer<ThemeName> | (string & {});
+   dark: NoInfer<ThemeName> | (string & {});
+};
+
 type ResolvedVariants = Array<{ name: string; definition: string[] }>;
-type ResolvedUtilities = { [selector: string]: Record<string, string> };
+type ResolvedUtilities = { [selector: string]: Record<string, any> };
 type ResolvedColors = {
    [colorName: string]: ({
       opacityValue,
@@ -24,6 +29,11 @@ type ResolvedColors = {
       opacityValue: string;
       opacityVariable: string;
    }) => string;
+};
+type Resolved = {
+   variants: ResolvedVariants;
+   utilities: ResolvedUtilities;
+   colors: ResolvedColors;
 };
 
 export type TwcConfig<ThemeName extends string = string> =
@@ -34,7 +44,7 @@ export interface TwcOptions<ThemeName extends string = string> {
    produceCssVariable?: (colorName: string) => string;
    produceThemeClass?: (themeName: ThemeName) => string;
    produceThemeVariant?: (themeName: ThemeName) => string;
-   defaultTheme?: NoInfer<ThemeName> | (string & {}); // "| (string & {})" avoids ts error in case the config is functional
+   defaultTheme?: NoInfer<ThemeName> | (string & {}) | DefaultThemeObject<ThemeName>;
    strict?: boolean;
 }
 
@@ -52,11 +62,7 @@ export const resolveTwcConfig = <ThemeName extends string>(
       strict = false,
    }: TwcOptions<ThemeName> = {},
 ) => {
-   const resolved: {
-      variants: ResolvedVariants;
-      utilities: ResolvedUtilities;
-      colors: ResolvedColors;
-   } = {
+   const resolved: Resolved = {
       variants: [],
       utilities: {},
       colors: {},
@@ -67,14 +73,6 @@ export const resolveTwcConfig = <ThemeName extends string>(
       const themeClassName = produceThemeClass(themeName);
       const themeVariant = produceThemeVariant(themeName);
       const isDefault = themeName === defaultTheme;
-
-      const cssSelector = [
-         `.${themeClassName}`,
-         `[data-theme="${themeName}"]`,
-         isDefault && ':root',
-      ]
-         .filter(Boolean)
-         .join(',');
 
       const flatColors = flattenColors(colors);
       // set the resolved.variants
@@ -90,16 +88,30 @@ export const resolveTwcConfig = <ThemeName extends string>(
             `:is([data-theme='${themeName}'] > &:not([data-theme]))`,
             `:is([data-theme='${themeName}'] &:not([data-theme='${themeName}'] [data-theme]:not([data-theme='${themeName}']) * ))`,
             `:is([data-theme='${themeName}']:not(:has([data-theme])) &:not([data-theme]))`, // See the browser support: https://caniuse.com/css-has
-            ...(isDefault
-               ? [
-                    `:root&`,
-                    `:is(:root > &:not([data-theme]))`,
-                    `:is(:root &:not([data-theme] *):not([data-theme]))`,
-                 ]
-               : []),
-         ],
+            typeof defaultTheme === 'string' &&
+               themeName === defaultTheme && [
+                  `:root&`,
+                  `:is(:root > &:not([data-theme]))`,
+                  `:is(:root &:not([data-theme] *):not([data-theme]))`,
+               ],
+            typeof defaultTheme === 'object' &&
+               themeName === defaultTheme.light && [
+                  `@media (prefers-color-scheme: light){:root&}`,
+                  `@media (prefers-color-scheme: light){:is(:root > &:not([data-theme]))}`,
+                  `@media (prefers-color-scheme: light){:is(:root &:not([data-theme] *):not([data-theme]))}`,
+               ],
+            typeof defaultTheme === 'object' &&
+               themeName === defaultTheme.dark && [
+                  `@media (prefers-color-scheme: dark){:root&}`,
+                  `@media (prefers-color-scheme: dark){:is(:root > &:not([data-theme]))}`,
+                  `@media (prefers-color-scheme: dark){:is(:root &:not([data-theme] *):not([data-theme]))}`,
+               ],
+         ]
+            .flat()
+            .filter(Boolean) as string[],
       });
 
+      const cssSelector = `.${themeClassName},[data-theme="${themeName}"]`;
       // set the color-scheme css property
       resolved.utilities[cssSelector] = colors[SCHEME] ? { 'color-scheme': colors[SCHEME] } : {};
 
@@ -109,7 +121,7 @@ export const resolveTwcConfig = <ThemeName extends string>(
          const safeColorName = escapeChars(colorName, '/');
          let [h, s, l, defaultAlphaValue]: HslaArray = [0, 0, 0, 1];
          try {
-            [h, s, l, defaultAlphaValue] = toHslaArray(colorValue);
+            [h, s, l, defaultAlphaValue = 1] = toHslaArray(colorValue);
          } catch (error: any) {
             const message = `\r\nWarning - In theme "${themeName}" color "${colorName}". ${error.message}`;
 
@@ -120,12 +132,14 @@ export const resolveTwcConfig = <ThemeName extends string>(
          }
          const twcColorVariable = produceCssVariable(safeColorName);
          const twcOpacityVariable = `${produceCssVariable(safeColorName)}-opacity`;
-         // add the css variable in "@layer base"
-         resolved.utilities[cssSelector]![twcColorVariable] = `${h} ${s}% ${l}%`;
-         // if an alpha value was provided in the color definition, store it in a css variable
-         if (typeof defaultAlphaValue === 'number') {
-            resolved.utilities[cssSelector]![twcOpacityVariable] = defaultAlphaValue.toFixed(2);
-         }
+         // add the css variables in "@layer utilities" for the hsl values
+         const hslValues = `${h} ${s}% ${l}%`;
+         resolved.utilities[cssSelector][twcColorVariable] = hslValues;
+         setWhenDefault(twcColorVariable, hslValues, { defaultTheme, resolved, themeName });
+         // add the css variables in "@layer utilities" for the alpha
+         const alphaValue = defaultAlphaValue.toFixed(2);
+         resolved.utilities[cssSelector][twcOpacityVariable] = alphaValue;
+         setWhenDefault(twcOpacityVariable, alphaValue, { defaultTheme, resolved, themeName });
          // set the dynamic color in tailwind config theme.colors
          resolved.colors[colorName] = ({ opacityVariable, opacityValue }) => {
             // if the opacity is set  with a slash (e.g. bg-primary/90), use the provided value
@@ -154,7 +168,7 @@ export const createThemes = <ThemeName extends string>(
    const resolved = resolveTwcConfig(config, options);
 
    return plugin(
-      ({ addUtilities, addVariant }) => {
+      ({ addUtilities, addVariant, matchVariant }) => {
          // add the css variables to "@layer utilities"
          // Why ?
          // - The Base layer does not provide intellisense
@@ -222,6 +236,44 @@ function light(colors: NestedColors): { [SCHEME]: 'light' } & MaybeNested<string
    };
 }
 
+function setWhenDefault(
+   key: string,
+   value: string,
+   {
+      resolved,
+      defaultTheme,
+      themeName,
+   }: {
+      resolved: Resolved;
+      defaultTheme: string | DefaultThemeObject | undefined;
+      themeName: string;
+   },
+) {
+   if (!defaultTheme) return;
+   if (typeof defaultTheme === 'string') {
+      if (themeName === defaultTheme) {
+         if (!resolved.utilities[':root']) {
+            resolved.utilities[':root'] = {};
+         }
+         resolved.utilities[':root'][key] = value;
+      }
+   } else if (themeName === defaultTheme.light) {
+      if (!resolved.utilities['@media (prefers-color-scheme: light)']) {
+         resolved.utilities['@media (prefers-color-scheme: light)'] = {
+            ':root': {},
+         };
+      }
+      resolved.utilities['@media (prefers-color-scheme: light)'][':root'][key] = value;
+   } else if (themeName === defaultTheme.dark) {
+      if (!resolved.utilities['@media (prefers-color-scheme: dark)']) {
+         resolved.utilities['@media (prefers-color-scheme: dark)'] = {
+            ':root': {},
+         };
+      }
+      resolved.utilities['@media (prefers-color-scheme: dark)'][':root'][key] = value;
+   }
+}
+
 interface MaybeNested<K extends keyof any = string, V extends string = string> {
    [key: string]: V | MaybeNested<K, V>;
 }
@@ -229,3 +281,43 @@ interface MaybeNested<K extends keyof any = string, V extends string = string> {
 type NoInfer<T> = [T][T extends any ? 0 : never];
 
 type HslaArray = [number, number, number, number | undefined];
+
+// TODO: remove
+
+createThemes(
+   {
+      light: { primary: 'red' },
+      dark: { primary: 'red' },
+   },
+   { defaultTheme: 'dark' },
+);
+
+createThemes(
+   {
+      light: { primary: 'red' },
+      dark: { primary: 'red' },
+   },
+   { defaultTheme: 'light' },
+);
+
+createThemes(
+   {
+      light1: { primary: 'red' },
+      dark2: { primary: 'red' },
+   },
+   { defaultTheme: { light: 'light1', dark: 'dark2' } },
+);
+createThemes(
+   () => ({
+      light1: { primary: 'red' },
+      dark2: { primary: 'red' },
+   }),
+   { defaultTheme: { light: 'light1', dark: 'dark2' } },
+);
+createThemes(
+   ({ light, dark }) => ({
+      light1: light({ primary: 'red' }),
+      dark2: dark({ primary: 'red' }),
+   }),
+   { defaultTheme: { light: 'light1', dark: 'dark2' } },
+);

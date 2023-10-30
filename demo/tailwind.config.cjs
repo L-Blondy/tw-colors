@@ -18,7 +18,10 @@ module.exports = {
             },
          },
          {
-            defaultTheme: 't2',
+            defaultTheme: {
+               light: 't2', // blueish
+               dark: 't3', // purple
+            },
             strict: false,
             produceThemeVariant: (themeName) => `theme-${themeName}`,
          },
