@@ -353,7 +353,7 @@ createThemes({
 
 The default theme to use, think of it as a fallback theme when no theme is declared.
 
-The **defaultTheme** can be chosen according to the user preference (see [MDN prefers-color-scheme][mdn-prefers-color-scheme])...
+The default theme can be chosen according to the user preference (see [MDN prefers-color-scheme][mdn-prefers-color-scheme])
 
 *Example*
 ```js
