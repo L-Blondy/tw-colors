@@ -157,7 +157,7 @@ For [variants](https://github.com/L-Blondy/tw-colors/tree/master#variants) to wo
    </summary>
    When using nested themes, it is better not to provide a base opacity in your color definitions.
 
-   With this setup the opacity (0.8) defined on the primary color of the "parent" theme will be inherited by the "child" theme.
+   With this setup the opacity (0.8) defined on the primary color of the "parent" theme will be inherited by the "child" theme's primary color.
 
    ```js
    createThemes({
