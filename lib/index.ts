@@ -97,7 +97,6 @@ export const resolveTwcConfig = <ThemeName extends string>(
          const safeColorName = escapeChars(colorName, '/');
          let [h, s, l, defaultAlphaValue]: HslaArray = [0, 0, 0, 1];
          try {
-            // set defaultAlphaValue to -1 to reset it for each theme. -1 is used as
             [h, s, l, defaultAlphaValue] = toHslaArray(colorValue);
          } catch (error: any) {
             const message = `\r\nWarning - In theme "${themeName}" color "${colorName}". ${error.message}`;
@@ -263,6 +262,7 @@ function generateRootVariantDefinitions<ThemeName extends string>(
    return [];
 }
 
+// hande the defaultTheme utils
 function addRootUtilities<ThemeName extends string>(
    utilities: ResolvedUtilities,
    {
@@ -315,43 +315,3 @@ interface MaybeNested<K extends keyof any = string, V extends string = string> {
 type NoInfer<T> = [T][T extends any ? 0 : never];
 
 type HslaArray = [number, number, number, number | undefined];
-
-// TODO: remove
-
-// createThemes(
-//    {
-//       light: { primary: 'red' },
-//       dark: { primary: 'red' },
-//    },
-//    { defaultTheme: 'dark' },
-// );
-
-// createThemes(
-//    {
-//       light: { primary: 'red' },
-//       dark: { primary: 'red' },
-//    },
-//    { defaultTheme: 'light' },
-// );
-
-// createThemes(
-//    {
-//       light1: { primary: 'red' },
-//       dark2: { primary: 'red' },
-//    },
-//    { defaultTheme: { light: 'light1', dark: 'dark2' } },
-// );
-// createThemes(
-//    () => ({
-//       light1: { primary: 'red' },
-//       dark2: { primary: 'red' },
-//    }),
-//    { defaultTheme: { light: 'light1', dark: 'dark2' } },
-// );
-// createThemes(
-//    ({ light, dark }) => ({
-//       light1: light({ primary: 'red' }),
-//       dark2: dark({ primary: 'red' }),
-//    }),
-//    { defaultTheme: { light: 'light1', dark: 'dark2' } },
-// );
