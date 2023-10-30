@@ -51,8 +51,8 @@ test('Variants', () => {
    ]);
 });
 
-test('Components', () => {
-   const { components } = resolveTwcConfig({
+test('Utilities', () => {
+   const { utilities } = resolveTwcConfig({
       hsl: {
          c1: 'hsl(1, 2%, 3%)',
          c2: 'hsl(1 2% 3%)',
@@ -74,7 +74,7 @@ test('Components', () => {
       },
    });
 
-   expect(components).toEqual({
+   expect(utilities).toEqual({
       '.hsl,[data-theme="hsl"]': {
          '--twc-c1': '1 2% 3%',
          '--twc-c2': '1 2% 3%',
@@ -103,7 +103,7 @@ test('Components', () => {
 });
 
 test('color-scheme', () => {
-   const { components } = resolveTwcConfig(({ light, dark }) => ({
+   const { utilities } = resolveTwcConfig(({ light, dark }) => ({
       t1: {
          c1: 'red',
          'slash/slash': 'red',
@@ -116,7 +116,7 @@ test('color-scheme', () => {
       }),
    }));
 
-   expect(components).toEqual({
+   expect(utilities).toEqual({
       '.t1,[data-theme="t1"]': {
          '--twc-c1': '0 100% 50%',
          '--twc-slash\\/slash': '0 100% 50%',
@@ -133,8 +133,8 @@ test('color-scheme', () => {
 });
 
 describe('Nested colors', () => {
-   test('Components', () => {
-      const { components } = resolveTwcConfig({
+   test('Utilities', () => {
+      const { utilities } = resolveTwcConfig({
          light: {
             primary: {
                100: 'red',
@@ -156,7 +156,7 @@ describe('Nested colors', () => {
             },
          },
       });
-      expect(components).toEqual({
+      expect(utilities).toEqual({
          '.light,[data-theme="light"]': {
             '--twc-primary-100': '0 100% 50%',
             '--twc-primary-200': '240 100% 50%',
@@ -177,7 +177,7 @@ describe('Nested colors', () => {
    });
 
    test('color-scheme', () => {
-      const { components } = resolveTwcConfig(({ light, dark }) => ({
+      const { utilities } = resolveTwcConfig(({ light, dark }) => ({
          light: light({
             primary: {
                100: 'red',
@@ -214,7 +214,7 @@ describe('Nested colors', () => {
          },
       }));
 
-      expect(components).toEqual({
+      expect(utilities).toEqual({
          '.light,[data-theme="light"]': {
             'color-scheme': 'light',
             '--twc-primary-100': '0 100% 50%',
