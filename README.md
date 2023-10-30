@@ -69,7 +69,7 @@ Apply `class='light'` or `data-theme='light'` anywhere in your app.
 
 That's it, you site has a light theme!
 
-### Add more themes
+### Adding more themes
 
 *tailwind.config.js*
 ```diff
@@ -269,6 +269,10 @@ Based on the current theme, specific styles can be applied using variants.
    ```
 </details>
 
+### CSS prefers-color-scheme
+
+*See the [default theme option](https://github.com/L-Blondy/tw-colors/tree/master#defaulttheme)*
+
 ### CSS color-scheme
 
 `createThemes` also accepts a function that exposes the `light` and `dark` functions. \
@@ -350,6 +354,29 @@ createThemes({
 ### <samp>defaultTheme</samp>
 
 The default theme to use, think of it as a fallback theme when no theme is declared.
+
+The **defaultTheme** can be chosen according to the user preference (see [MDN prefers-color-scheme][mdn-prefers-color-scheme])...
+
+*Example*
+```js
+createThemes({
+   'light': { 
+      'primary': 'steelblue',
+   },
+   'dark': { 
+      'primary': 'turquoise',
+   },
+}, {
+   defaultTheme: {
+      // when `@media (prefers-color-scheme: light)` is matched, the default theme is the "light" theme 
+      light: 'light', 
+      // when `@media (prefers-color-scheme: dark)` is matched, the default theme is the "dark" theme 
+      dark: 'dark', 
+   }
+})
+```
+
+...or simply set to one theme
 
 *Example*
 ```js
@@ -504,4 +531,5 @@ Please share
 [tweet-url]: https://twitter.com/intent/tweet?text=tw-colors%0ATailwind%20color%20themes%20made%20easy!%0Ahttps://github.com/L-Blondy/tw-colors
 [tailwind-intellisense-url]: https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss
 [mdn-color-scheme]: https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme
+[mdn-prefers-color-scheme]: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
 <!-- https://github.com/L-Blondy/tw-colors/blob/master/README.md -->
