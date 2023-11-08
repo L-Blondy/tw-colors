@@ -77,9 +77,7 @@ test('Utilities', () => {
    expect(utilities).toEqual({
       '.hsl,[data-theme="hsl"]': {
          '--twc-c1': '1 2% 3%',
-         '--twc-c1-opacity': '1.00',
          '--twc-c2': '1 2% 3%',
-         '--twc-c2-opacity': '1.00',
          '--twc-c3': '1 2% 3%',
          '--twc-c3-opacity': '0.50',
          '--twc-c4': '1 2% 3%',
@@ -87,9 +85,7 @@ test('Utilities', () => {
       },
       '.rgb,[data-theme="rgb"]': {
          '--twc-c1': '0 100% 50%',
-         '--twc-c1-opacity': '1.00',
          '--twc-c2': '0 100% 50%',
-         '--twc-c2-opacity': '1.00',
          '--twc-c3': '0 100% 50%',
          '--twc-c3-opacity': '0.50',
          '--twc-c4': '0 100% 50%',
@@ -97,13 +93,11 @@ test('Utilities', () => {
       },
       '.hex,[data-theme="hex"]': {
          '--twc-c1': '0 100% 50%',
-         '--twc-c1-opacity': '1.00',
          '--twc-c2': '0 100% 50%',
          '--twc-c2-opacity': '0.50',
       },
       '.colorName,[data-theme="colorName"]': {
          '--twc-red': '0 100% 50%',
-         '--twc-red-opacity': '1.00',
       },
    });
 });
@@ -125,19 +119,15 @@ test('color-scheme', () => {
    expect(utilities).toEqual({
       '.t1,[data-theme="t1"]': {
          '--twc-c1': '0 100% 50%',
-         '--twc-c1-opacity': '1.00',
          '--twc-slash\\/slash': '0 100% 50%',
-         '--twc-slash\\/slash-opacity': '1.00',
       },
       '.t2,[data-theme="t2"]': {
          'color-scheme': 'light',
          '--twc-c1': '0 100% 50%',
-         '--twc-c1-opacity': '1.00',
       },
       '.t3,[data-theme="t3"]': {
          'color-scheme': 'dark',
          '--twc-c1': '0 100% 50%',
-         '--twc-c1-opacity': '1.00',
       },
    });
 });
@@ -169,9 +159,7 @@ describe('Nested colors', () => {
       expect(utilities).toEqual({
          '.light,[data-theme="light"]': {
             '--twc-primary-100': '0 100% 50%',
-            '--twc-primary-100-opacity': '1.00',
             '--twc-primary-200': '240 100% 50%',
-            '--twc-primary-200-opacity': '1.00',
             '--twc-secondary-100': '0 100% 50%',
             '--twc-secondary-100-opacity': '0.50',
             '--twc-secondary-200': '0 100% 50%',
@@ -179,9 +167,7 @@ describe('Nested colors', () => {
          },
          '.dark,[data-theme="dark"]': {
             '--twc-primary-100': '120 100% 50%',
-            '--twc-primary-100-opacity': '1.00',
             '--twc-primary-200': '349.5 100% 87.6%',
-            '--twc-primary-200-opacity': '1.00',
             '--twc-secondary-100': '0 100% 50%',
             '--twc-secondary-100-opacity': '0.60',
             '--twc-secondary-200': '0 100% 50%',
@@ -232,9 +218,7 @@ describe('Nested colors', () => {
          '.light,[data-theme="light"]': {
             'color-scheme': 'light',
             '--twc-primary-100': '0 100% 50%',
-            '--twc-primary-100-opacity': '1.00',
             '--twc-primary-200': '240 100% 50%',
-            '--twc-primary-200-opacity': '1.00',
             '--twc-secondary-100': '0 100% 50%',
             '--twc-secondary-100-opacity': '0.50',
             '--twc-secondary-200': '0 100% 50%',
@@ -243,9 +227,7 @@ describe('Nested colors', () => {
          '.dark,[data-theme="dark"]': {
             'color-scheme': 'dark',
             '--twc-primary-100': '120 100% 50%',
-            '--twc-primary-100-opacity': '1.00',
             '--twc-primary-200': '349.5 100% 87.6%',
-            '--twc-primary-200-opacity': '1.00',
             '--twc-secondary-100': '0 100% 50%',
             '--twc-secondary-100-opacity': '0.60',
             '--twc-secondary-200': '0 100% 50%',
@@ -257,9 +239,7 @@ describe('Nested colors', () => {
          },
          '.none,[data-theme="none"]': {
             '--twc-primary-100': '120 100% 50%',
-            '--twc-primary-100-opacity': '1.00',
             '--twc-primary-200': '349.5 100% 87.6%',
-            '--twc-primary-200-opacity': '1.00',
             '--twc-secondary-100': '50 10% 12%',
             '--twc-secondary-100-opacity': '0.60',
             '--twc-secondary-200': '60 11% 13%',
