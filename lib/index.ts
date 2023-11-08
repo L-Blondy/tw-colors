@@ -5,7 +5,6 @@ import flatten from 'flat';
 
 const SCHEME = Symbol('color-scheme');
 const emptyConfig: TwcConfig = {};
-const NO_ALPHA = Symbol();
 
 type NestedColors = { [SCHEME]?: 'light' | 'dark' } & MaybeNested<string, string>;
 type FlatColors = { [SCHEME]?: 'light' | 'dark' } & Record<string, string>;
@@ -73,7 +72,6 @@ export const resolveTwcConfig = <ThemeName extends string>(
    forEach(configObject, (colors: NestedColors, themeName: ThemeName) => {
       const themeClassName = produceThemeClass(themeName);
       const themeVariant = produceThemeVariant(themeName);
-      const isDefault = themeName === defaultTheme;
 
       const flatColors = flattenColors(colors);
       // set the resolved.variants
@@ -127,8 +125,6 @@ export const resolveTwcConfig = <ThemeName extends string>(
                defaultTheme,
                themeName,
             });
-         } else {
-            resolved.utilities[cssSelector][twcOpacityVariable] = 'unset';
          }
          // set the dynamic color in tailwind config theme.colors
          resolved.colors[colorName] = ({ opacityVariable, opacityValue }) => {

@@ -1,6 +1,6 @@
 # Changelog
 
-## [3.3.0](https://github.com/L-Blondy/tw-colors/compare/v3.2.0...v3.3.0) - 2023-10-30
+## [3.3.0](https://github.com/L-Blondy/tw-colors/compare/v3.2.0...v3.3.1) - 2023-10-30
 
 ### Added
 - Added support for `prefers-color-scheme`
