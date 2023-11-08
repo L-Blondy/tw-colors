@@ -21,7 +21,7 @@
   "types": "dist/lib/index.d.ts",
   "scripts": {
     "build": "tsup",
-    "prepublish": "git pull && npm run build && vitest run",
+    "prepublish": "git pull && vitest run && npm run build",
     "postpublish": "git add . && git commit -a && git tag v$npm_package_version && git push --tags && git push",
     "test": "npm run build && vitest",
     "demo": "npm run build && vite",
