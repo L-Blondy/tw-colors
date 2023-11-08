@@ -53,7 +53,7 @@ Take an existing tailwind config and move the colors in the `createThemes` plugi
 
 Apply `class='light'` or `data-theme='light'` anywhere in your app. 
 
-*See the [options](https://github.com/L-Blondy/tw-colors/tree/master#producethemeclass) to customize the className*
+*See the [options](https://github.com/L-Blondy/tw-colors#producethemeclass) to customize the className*
 
 ```diff
 -  <html>
@@ -135,7 +135,7 @@ Just nest the themes...
 
 #### With <samp>class</samp>
 
-For [variants](https://github.com/L-Blondy/tw-colors/tree/master#variants) to work properly in nested themes, an empty `data-theme` attribute must be added alongside the nested theme `class`
+For [variants](https://github.com/L-Blondy/tw-colors#variants) to work properly in nested themes, an empty `data-theme` attribute must be added alongside the nested theme `class`
 
 ```diff
    <html class='dark'>
@@ -204,7 +204,7 @@ Based on the current theme, specific styles can be applied using variants.
    </div>
 ```
 
-*See the [options](https://github.com/L-Blondy/tw-colors/tree/master#producethemevariant) to customize the variant name*
+*See the [options](https://github.com/L-Blondy/tw-colors#producethemevariant) to customize the variant name*
 
 
 <details>
@@ -269,7 +269,7 @@ Based on the current theme, specific styles can be applied using variants.
 
 ### CSS prefers-color-scheme
 
-*See the [default theme option](https://github.com/L-Blondy/tw-colors/tree/master#defaulttheme)*
+*See the [default theme option](https://github.com/L-Blondy/tw-colors#defaulttheme)*
 
 ### CSS color-scheme
 
@@ -331,7 +331,7 @@ Example usage:
 }
 ```
 
-*See the [options](https://github.com/L-Blondy/tw-colors/tree/master#producecssvariable) to customize the css variables*
+*See the [options](https://github.com/L-Blondy/tw-colors#producecssvariable) to customize the css variables*
 
 ## Options
 
