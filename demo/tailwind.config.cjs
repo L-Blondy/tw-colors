@@ -19,8 +19,8 @@ module.exports = {
          },
          {
             defaultTheme: {
-               light: 't2', // blueish
-               dark: 't3', // purple
+               light: 't3', // blueish
+               dark: 't2', // purple
             },
             strict: false,
             produceThemeVariant: (themeName) => `theme-${themeName}`,
