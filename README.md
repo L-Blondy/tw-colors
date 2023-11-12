@@ -51,7 +51,7 @@ Take an existing tailwind config and move the colors in the `createThemes` plugi
 
 ```
 
-Apply `class='light'` or `data-theme='light'` anywhere in your app. 
+Apply `class='light'` or `data-theme='light'` anywhere in your ap (the html and body tags are a good place for it) 
 
 *See the [options](https://github.com/L-Blondy/tw-colors#producethemeclass) to customize the className*
 
