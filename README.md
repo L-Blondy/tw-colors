@@ -1,13 +1,13 @@
-# Welcome to [tw-colors](https://github.com/L-Blondy/tw-colors)
+# [tw-colors](https://github.com/L-Blondy/tw-colors)
 
 Introducing the ultimate game-changer for your Tailwind app! Say goodbye to cluttered dark variants and messy CSS variables. With this tailwind plugin, switching between color themes is as effortless as changing one className.
 
 ## Highlights
 
 * 📦 **Zero javascript** added to the bundle size, it's just some CSS!
-* 🚀 **Fully customizable**, tailor it to your needs
-* 🎯 **Fine-grained theming** with variants
-* 🤩 **Nested themes** for complex layouts
+* 🚀 **Scalable**, add as many themes and colors as you want. There is no limit on the number of themes and colors. 
+* 🎯 **Flexible**, don't limit yourself to colors, with the built-in **variants** you can theme any css property
+* 🤩 **Nested themes** are supported for complex cases
 * ✨ **All color formats are supported**, including HEX, RGB, HSL, and named colors
 * 💫 **Full [Tailwind CSS Intellisense][tailwind-intellisense-url] support** 🔥🔥🔥
 
