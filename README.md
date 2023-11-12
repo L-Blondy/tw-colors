@@ -8,7 +8,7 @@ Introducing the ultimate game-changer for your Tailwind app! Say goodbye to clut
 * 🚀 **Scalable**, add as many themes and colors as you want. There is no limit on the number of themes and color you can use
 * 🎯 **Flexible**, don't limit yourself to colors, with the built-in **variants** you can theme any css property
 * 🤩 **Nested themes** are supported for complex cases
-* ✨ **Easy to adopt**, no markup change is necessary
+* ✨ **Easy to adopt**, no need to change the markup, it just works! 
 * 💫 **Full [Tailwind CSS Intellisense][tailwind-intellisense-url] support** 🔥🔥🔥
 
 ## Changelog
