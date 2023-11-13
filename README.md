@@ -4,12 +4,11 @@ Introducing the ultimate game-changer for your Tailwind app! Say goodbye to clut
 
 ## Highlights
 
-* 📦 **Zero javascript** added to the bundle size, it's just some CSS!
 * 🚀 **Scalable**, add as many themes and colors as you want. There is no limit on the number of themes and color you can use
-* 🎯 **Flexible**, don't limit yourself to colors, with the built-in **variants** you can theme any css property
-* ✨ **Easy to adopt**, no need to change the markup, it just works!
+* 💫 **Flexible**, don't limit yourself to colors, with the built-in **variants** you can theme any css property
+* ✨ **Easy to adopt**, no need to change your markup, it just works!
 * 🤩 **Nested themes** are supported for complex use cases 
-* 💫 **Full [Tailwind CSS Intellisense][tailwind-intellisense-url] support** 🔥🔥🔥
+* 🎯 **Full [Tailwind CSS Intellisense][tailwind-intellisense-url] support** 🔥🔥🔥
 
 ## Changelog
 
@@ -35,6 +34,7 @@ Take an existing tailwind config and move the colors in the `createThemes` plugi
 -              'primary': 'steelblue',
 -              'secondary': 'darkblue',
 -              'brand': '#F3F3F3',
+-              // ...other colors
 -           }
          },
       },
@@ -44,12 +44,15 @@ Take an existing tailwind config and move the colors in the `createThemes` plugi
 +              'primary': 'steelblue',
 +              'secondary': 'darkblue',
 +              'brand': '#F3F3F3',
++              // ...other colors
 +           }
 +        })
       ],
    };
 
 ```
+
+*💡 **tip:** you can use any color name as you usually do, not just the ones from the example. The same goes for the theme names.*
 
 Apply `class='light'` or `data-theme='light'` anywhere in your app (the html or the body tag is a good spot for it) 
 
@@ -67,7 +70,7 @@ Apply `class='light'` or `data-theme='light'` anywhere in your app (the html or 
    </html>
 ```
 
-That's it, you site has a light theme!
+That's it, you site has a *light* theme!
 
 ### Adding more themes
 
@@ -94,6 +97,11 @@ That's it, you site has a light theme!
 +              'secondary': '#E9C46A',
 +              'brand': '#264653',
 +           },
++           winter: { 
++              'primary': 'hsl(45 39% 69%)',
++              'secondary': 'rgb(120 210 50)',
++              'brand': 'hsl(54 93% 96%)',
++           },
          })
       ],
    };
@@ -111,81 +119,6 @@ Simply switch the *class* or the *data-theme* attribute
       ...
    </html>
 ```
-
-### Nested themes
-
-#### With <samp>data-theme</samp>
-
-Just nest the themes...
-
-```diff
-   <html data-theme='dark'>
-      ...
-      <div data-theme='light'>
-         ...
-      </div>
-
-      <div data-theme='forest'>
-         ...
-      </div>
-   </html>
-```
-
-
-
-#### With <samp>class</samp>
-
-For [variants](https://github.com/L-Blondy/tw-colors#variants) to work properly in nested themes, an empty `data-theme` attribute must be added alongside the nested theme `class`
-
-```diff
-   <html class='dark'>
-      ...
-      <div data-theme class='light'>
-         ...
-      </div>
-
-      <div data-theme class='forest'>
-         ...
-      </div>
-   </html>
-```
-
-
-<details>
-   <summary>
-      <strong> Caveat: avoid opacity in the color definition </strong>
-   </summary>
-   When using nested themes, it is better not to provide a base opacity in your color definitions.
-
-   With this setup the *0.8* opacity defined on the primary color of the "parent" theme will be inherited by the "child" theme's primary color.
-
-   ```js
-   createThemes({
-      parent: { 
-         'primary': 'hsl(50 50% 50% / 0.8)', // avoid this
-         'secondary': 'darkblue',
-      },
-      child: { 
-         'primary': 'turquoise',
-         'secondary': 'tomato',
-      },
-   })
-   ```
-
-
-   ```html
-   <html data-theme='parent'>
-
-      <div data-theme='child'>
-         <!-- The primary color has an unexpected 0.8 opacity -->
-         <button class='bg-primary'>Click me</button>
-        
-        ...
-      </div>
-   </html>  
-   ```
-
-</details>
 
 ###  Variants
 
@@ -228,6 +161,81 @@ Based on the current theme, specific styles can be applied using variants.
    ```
 </details>
 
+
+
+### Nested themes
+
+#### With <samp>data-theme</samp>
+
+Just nest the themes...
+
+```diff
+   <html data-theme='dark'>
+      ...
+      <div data-theme='winter'>
+         ...
+      </div>
+
+      <div data-theme='forest'>
+         ...
+      </div>
+   </html>
+```
+
+#### With <samp>class</samp>
+
+For [variants](https://github.com/L-Blondy/tw-colors#variants) to work properly in nested themes, an empty `data-theme` attribute must be added alongside the nested theme `class`
+
+```diff
+   <html class='dark'>
+      ...
+      <div data-theme class='winter'>
+         ...
+      </div>
+
+      <div data-theme class='forest'>
+         ...
+      </div>
+   </html>
+```
+
+**Caveats**
+
+<details>
+   <summary>
+      <strong> Avoid opacity in the color definition </strong>
+   </summary>
+   When using nested themes, it is better not to provide a base opacity in your color definitions.
+
+   With this setup the *0.8* opacity defined on the primary color of the "parent" theme will be inherited by the "child" theme's primary color.
+
+   ```js
+   createThemes({
+      parent: { 
+         'primary': 'hsl(50 50% 50% / 0.8)', // don't do this, the default opacity will propagate to the child theme
+         'secondary': 'darkblue',
+      },
+      child: { 
+         'primary': 'turquoise',
+         'secondary': 'tomato',
+      },
+   })
+   ```
+
+
+   ```html
+   <html data-theme='parent'>
+
+      <div data-theme='child'>
+         <!-- The primary color has an unexpected 0.8 opacity -->
+         <button class='bg-primary'>Click me</button>
+        
+        ...
+      </div>
+   </html>  
+   ```
+</details>
+
 <details>
    <summary>
       <strong> Caveat: inherited properties </strong>
@@ -267,6 +275,7 @@ Based on the current theme, specific styles can be applied using variants.
    ```
 </details>
 
+
 ### CSS prefers-color-scheme
 
 *See the [default theme option](https://github.com/L-Blondy/tw-colors#defaulttheme)*
@@ -282,15 +291,15 @@ See the [MDN docs][mdn-color-scheme] for more details on this feature.
 *tailwind.config.js*
 ```js
 createThemes(({ light, dark }) => ({
-   'my-light-theme': light({ 
+   'winter': light({ 
       'primary': 'steelblue',
-      'secondary': 'darkblue',
-      'brand': '#F3F3F3',
+      'base': 'darkblue',
+      'surface': '#F3F3F3',
    }),
-   'my-dark-theme': dark({ 
+   'forest': dark({ 
       'primary': 'turquoise',
-      'secondary': 'tomato',
-      'brand': '#4A4A4A',
+      'base': 'tomato',
+      'surface': '#4A4A4A',
    }),
 }))
 ```
@@ -299,7 +308,7 @@ createThemes(({ light, dark }) => ({
 
 **tw-colors** creates CSS variables using the format `--twc-[color name]` by default, they contain HSL values. 
 
-For example, with the following configuration, the variables `--twc-primary`, `--twc-secondary`, `--twc-brand` will be created.
+For example, with the following configuration, the variables `--twc-primary`, `--twc-base`, `--twc-surface` will be created.
 
 *tailwind.config.js*
 ```js
@@ -307,15 +316,15 @@ For example, with the following configuration, the variables `--twc-primary`, `-
       // ...your tailwind config
       plugins: [
          createThemes({
-            'my-light-theme': { 
+            'winter': { 
                'primary': 'steelblue',
-               'secondary': 'darkblue',
-               'brand': '#F3F3F3',
+               'base': 'darkblue',
+               'surface': '#F3F3F3',
             },
-            'my-dark-theme': { 
+            'forst': { 
                'primary': 'turquoise',
-               'secondary': 'tomato',
-               'brand': '#4A4A4A',
+               'base': 'tomato',
+               'surface': '#4A4A4A',
             },
          })
       ],
@@ -353,46 +362,45 @@ createThemes({
 
 The default theme to use, think of it as a fallback theme when no theme is declared.
 
-The default theme can be chosen according to the user preference (see [MDN prefers-color-scheme][mdn-prefers-color-scheme])
 
-*Example*
+**Example: simple default theme**
 ```js
 createThemes({
-   'light': { 
+   'winter': { 
       'primary': 'steelblue',
    },
-   'dark': { 
-      'primary': 'turquoise',
+   'halloween': { 
+      'primary': 'crimson',
+   },
+}, {
+   defaultTheme: 'winter' // 'winter' | 'halloween'
+})
+```
+
+The default theme can also be chosen according to the user *light* or *dark* preference (see [MDN prefers-color-scheme][mdn-prefers-color-scheme])
+
+**Example: adapting to user preference**
+```js
+createThemes({
+   'winter': { 
+      'primary': 'steelblue',
+   },
+   'halloween': { 
+      'primary': 'crimson',
    },
 }, {
    defaultTheme: {
       /**
        * when `@media (prefers-color-scheme: light)` is matched, 
-       * the default theme is the "light" theme 
+       * the default theme is the "winter" theme 
        */
-      light: 'light', 
+      light: 'winter', 
       /**
        * when `@media (prefers-color-scheme: dark)` is matched, 
-       * the default theme is the "dark" theme 
+       * the default theme is the "halloween" theme 
        */
-      dark: 'dark', 
+      dark: 'halloween', 
    }
-})
-```
-
-...or simply set to one theme
-
-*Example*
-```js
-createThemes({
-   'light': { 
-      'primary': 'steelblue',
-   },
-   'dark': { 
-      'primary': 'turquoise',
-   },
-}, {
-   defaultTheme: 'light' // 'light' | 'dark'
 })
 ```
 
@@ -406,12 +414,12 @@ If `true` invalid colors produce an error.
 *Example*
 ```js
 createThemes({
-   'light': { 
+   'christmas': { 
       // invalid color
       'primary': 'redish',
    },
-   'dark': { 
-      'primary': 'turquoise',
+   'darkula': { 
+      'primary': 'crimson',
    },
 }, {
    // an error will be thrown
@@ -428,19 +436,19 @@ Customize the css variables generated by the plugin.
 With the below configuration, the following variables will be created:
 * `--a-primary-z` (instead of *twc-primary*)
 * `--a-secondary-z` (instead of *twc-secondary*)
-* `--a-brand-z` (instead of *twc-brand*)
+* `--a-base-z` (instead of *twc-base*)
 
 ```js
 createThemes({
    'light': { 
       'primary': 'steelblue',
       'secondary': 'darkblue',
-      'brand': '#F3F3F3',
+      'base': '#F3F3F3',
    },
    'dark': { 
       'primary': 'turquoise',
       'secondary': 'tomato',
-      'brand': '#4A4A4A',
+      'base': '#4A4A4A',
    },
 }, {
    produceCssVariable: (colorName) => `--a-${colorName}-z`
@@ -463,12 +471,12 @@ createThemes({
    'light': { 
       'primary': 'steelblue',
       'secondary': 'darkblue',
-      'brand': '#F3F3F3',
+      'base': '#F3F3F3',
    },
    'dark': { 
       'primary': 'turquoise',
       'secondary': 'tomato',
-      'brand': '#4A4A4A',
+      'base': '#4A4A4A',
    },
 }, {
    produceThemeClass: (themeName) => `theme-${themeName}`
@@ -501,12 +509,12 @@ createThemes({
    'light': { 
       'primary': 'steelblue',
       'secondary': 'darkblue',
-      'brand': '#F3F3F3',
+      'base': '#F3F3F3',
    },
    'dark': { 
       'primary': 'turquoise',
       'secondary': 'tomato',
-      'brand': '#4A4A4A',
+      'base': '#4A4A4A',
    },
 }, {
    produceThemeVariant: (themeName) => `theme-${themeName}`
