@@ -238,7 +238,7 @@ For [variants](https://github.com/L-Blondy/tw-colors#variants) to work properly 
 
 <details>
    <summary>
-      <strong> Caveat: inherited properties </strong>
+      <strong> Inherited properties </strong>
    </summary>
 
    Inherited properties (e.g. "font-family") are inherited by **all descendants**, including nested themes.
@@ -275,10 +275,6 @@ For [variants](https://github.com/L-Blondy/tw-colors#variants) to work properly 
    ```
 </details>
 
-
-### CSS prefers-color-scheme
-
-*See the [default theme option](https://github.com/L-Blondy/tw-colors#defaulttheme)*
 
 ### CSS color-scheme
 
