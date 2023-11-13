@@ -199,11 +199,11 @@ For [variants](https://github.com/L-Blondy/tw-colors#variants) to work properly 
    </html>
 ```
 
-**Caveats**
+**Caveats:**
 
 <details>
    <summary>
-      <strong> Avoid opacity in the color definition </strong>
+      <strong> Do not set opacity in the color definition </strong>
    </summary>
    When using nested themes, it is better not to provide a base opacity in your color definitions.
 
