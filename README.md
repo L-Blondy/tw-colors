@@ -317,7 +317,7 @@ For example, with the following configuration, the variables `--twc-primary`, `-
                'base': 'darkblue',
                'surface': '#F3F3F3',
             },
-            'forst': { 
+            'forest': { 
                'primary': 'turquoise',
                'base': 'tomato',
                'surface': '#4A4A4A',
