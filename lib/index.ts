@@ -68,7 +68,7 @@ export const resolveTwcConfig = <ThemeName extends string>(
       colors: {},
    };
    const configObject = typeof config === 'function' ? config({ dark, light }) : config;
-   const regexp = /(?<name>\S*)\s?\/\s?(?<alpha>.*)/g;
+   const regexp = /(?<name>\S*)\s?\/\s?(?<alpha>.*)/;
    // @ts-ignore forEach types fail to assign themeName
    forEach(configObject, (colors: NestedColors, themeName: ThemeName) => {
       const themeClassName = produceThemeClass(themeName);
@@ -99,7 +99,7 @@ export const resolveTwcConfig = <ThemeName extends string>(
          let cssVarValue = colorValue?.startsWith('var') ? colorValue : null;
 
          if (cssVarValue) {
-            const match = regexp.exec(cssVarValue);
+            const match = cssVarValue.match(regexp);
             if (match?.groups?.alpha) {
                cssVarValue = match.groups?.name;
                defaultAlphaValue = parseFloat(match.groups.alpha);
