@@ -72,6 +72,10 @@ test('Utilities', () => {
       colorName: {
          red: 'red',
       },
+      variable: {
+         v1: 'var(--brand)',
+         v2: 'var(--brand) / 0.7',
+      },
    });
 
    expect(utilities).toEqual({
@@ -98,6 +102,11 @@ test('Utilities', () => {
       },
       '.colorName,[data-theme="colorName"]': {
          '--twc-red': '0 100% 50%',
+      },
+      '.variable,[data-theme="variable"]': {
+         '--twc-v1': 'var(--brand)',
+         '--twc-v2': 'var(--brand)',
+         '--twc-v2-opacity': '0.70',
       },
    });
 });

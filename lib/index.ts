@@ -68,6 +68,7 @@ export const resolveTwcConfig = <ThemeName extends string>(
       colors: {},
    };
    const configObject = typeof config === 'function' ? config({ dark, light }) : config;
+   const regexp = /(?<name>\S*)\s?\/\s?(?<alpha>.*)/g;
    // @ts-ignore forEach types fail to assign themeName
    forEach(configObject, (colors: NestedColors, themeName: ThemeName) => {
       const themeClassName = produceThemeClass(themeName);
@@ -94,24 +95,39 @@ export const resolveTwcConfig = <ThemeName extends string>(
          if ((colorName as any) === SCHEME) return;
          const safeColorName = escapeChars(colorName, '/');
          let [h, s, l, defaultAlphaValue]: HslaArray = [0, 0, 0, 1];
-         try {
-            [h, s, l, defaultAlphaValue] = toHslaArray(colorValue);
-         } catch (error: any) {
-            const message = `\r\nWarning - In theme "${themeName}" color "${colorName}". ${error.message}`;
 
-            if (strict) {
-               throw new Error(message);
+         let cssVarValue = colorValue?.startsWith('var') ? colorValue : null;
+
+         if (cssVarValue) {
+            const match = regexp.exec(cssVarValue);
+            if (match?.groups?.alpha) {
+               cssVarValue = match.groups?.name;
+               defaultAlphaValue = parseFloat(match.groups.alpha);
+            } else {
+               defaultAlphaValue = undefined;
             }
-            return console.error(message);
+         } else {
+            try {
+               [h, s, l, defaultAlphaValue] = toHslaArray(colorValue);
+            } catch (error: any) {
+               const message = `\r\nWarning - In theme "${themeName}" color "${colorName}". ${error.message}`;
+
+               if (strict) {
+                  throw new Error(message);
+               }
+               return console.error(message);
+            }
          }
+
          const twcColorVariable = produceCssVariable(safeColorName);
          const twcOpacityVariable = `${produceCssVariable(safeColorName)}-opacity`;
          // add the css variables in "@layer utilities" for the hsl values
-         const hslValues = `${h} ${s}% ${l}%`;
-         resolved.utilities[cssSelector][twcColorVariable] = hslValues;
+         const value = cssVarValue || `${h} ${s}% ${l}%`;
+         resolved.utilities[cssSelector][twcColorVariable] = value;
+
          addRootUtilities(resolved.utilities, {
             key: twcColorVariable,
-            value: hslValues,
+            value: value,
             defaultTheme,
             themeName,
          });
@@ -128,7 +144,7 @@ export const resolveTwcConfig = <ThemeName extends string>(
          }
          // set the dynamic color in tailwind config theme.colors
          resolved.colors[colorName] = ({ opacityVariable, opacityValue }) => {
-            // if the opacity is set  with a slash (e.g. bg-primary/90), use the provided value
+            // if the opacity is set with a slash (e.g. bg-primary/90), use the provided value
             if (!isNaN(+opacityValue)) {
                return `hsl(var(${twcColorVariable}) / ${opacityValue})`;
             }
