@@ -530,6 +530,8 @@ createThemes({
 ## From the same Author
 
 [up-fetch](https://github.com/L-Blondy/up-fetch): Tiny fetch API wrapper with configurable defaults.
+<br />
+<br />
 
 <div align="center">
 
