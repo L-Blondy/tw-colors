@@ -529,7 +529,7 @@ createThemes({
 
 ## From the same Author
 
-[up-fetch](https://github.com/L-Blondy/up-fetch): Tiny fetch API wrapper with configurable defaults.
+[up-fetch](https://github.com/L-Blondy/up-fetch): Tiny 1kb configuration tool for the fetch API with sensible default
 <br />
 <br />
 
