@@ -70,7 +70,7 @@ Apply `class='light'` or `data-theme='light'` anywhere in your app (the html or 
    </html>
 ```
 
-That's it, you site has a *light* theme!
+That's it, your site has a *light* theme!
 
 ### Adding more themes
 
