@@ -1,5 +1,5 @@
 import { Config } from 'tailwindcss';
-import { resolveTwcConfig } from '../lib';
+import { resolveTwcConfig } from '../dist/lib';
 import { describe, expect, test } from 'vitest';
 import { createThemes } from '../dist/lib';
 
