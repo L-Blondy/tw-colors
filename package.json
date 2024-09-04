@@ -1,6 +1,6 @@
 {
    "name": "tw-colors",
-   "version": "3.3.2",
+   "version": "3.3.2-beta.0",
    "author": {
       "name": "Laurent Blondy",
       "email": "laurent.blondy1@gmail.com",
@@ -25,9 +25,10 @@
       "dev": "npm run build && vitest",
       "test": "npm run build && vitest run",
       "visual": "npm run build && vite",
-      "release:stable": "npm run release:pre && npm publish && npm run release:post",
-      "release:beta": "npm run release:pre && npm publish --tag beta && npm run release:post",
-      "release:pre": "git pull && vitest run && npm run build",
+      "release:pre:beta": "git pull && node scripts/check-beta-version.js && vitest run && npm run build",
+      "release:pre:stable": "git pull && node scripts/check-stable-version.js && vitest run && npm run build",
+      "release:stable": "npm run release:pre:stable && npm publish && npm run release:post",
+      "release:beta": "npm run release:pre:beta && npm publish --tag beta && npm run release:post",
       "release:post": "git add . && git commit -a && git tag v$npm_package_version && git push --tags && git push"
    },
    "publishConfig": {
