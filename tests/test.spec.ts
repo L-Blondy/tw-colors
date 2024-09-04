@@ -4,19 +4,17 @@ import { describe, expect, test } from 'vitest';
 import { createThemes } from '../dist/lib';
 
 test('type', () => {
-   const t = {
-      content: ['./src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}'],
+   const t1 = {
+      content: [''],
       theme: { extend: {} },
-      plugins: [
-         createThemes(
-            { light: { blue: 'blue' } },
-            {
-               defaultTheme: 'day',
-               produceCssVariable: (prop) => `--c-${prop}`,
-               strict: true,
-            },
-         ),
-      ],
+      plugins: [createThemes({ light: { blue: 'blue' } }, { defaultTheme: 'light' })],
+      important: false,
+   } satisfies Config;
+
+   const t2 = {
+      content: [''],
+      theme: { extend: {} },
+      plugins: [createThemes({ light: { blue: 'blue' } })],
       important: false,
    } satisfies Config;
 });
