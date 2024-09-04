@@ -1,62 +1,64 @@
 {
-  "name": "tw-colors",
-  "version": "3.3.1",
-  "author": {
-    "name": "Laurent Blondy",
-    "email": "laurent.blondy1@gmail.com",
-    "url": "https://github.com/L-Blondy"
-  },
-  "description": "Tailwind plugin for switching color theme with just one className",
-  "keywords": [
-    "tailwind",
-    "tailwindcss",
-    "color",
-    "colors",
-    "theme",
-    "themes",
-    "dark"
-  ],
-  "main": "dist/lib/index.js",
-  "module": "dist/lib/index.mjs",
-  "types": "dist/lib/index.d.ts",
-  "scripts": {
-    "build": "tsup",
-    "prepublish": "git pull && vitest run && npm run build",
-    "postpublish": "git add . && git commit -a && git tag v$npm_package_version && git push --tags && git push",
-    "test": "npm run build && vitest",
-    "demo": "npm run build && vite",
-    "yes": "echo $npm_package_version"
-  },
-  "publishConfig": {
-    "access": "public",
-    "branches": [
-      "master"
-    ]
-  },
-  "peerDependencies": {
-    "tailwindcss": ">=3.0.0"
-  },
-  "dependencies": {
-    "color": "^4.2.3",
-    "flat": "^5.0.2",
-    "lodash.foreach": "^4.5.0"
-  },
-  "devDependencies": {
-    "@types/color": "^3.0.3",
-    "@types/flat": "^5.0.2",
-    "@types/lodash.foreach": "^4.5.7",
-    "@types/node": "^18.11.9",
-    "autoprefixer": "^10.4.13",
-    "postcss": "^8.4.21",
-    "prettier": "^2.7.1",
-    "tsup": "^6.7.0",
-    "typescript": ">=4.0.0",
-    "vite": "^4.0.4",
-    "vitest": "^0.28.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/L-Blondy/tw-colors"
-  },
-  "license": "MIT"
+   "name": "tw-colors",
+   "version": "3.3.1",
+   "author": {
+      "name": "Laurent Blondy",
+      "email": "laurent.blondy1@gmail.com",
+      "url": "https://github.com/L-Blondy"
+   },
+   "description": "Tailwind plugin for switching color theme with just one className",
+   "keywords": [
+      "tailwind",
+      "tailwindcss",
+      "color",
+      "colors",
+      "theme",
+      "themes",
+      "dark"
+   ],
+   "main": "dist/lib/index.js",
+   "module": "dist/lib/index.mjs",
+   "types": "dist/lib/index.d.ts",
+   "scripts": {
+      "build": "tsup",
+      "postpublish": "git add . && git commit -a && git tag v$npm_package_version && git push --tags && git push",
+      "dev": "npm run build && vitest",
+      "visual": "npm run build && vite",
+      "release:stable": "npm run release:pre && npm publish && npm run release:post",
+      "release:beta": "npm run release:pre && npm publish --tag beta && npm run release:post",
+      "release:pre": "git pull && vitest run && npm run build",
+      "release:post": "git add . && git commit -a && git tag v$npm_package_version && git push --tags && git push"
+   },
+   "publishConfig": {
+      "access": "public",
+      "branches": [
+         "master"
+      ]
+   },
+   "peerDependencies": {
+      "tailwindcss": ">=3.0.0"
+   },
+   "dependencies": {
+      "color": "^4.2.3",
+      "flat": "^5.0.2",
+      "lodash.foreach": "^4.5.0"
+   },
+   "devDependencies": {
+      "@types/color": "^3.0.3",
+      "@types/flat": "^5.0.2",
+      "@types/lodash.foreach": "^4.5.7",
+      "@types/node": "^18.11.9",
+      "autoprefixer": "^10.4.13",
+      "postcss": "^8.4.21",
+      "prettier": "^2.7.1",
+      "tsup": "^6.7.0",
+      "typescript": ">=4.0.0",
+      "vite": "^4.0.4",
+      "vitest": "^0.28.3"
+   },
+   "repository": {
+      "type": "git",
+      "url": "https://github.com/L-Blondy/tw-colors"
+   },
+   "license": "MIT"
 }
