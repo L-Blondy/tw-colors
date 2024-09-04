@@ -1,5 +1,25 @@
+import { Config } from 'tailwindcss';
 import { resolveTwcConfig } from '../lib';
 import { describe, expect, test } from 'vitest';
+import { createThemes } from '../dist/lib';
+
+test('type', () => {
+   const t = {
+      content: ['./src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}'],
+      theme: { extend: {} },
+      plugins: [
+         createThemes(
+            { light: { blue: 'blue' } },
+            {
+               defaultTheme: 'day',
+               produceCssVariable: (prop) => `--c-${prop}`,
+               strict: true,
+            },
+         ),
+      ],
+      important: false,
+   } satisfies Config;
+});
 
 test('Variants', () => {
    const { variants } = resolveTwcConfig({
