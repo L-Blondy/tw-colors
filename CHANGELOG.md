@@ -1,5 +1,15 @@
 # Changelog
 
+## [4.0.0-beta.0](https://github.com/L-Blondy/tw-colors/compare/v3.3.2...v4.0.0-beta.0) - 2025-01-24
+
+Added support for Tailwind 4.
+
+## Breaking changes due to tailwind 4 limitations
+- **data attributes** are no longer supported to set the theme
+- **default themes** are no longer supported
+- **default color opacity** is no longer supported in the config
+- **slash** in className is no longer supported
+
 ## [3.3.2](https://github.com/L-Blondy/tw-colors/compare/v3.3.1...v3.3.2) - 2023-10-30
 
 ### Fixed

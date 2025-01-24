@@ -2,6 +2,10 @@
 
 Introducing the ultimate game-changer for your Tailwind app! Say goodbye to cluttered dark variants and messy CSS variables. With this tailwind plugin, switching between color themes is as effortless as changing one className.
 
+## 🚨 Tailwind 4
+
+This plugin was originally designed for Tailwind CSS v3. With Tailwind v4's release, you may want to consider using Tailwind's built-in CSS configuration for managing multiple themes instead.
+
 ## Highlights
 
 * 🚀 **Scalable**, add as many themes and colors as you want. There is no limit on the number of themes and color you can use
@@ -64,6 +68,8 @@ Take an existing tailwind config and move the colors in the `createThemes` plugi
 ```
 
 *💡 **tip:** you can use any color name as you usually do, not just the ones from the example. The same goes for the theme names.*
+
+**Note:** With Tailwind 4, you need to import your js config in your css config file (e.g. `@config "./tailwind.config.js"`)
 
 Apply `class='light'` anywhere in your app (the html or the body tag is a good spot for it) 
 
