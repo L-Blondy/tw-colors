@@ -19,12 +19,13 @@
    "main": "dist/lib/index.js",
    "module": "dist/lib/index.mjs",
    "types": "dist/lib/index.d.ts",
+   "type": "module",
    "scripts": {
       "build": "tsup",
       "postpublish": "git add . && git commit -a && git tag v$npm_package_version && git push --tags && git push",
       "dev": "npm run build && vitest",
       "test": "npm run build && vitest run",
-      "visual": "npm run build && vite",
+      "visual": "npm run build && cd visual && vite",
       "release:pre:beta": "git pull && node scripts/check-beta-version.js && vitest run && npm run build",
       "release:pre:stable": "git pull && node scripts/check-stable-version.js && vitest run && npm run build",
       "release:stable": "npm run release:pre:stable && npm publish && npm run release:post",
@@ -38,7 +39,7 @@
       ]
    },
    "peerDependencies": {
-      "tailwindcss": ">=3.0.0"
+      "tailwindcss": ">=4.0.0"
    },
    "dependencies": {
       "color": "^4.2.3",
@@ -46,17 +47,14 @@
       "lodash.foreach": "^4.5.0"
    },
    "devDependencies": {
-      "@types/color": "^3.0.3",
+      "@types/color": "^4.2.0",
       "@types/flat": "^5.0.2",
-      "@types/lodash.foreach": "^4.5.7",
-      "@types/node": "^18.11.9",
-      "autoprefixer": "^10.4.13",
-      "postcss": "^8.4.21",
-      "prettier": "^2.7.1",
-      "tsup": "^6.7.0",
+      "@types/lodash.foreach": "^4.5.9",
+      "@types/node": "^22.10.10",
+      "prettier": "^3.4.2",
+      "tsup": "^8.3.5",
       "typescript": ">=4.0.0",
-      "vite": "^4.0.4",
-      "vitest": "^0.28.3"
+      "vitest": "^3.0.4"
    },
    "repository": {
       "type": "git",
