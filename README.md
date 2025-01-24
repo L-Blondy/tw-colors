@@ -2,6 +2,10 @@
 
 Introducing the ultimate game-changer for your Tailwind app! Say goodbye to cluttered dark variants and messy CSS variables. With this tailwind plugin, switching between color themes is as effortless as changing one className.
 
+## 🚨 Tailwind 4
+
+This plugin was originally designed for Tailwind CSS v3. With Tailwind v4's release, you may want to consider using Tailwind's built-in CSS configuration for managing multiple themes instead.
+
 ## Highlights
 
 * 🚀 **Scalable**, add as many themes and colors as you want. There is no limit on the number of themes and color you can use
@@ -14,11 +18,22 @@ Introducing the ultimate game-changer for your Tailwind app! Say goodbye to clut
 
 See the full [changelog here](https://github.com/L-Blondy/tw-colors/blob/master/CHANGELOG.md) 
 
-## Usage
+## Installation
+
+### Tailwind 4
 
 ```bash
-npm i -D tw-colors
+npm i -D tw-colors@4.0.0-beta.0
 ```
+
+### Tailwind 3
+
+```bash
+npm i -D tw-colors@3.3.2
+```
+
+
+## Usage
 
 Take an existing tailwind config and move the colors in the `createThemes` plugin, giving it a name (e.g. light).
 
@@ -54,7 +69,9 @@ Take an existing tailwind config and move the colors in the `createThemes` plugi
 
 *💡 **tip:** you can use any color name as you usually do, not just the ones from the example. The same goes for the theme names.*
 
-Apply `class='light'` or `data-theme='light'` anywhere in your app (the html or the body tag is a good spot for it) 
+**Note:** With Tailwind 4, you need to import your js config in your css config file (e.g. `@config "./tailwind.config.js"`)
+
+Apply `class='light'` anywhere in your app (the html or the body tag is a good spot for it) 
 
 *See the [options](https://github.com/L-Blondy/tw-colors#producethemeclass) to customize the className*
 
@@ -111,7 +128,7 @@ You now have a **light**, a **dark** and a **forest** theme!
 
 ### Switching themes
 
-Simply switch the *class* or the *data-theme* attribute
+Simply switch the *class* attribute
 
 ```diff
 -  <html class='light'>
@@ -124,11 +141,11 @@ Simply switch the *class* or the *data-theme* attribute
 
 Based on the current theme, specific styles can be applied using variants.
 
-**Note:** In the following example the variants would have no effect with `data-theme='light'`
+**Note:** In the following example the variants would have no effect with the light theme
 
 ```html
    <!-- Use "serif" font for the dark theme only -->
-   <div data-theme='dark' class='font-sans dark:font-serif'>
+   <div class='dark font-sans dark:font-serif'>
       ...
       <div>Serif font here</div>
 
@@ -165,24 +182,6 @@ Based on the current theme, specific styles can be applied using variants.
 
 ### Nested themes
 
-#### With <samp>data-theme</samp>
-
-Just nest the themes...
-
-```diff
-   <html data-theme='dark'>
-      ...
-      <div data-theme='winter'>
-         ...
-      </div>
-
-      <div data-theme='forest'>
-         ...
-      </div>
-   </html>
-```
-
-#### With <samp>class</samp>
 
 For [variants](https://github.com/L-Blondy/tw-colors#variants) to work properly in nested themes, an empty `data-theme` attribute must be added alongside the nested theme `class`
 
@@ -199,46 +198,9 @@ For [variants](https://github.com/L-Blondy/tw-colors#variants) to work properly 
    </html>
 ```
 
-**Caveats:**
-
 <details>
    <summary>
-      <strong> Do not set opacity in the color definition </strong>
-   </summary>
-   When using nested themes, it is better not to provide a base opacity in your color definitions.
-
-   With this setup the *0.8* opacity defined on the primary color of the "parent" theme will be inherited by the "child" theme's primary color.
-
-   ```js
-   createThemes({
-      parent: { 
-         'primary': 'hsl(50 50% 50% / 0.8)', // don't do this, the default opacity will propagate to the child theme
-         'secondary': 'darkblue',
-      },
-      child: { 
-         'primary': 'turquoise',
-         'secondary': 'tomato',
-      },
-   })
-   ```
-
-
-   ```html
-   <html data-theme='parent'>
-
-      <div data-theme='child'>
-         <!-- The primary color has an unexpected 0.8 opacity -->
-         <button class='bg-primary'>Click me</button>
-        
-        ...
-      </div>
-   </html>  
-   ```
-</details>
-
-<details>
-   <summary>
-      <strong> Inherited properties </strong>
+      <strong>Caveat: inherited properties </strong>
    </summary>
 
    Inherited properties (e.g. "font-family") are inherited by **all descendants**, including nested themes.
@@ -349,12 +311,12 @@ createThemes({
    produceCssVariable: (colorName) => `--twc-${colorName}`,
    produceThemeClass: (themeName) => `theme-${themeName}`
    produceThemeVariant: (themeName) => `theme-${themeName}`
-   defaultTheme: 'light'
    strict: false
 })
 ```
 
-### <samp>defaultTheme</samp>
+
+### <samp>defaultTheme (v3 only)</samp>
 
 The default theme to use, think of it as a fallback theme when no theme is declared.
 
@@ -518,7 +480,7 @@ createThemes({
 ```
 
 ```html
-<html data-theme='dark'>
+<html class='dark'>
    ...
    <button class='theme-dark:rounded'>
       Click Me

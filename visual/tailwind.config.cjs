@@ -11,17 +11,14 @@ module.exports = {
                c1: 'rgb(255 0 0)',
             },
             t2: {
-               c1: 'rgb(0 0 255 / 0.5)',
+               c1: 'rgb(0 0 255)',
             },
             t3: {
                c1: 'purple',
             },
          },
          {
-            defaultTheme: {
-               light: 't3', // blueish
-               dark: 't2', // purple
-            },
+            defaultTheme: 't3',
             strict: false,
             produceThemeVariant: (themeName) => `theme-${themeName}`,
          },
@@ -34,8 +31,8 @@ module.exports = {
                   100: 'red',
                   200: 'blue',
                   nested: {
-                     100: 'rgb(0 0 255 / 0.5)',
-                     200: 'rgb(255 0 0 / 0.5)',
+                     100: 'rgb(0 125 255)',
+                     200: 'green',
                   },
                },
                'with/slash': 'black',
@@ -46,8 +43,8 @@ module.exports = {
                   100: 'lime',
                   200: 'pink',
                   nested: {
-                     100: 'rgb(0 255 0 / 0.5)',
-                     200: 'rgb(255 0 255 / 0.5)',
+                     100: 'rgb(125 255 125)',
+                     200: 'rgb(255 125 255)',
                   },
                },
                'with/slash': 'grey',
