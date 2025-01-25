@@ -1,4 +1,4 @@
-const { createThemes } = require('../dist/lib');
+const { createThemes } = require('tw-colors');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

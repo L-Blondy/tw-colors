@@ -1,4 +1,4 @@
-const version = require('../package.json').version;
+import packageJson from '../package.json' with { type: 'json' };
 
-if (!version.includes('beta'))
+if (!packageJson.version.includes('beta'))
    throw new Error('The package version is not valid for a beta release');
