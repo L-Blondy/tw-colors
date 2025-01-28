@@ -1,4 +1,4 @@
-import Color from 'color';
+import Color from 'colorjs.io';
 import plugin from 'tailwindcss/plugin';
 import forEach from 'lodash.foreach';
 import flatten from 'flat';
@@ -75,24 +75,24 @@ export const resolveTwcConfig = <ThemeName extends string>(
       forEach(flatColors, (colorValue, colorName) => {
          // this case was handled above
          if ((colorName as any) === SCHEME) return;
-         const safeColorName = colorName;
-         let [h, s, l]: HslArray = [0, 0, 0];
+
+         if (colorValue === undefined) return;
+
          try {
-            [h, s, l] = toHslArray(colorValue);
+            const cssVar = produceCssVariable(colorName)
+            const oklch = new Color(colorValue).to('oklch')
+
+            resolved.utilities[cssSelector][cssVar] = `${oklch.l * 100}% ${oklch.c} ${oklch.h}`
+            resolved.colors[colorName] = `oklch(var(${cssVar}) / <alpha-value>)`
          } catch (error: any) {
             const message = `\r\nWarning - In theme "${themeName}" color "${colorName}". ${error.message}`;
 
             if (strict) {
                throw new Error(message);
             }
+
             return console.error(message);
          }
-         const twcColorVariable = produceCssVariable(safeColorName);
-         // add the css variables in "@layer utilities" for the hsl values
-         const hslValues = `${h} ${s}% ${l}%`;
-         resolved.utilities[cssSelector][twcColorVariable] = hslValues;
-         // set the dynamic color in tailwind config theme.colors
-         resolved.colors[colorName] = `hsl(var(${twcColorVariable}) / <alpha-value>)`;
       });
    });
 
@@ -135,10 +135,6 @@ function flattenColors(colors: NestedColors) {
       acc[key.replace(/\-DEFAULT$/, '')] = value;
       return acc;
    }, {} as FlatColors);
-}
-
-function toHslArray(colorValue?: string) {
-   return Color(colorValue).hsl().round(1).array() as HslArray;
 }
 
 function defaultProduceCssVariable(themeName: string) {
