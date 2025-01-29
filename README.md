@@ -294,7 +294,6 @@ For example, with the following configuration, the variables `--twc-primary`, `-
 ```css 
 .my-class {
    color: var(--twc-primary);
-   background: var(--twc-primary) / 0.5;
 }
 ```
 
@@ -303,7 +302,6 @@ For example, with the following configuration, the variables `--twc-primary`, `-
 ```css 
 .my-class {
    color: hsl(var(--twc-primary));
-   background: hsl(var(--twc-primary) / 0.5);
 }
 ```
 
