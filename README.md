@@ -23,7 +23,7 @@ See the full [changelog here](https://github.com/L-Blondy/tw-colors/blob/master/
 ### Tailwind 4
 
 ```bash
-npm i -D tw-colors@4.0.0-beta.0
+npm i -D tw-colors@4.0.0-beta.1
 ```
 
 ### Tailwind 3
