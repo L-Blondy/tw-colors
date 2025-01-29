@@ -2,7 +2,7 @@
 
 Introducing the ultimate game-changer for your Tailwind app! Say goodbye to cluttered dark variants and messy CSS variables. With this tailwind plugin, switching between color themes is as effortless as changing one className.
 
-## 🚨 Tailwind 4
+## 🚨 Tailwind 4 🚨
 
 This plugin was originally designed for Tailwind CSS v3. With Tailwind v4's release, you may want to consider using Tailwind's built-in CSS configuration for managing multiple themes instead.
 
