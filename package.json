@@ -24,7 +24,7 @@
       "build": "tsup",
       "postpublish": "git add . && git commit -a && git tag v$npm_package_version && git push --tags && git push",
       "dev": "npm run build && vitest",
-      "visual": "npm run build && cd visual && vite",
+      "visual": "npm run build && cd visual && npm run dev",
       "release:pre:beta": "git pull && node scripts/check-beta-version.js && npm run build",
       "release:pre:stable": "git pull && node scripts/check-stable-version.js && npm run build",
       "release:stable": "npm run release:pre:stable && npm publish && npm run release:post",
