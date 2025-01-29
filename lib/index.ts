@@ -76,21 +76,20 @@ export const resolveTwcConfig = <ThemeName extends string>(
          // this case was handled above
          if ((colorName as any) === SCHEME) return;
 
-         if (colorValue === undefined) return;
-
          try {
-            const cssVar = produceCssVariable(colorName)
-            const color = new Color(colorValue).to('oklch').toString({ format: 'css', precision: 3, inGamut: true })
-
-            resolved.utilities[cssSelector][cssVar] = color
-            resolved.colors[colorName] = `var(${cssVar})`
+            if (!colorValue) throw new Error('Missing color value');
+            const cssVar = produceCssVariable(colorName);
+            const color = new Color(colorValue)
+               .to('oklch')
+               .toString({ format: 'css', precision: 3, inGamut: true });
+            resolved.utilities[cssSelector][cssVar] = color;
+            resolved.colors[colorName] = `var(${cssVar})`;
          } catch (error: any) {
             const message = `\r\nWarning - In theme "${themeName}" color "${colorName}". ${error.message}`;
 
             if (strict) {
                throw new Error(message);
             }
-
             return console.error(message);
          }
       });
