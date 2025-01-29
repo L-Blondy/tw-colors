@@ -1,4 +1,11 @@
-const { createThemes } = require('tw-colors');
+const { createThemes } = require('../dist/lib/index');
+const tailwindColors = require('tailwindcss/colors');
+
+/**
+ * broken types
+ * @type (typeof tailwindColors)['default']
+ */
+const colors = tailwindColors;
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -32,7 +39,7 @@ module.exports = {
                   200: 'blue',
                   nested: {
                      100: 'rgb(0 125 255)',
-                     200: 'green',
+                     200: colors.green[700], // oklch
                   },
                },
                'with/slash': 'black',
