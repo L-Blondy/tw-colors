@@ -289,7 +289,16 @@ For example, with the following configuration, the variables `--twc-primary`, `-
    };
 ```
 
-Example usage:
+**v4 usage:**
+
+```css 
+.my-class {
+   color: var(--twc-primary);
+   background: var(--twc-primary) / 0.5;
+}
+```
+
+**v3 usage:**
 
 ```css 
 .my-class {

@@ -1,5 +1,11 @@
 # Changelog
 
+## [4.0.0-beta.1](https://github.com/L-Blondy/tw-colors/compare/v4.0.0-beta.0...v4.0.0-beta.1) - 2025-01-24
+
+Colors are now converted to oklch format, this change enables the use of a **default color opacity** in the theme as well as the use of **tailwind's color palette**.
+
+Thanks to [@PHILLIPS71](https://github.com/PHILLIPS71)
+
 ## [4.0.0-beta.0](https://github.com/L-Blondy/tw-colors/compare/v3.3.2...v4.0.0-beta.0) - 2025-01-24
 
 Added support for Tailwind 4.
