@@ -80,10 +80,10 @@ export const resolveTwcConfig = <ThemeName extends string>(
 
          try {
             const cssVar = produceCssVariable(colorName)
-            const oklch = new Color(colorValue).to('oklch')
+            const color = new Color(colorValue).to('oklch').toString({ format: 'css', precision: 3, inGamut: true })
 
-            resolved.utilities[cssSelector][cssVar] = `${oklch.l * 100}% ${oklch.c} ${oklch.h}`
-            resolved.colors[colorName] = `oklch(var(${cssVar}) / <alpha-value>)`
+            resolved.utilities[cssSelector][cssVar] = color
+            resolved.colors[colorName] = `var(${cssVar})`
          } catch (error: any) {
             const message = `\r\nWarning - In theme "${themeName}" color "${colorName}". ${error.message}`;
 
