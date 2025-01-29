@@ -264,7 +264,7 @@ createThemes(({ light, dark }) => ({
 
 ### CSS Variables
 
-**tw-colors** creates CSS variables using the format `--twc-[color name]` by default, they contain HSL values. 
+**tw-colors** creates CSS variables using the format `--twc-[color name]`. 
 
 For example, with the following configuration, the variables `--twc-primary`, `--twc-base`, `--twc-surface` will be created.
 
